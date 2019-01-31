@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.AuctionClose.UCJournalEntryList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <Grid Background="White">
+        <DataGrid Name="dgJounrnalEntry" Grid.Row="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="16" FontSize="14" FontWeight="Normal"
+                    IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn	Binding="{Binding CostingCode}" Header="Centro de costos" />-->
+                <!--<DataGridTextColumn Binding="{Binding AccountCode}" Header="Cuenta " />-->
+                <DataGridTextColumn Binding="{Binding Debit}" Header="Debito " />
+                <DataGridTextColumn Binding="{Binding Credit}" Header="Crédito " />
+                <DataGridTextColumn Binding="{Binding Reference}" Header="Referencia " />
+                <DataGridTextColumn Binding="{Binding Auxiliary}" Header="Auxiliar " />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

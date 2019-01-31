@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCCheckList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:UGRS.Application.Auctions" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="White"
+             MinWidth="600" Loaded="UserControl_Loaded">
+    <Grid Name="grdFoodCharge" Margin="20">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="30">
+            <Label Content="Folio subasta:" HorizontalAlignment="Left"></Label>
+            <TextBox Name="txtAuction" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" KeyDown="txtAuction_KeyDown" Margin="10,0,20,0" FontSize="14"></TextBox>
+            <Label Content="Vendedor:" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+            <TextBox Name="txtSeller" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" KeyDown="txtSeller_KeyDown" Margin="10,0,20,0" FontSize="14"></TextBox>
+            <TextBlock Name="tblSeller" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Margin="0,0,10,0" FontSize="14"/>
+        </StackPanel>
+        <DataGrid Name="dgCheckList" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,55,0,70"
+            IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1"
+            IsSynchronizedWithCurrentItem="True" VirtualizingPanel.ScrollUnit="Pixel" RowDetailsVisibilityMode="Collapsed"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="300" ScrollViewer.CanContentScroll="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button ToolTip="Detalles" ToolTipService.ShowDuration="5000" x:Name="btnExpandCollapse" Content="+" Click="btnExpandCollapse_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Clave" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SellerCode, Mode=OneTime}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Vendedor" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SellerName, Mode=OneTime}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <local:UCCheckDetail SellerId="{Binding SellerId, Mode=TwoWay}" CheckList="{Binding Lines, Mode=TwoWay}" ScrollViewer.CanContentScroll="False"/>
+                    </DockPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+        <Button Name="btnSave" Content="Guardar" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Click="btnSave_Click"></Button>
+    </Grid>
+</UserControl>

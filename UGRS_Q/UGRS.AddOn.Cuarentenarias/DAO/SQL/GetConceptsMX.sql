@@ -1,0 +1,1 @@
+﻿select * from [@UG_CONFIG] where Name like '%CU_GLO_INV_PESOS%'

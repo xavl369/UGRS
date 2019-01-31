@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.AuctionClose.UCInvoiceList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UGRS.Application.Auctions.AuctionClose" 
+             mc:Ignorable="d" Loaded="UserControl_Loaded"
+             d:DesignHeight="300" d:DesignWidth="400">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="19*"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="dgBatch" Grid.Row="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="16" FontSize="14" FontWeight="Normal" MaxHeight="500"
+                    IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto" RowDetailsVisibilityChanged="dgBatch_RowDetailsVisibilityChanged">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button ToolTip="Lineas" ToolTipService.ShowDuration="5000" x:Name="btnExpandCollapse" Content="+" Click="btnExpandCollapse_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn	Binding="{Binding NumAtCard}" Header="Subasta" />
+                <DataGridTextColumn Binding="{Binding CardCode}" Header="Clave" />
+                <DataGridTextColumn Binding="{Binding CardName}" Header="Nombre" />
+                <DataGridTextColumn Binding="{Binding Import,  StringFormat=C}" Header="Importe" />
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Grid Name="grdDetailContent" Background="White">
+                            <DataGrid Name="innerGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="16" FontSize="14" MaxHeight="500"
+                                      IsReadOnly="True" 
+                                      SelectionMode="Single"
+                                      AutoGenerateColumns="False" 
+                                      Background="White" BorderBrush="LightGray" 
+                                      BorderThickness="1" 
+                                      HorizontalContentAlignment="Stretch"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn	Binding="{Binding ItemCode}" Header="Cod. Articulo" />
+                                    <DataGridTextColumn Binding="{Binding ItemName}" Header="Articulo" />
+                                    <DataGridTextColumn Binding="{Binding Quantity}" Header="Cantidad" />
+                                    <DataGridTextColumn Binding="{Binding Price,  StringFormat=C}" Header="Precio" />
+                                    <DataGridTextColumn Binding="{Binding Import,  StringFormat=C}" Header="Importe" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </DockPanel>
+                    <!--<DataGrid Name="innerGrid" Grid.Row="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="16,0,16,16" FontSize="14" MaxHeight="500"
+                    IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn	Binding="{Binding ItemCode}" Header="Cod. Articulo" />
+                            <DataGridTextColumn Binding="{Binding ItemName}" Header="Articulo" />
+                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Cantidad" />
+                            <DataGridTextColumn Binding="{Binding Price,  StringFormat=C}" Header="Precio" />
+                            <DataGridTextColumn Binding="{Binding Import,  StringFormat=C}" Header="Importe" />
+                        </DataGrid.Columns>
+                    </DataGrid>-->
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+    </Grid>
+</UserControl>

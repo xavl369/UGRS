@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCBatchesHistory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Loaded="UserControl_Loaded"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:convert="clr-namespace:UGRS.Application.Auctions.Converters"
+             xml:lang="es-MX"
+             Background="White" MinHeight="300">
+    <UserControl.Resources>
+        <convert:UnsoldMotiveConverter x:Key="UnsoldMotiveConverter" />
+    </UserControl.Resources>
+    <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0">
+        <Grid Name="GrdContent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" VerticalAlignment="Center">
+                <Run Text="Buscar por Subasta: "/>
+            </Label>
+            <TextBox Name="txtSearchAuction" Grid.Column="1"  KeyDown="txtAuctions_KeyDown" MouseDoubleClick="txt_MouseDoubleClick"  Margin="0,0,0,0" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Width="132"/>
+            <Label Content="Desde:" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Column="2" Width="50" Height="30" VerticalAlignment="Center"/>
+            <DatePicker x:Name="dpDateFrom" VerticalAlignment="Center" DisplayDate="2017-05-22" Margin="80,0,4,0" FontSize="14"  Grid.Column="2" Height="28"/>
+            <Label Content="Hasta:" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Column="3" Width="50" Height="29" VerticalAlignment="Center"/>
+            <DatePicker x:Name="dpDateTo" VerticalAlignment="Center" DisplayDate="2017-05-22" Margin="80,0,0,0" FontSize="14" Grid.Column="3" Height="28" />
+            <Button Name="btnSearch" VerticalAlignment="Center" HorizontalAlignment="Left"  Grid.Column="5"  Content="Buscar"  Margin="20,0,0,0" Width="100" Click="btnSearch_Click"></Button>
+        </Grid>
+        <DataGrid Name="dgDataGrid"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,100,30,30" FontSize="14" 
+                      IsReadOnly="True" 
+                      SelectionMode="Extended"
+                      AutoGenerateColumns="False" 
+                      Background="White" 
+                      BorderBrush="LightGray" 
+                      BorderThickness="1" 
+                      HorizontalContentAlignment="Stretch"
+                      IsSynchronizedWithCurrentItem="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                
+                      >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Auction.Folio}" Header="Subasta" />
+                <DataGridTextColumn Binding="{Binding Number}" Header="Número" />
+                <DataGridTextColumn  Binding="{Binding Quantity}" Header="Cantidad" />
+                <DataGridTextColumn Binding="{Binding ItemType.Name}" Header="Producto"/>
+                <DataGridTextColumn Binding="{Binding Weight}" Header="Peso"/>
+                <DataGridTextColumn Binding="{Binding Seller.Name}" Header="Vendedor"/>
+                <DataGridTextColumn  Binding="{Binding Buyer.Name}" Header="Comprador"/>
+                <DataGridTextColumn Binding="{Binding Amount}" Header="Importe"/>
+                <DataGridTextColumn Binding="{Binding UnsoldMotive, Converter={StaticResource UnsoldMotiveConverter}}" Header="No venta"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

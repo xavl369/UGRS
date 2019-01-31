@@ -1,0 +1,39 @@
+﻿<Page x:Class="UGRS.Application.Auctions.PageConsultas"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" Background="White"
+	Title="PageConsultas">
+
+    <Grid Margin="20,25,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0" >
+            <Label Content="No. Subasta:" ></Label>
+            <TextBox Width="200" Margin="0,0,50,0" FontSize="14"></TextBox>
+            <Label Content="Fecha inicio:"></Label>
+            <DatePicker Width="200" Margin="0,0,50,0" FontSize="14"></DatePicker>
+            <Label Content="Fecha fin:"></Label>
+            <DatePicker Width="200" Margin="0,0,50,0" FontSize="14"></DatePicker>
+        </StackPanel>
+
+
+                <DataGrid Grid.Row="1" Name="dgTest" Margin="0,10,10,10"  FontSize="14"
+                  
+                  AutoGenerateColumns="False" MouseDoubleClick="dgenrut_MouseDoubleClick"  >
+                <DataGrid.Columns>
+                    <DataGridTextColumn	Binding="{Binding Test1}" Header="Fecha"  />
+                    <DataGridTextColumn	Binding="{Binding Test2}" Header="Número"  />
+                    <DataGridTextColumn	Header="Tipo"  />
+                    <DataGridTextColumn	Header="Categoria"/>
+                    <DataGridTextColumn	Header="Comisión"/>
+                 <DataGridTextColumn	Header="Estado"/>
+            </DataGrid.Columns>
+            </DataGrid>
+       
+    </Grid>
+</Page>

@@ -1,0 +1,2 @@
+﻿select * from [@UG_PE_ERNK] 
+where (U_EarringFrom between cast('{EarringFrom}'as int) and cast('{EarringTo}' as int) and U_Cancelled ='N') or (U_EarringTo between cast('{EarringFrom}'as int) and cast('{EarringTo}' as int) and U_Cancelled ='N') 

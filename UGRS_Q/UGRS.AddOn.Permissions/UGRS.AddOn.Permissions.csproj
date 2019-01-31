@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0914FC0-441B-4B25-904C-27C1AA3A795E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.AddOn.Permissions</RootNamespace>
+    <AssemblyName>UGRS.AddOn.Permissions</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>UGRS.AddOn.Permissions.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\64\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\64\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SAPBusinessOneSDK" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAO\EarringRanksDAO.cs" />
+    <Compile Include="DAO\PrefixesDAO.cs" />
+    <Compile Include="DTO\EarringRanksDTO.cs" />
+    <Compile Include="Services\EarringRanksService.cs" />
+    <Compile Include="Services\PrefixesService.cs" />
+    <Compile Include="Services\SetupService.cs" />
+    <Compile Include="Tables\EarringRanksT.cs" />
+    <Compile Include="Tables\PrefixesT.cs" />
+    <None Include="Prefixes.b1f">
+      <FormCategory>UserForm</FormCategory>
+    </None>
+    <Compile Include="EarringsRanks.cs" />
+    <Compile Include="Prefixes.b1f.cs">
+      <DependentUpon>Prefixes.b1f</DependentUpon>
+    </Compile>
+    <Compile Include="mFormEarringRanks.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core.SDK.DI\UGRS.Core.SDK.DI.csproj">
+      <Project>{909b9975-2b24-41ef-abb0-d90b904d75dd}</Project>
+      <Name>UGRS.Core.SDK.DI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK.UI\UGRS.Core.SDK.UI.csproj">
+      <Project>{baf4f5cb-2544-4451-b270-e66f74c3ed4a}</Project>
+      <Name>UGRS.Core.SDK.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK\UGRS.Core.SDK.csproj">
+      <Project>{19131849-410b-4c79-9c46-6fe46915e315}</Project>
+      <Name>UGRS.Core.SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetLines.sql" />
+    <EmbeddedResource Include="DAO\SQL\GetPrevPrefix.sql" />
+    <EmbeddedResource Include="DAO\SQL\CheckBaseEntry.sql" />
+    <EmbeddedResource Include="DAO\SQL\CheckStoredRanks.sql" />
+    <EmbeddedResource Include="DAO\SQL\GetDocEntry.sql" />
+    <EmbeddedResource Include="DAO\SQL\GetTotalCertHeads.sql" />
+    <Content Include="XmlForms\mFrmEarringRanks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

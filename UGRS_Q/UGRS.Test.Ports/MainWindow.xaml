@@ -1,0 +1,9 @@
+﻿<Window x:Class="UGRS.Test.Ports.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="157.704" Width="202.471">
+    <Grid Margin="0,0,17,7">
+        <Button Content="Print" HorizontalAlignment="Left" Margin="47,36,0,0" VerticalAlignment="Top" Click="Button_Click" Width="75"/>
+
+    </Grid>
+</Window>

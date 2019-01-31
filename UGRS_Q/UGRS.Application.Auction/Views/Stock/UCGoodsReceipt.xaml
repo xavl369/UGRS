@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCGoodsReceipt"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xml:lang="es-MX" Background="White" MinWidth="600" Loaded="UserControl_Loaded">
+    <Grid Name="grdGoodsReceipt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- FORM -->
+        <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Stretch">
+            <StackPanel Margin="10" HorizontalAlignment="Left">
+                <DockPanel>
+                    <Label Name="lbltitle" Content="Nuevo registro" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left" Margin="10"></Label>
+                </DockPanel>
+                <Grid Name="grReceipt">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Folio"  HorizontalAlignment="Left" Margin="10"></Label>
+                    <TextBox Name="txtFolio" VerticalAlignment="Center" Width="200" Margin="100,0,10,0" FontSize="14"></TextBox>
+                    <Label Content="Cantidad" Grid.Row="1" HorizontalAlignment="Left" Margin="10"></Label>
+                    <TextBox Name="txtQuantity" Grid.Row="1" VerticalAlignment="Center" Width="200" Margin="100,0,10,0" FontSize="14" PreviewTextInput="txtQuantity_PreviewTextInput"></TextBox>
+                    <Label Content="Fecha" Grid.Row="2" HorizontalAlignment="Left" Margin="10"></Label>
+                    <DatePicker Name="dpDate" Grid.Row="2" VerticalAlignment="Center" DisplayDate="2017-05-22" Width="200" Margin="100,0,10,0" FontSize="14" IsEnabled="False"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="20,0,0,0">
+                        <Label Content="No. cliente" HorizontalAlignment="Left" Margin="10"></Label>
+                        <TextBox Name="txtCustomerId" VerticalAlignment="Center" Width="80" FontSize="14" KeyDown="txtPartnerId_KeyDown" ></TextBox>
+                        <TextBlock Name="tbCustomer"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Width="300" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="20,0,0,0">
+                        <Label Content="No. artículo" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10"></Label>
+                        <TextBox Name="txtItemId" VerticalAlignment="Center" Width="80" Margin="0,0,10,0" FontSize="14" KeyDown="txtItemId_KeyDown"></TextBox>
+                        <TextBlock Name="tbItem"  VerticalAlignment="Center" Width="300" Margin="10,0,0,0" />
+                    </StackPanel>
+                </Grid>
+                <!-- BUTTONS -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                    <Button Content="Guardar"  Name="btnSave" Margin="10" Click="btnSave_Click"></Button>
+                    <Button Content="Nuevo" Name="btnNew" Margin="10" Click="btnNew_Click" Visibility="Collapsed"></Button>
+                    <Button Content="Eliminar" Name="btnDelete" Margin="15,0,0,0" Visibility="Collapsed" Click="btnDelete_Click"></Button>
+                </StackPanel>
+                <Label Name="lblMessage" Margin="10,-10,0,0" Content="Error: Verificar los datos"  Foreground="Red" Visibility="Collapsed"></Label>
+            </StackPanel>
+        </Border>
+        <!-- SEARCH -->
+        <TextBox Grid.Row="1" VerticalAlignment="Bottom" Name="txtSearch" Margin="0,10,0,0" materialDesign:HintAssist.FloatingScale="0.90" FontSize="14" TextChanged="TextBox_TextChanged" KeyDown="txtSearch_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 Height="41">
+            <materialDesign:HintAssist.Hint>
+                <StackPanel Orientation="Horizontal" Margin="-2 0 0 0">
+                    <materialDesign:PackIcon Kind="Magnify" />
+                    <TextBlock>Buscar</TextBlock>
+                </StackPanel>
+            </materialDesign:HintAssist.Hint>
+        </TextBox>
+        <!-- LIST -->
+        <Grid Grid.Row="2" Name="grdList">
+            <DataGrid Name="dgGoodsReceipt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" FontSize="14" MinHeight="300"
+                      IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="dgGoodsReceipts_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn	Binding="{Binding Folio}" Header="Folio"  />
+                    <DataGridTextColumn	Binding="{Binding Quantity}" Header="Cantidad" />
+                    <DataGridTextColumn Binding="{Binding Code}" Header="Clave cliente"/>
+                    <DataGridTextColumn Binding="{Binding Customer}" Header="Cliente"/>
+                    <DataGridTextColumn Binding="{Binding ItemId}" Header="Clave artículo"/>
+                    <DataGridTextColumn Binding="{Binding Item}" Header="Artículo"/>
+                    <DataGridTextColumn Binding="{Binding Related}" Header="Relacionado"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

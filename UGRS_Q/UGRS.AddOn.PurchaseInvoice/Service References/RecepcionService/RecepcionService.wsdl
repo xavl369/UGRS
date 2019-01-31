@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://recepcion.ws.pade.mx" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="RecepcionService" targetNamespace="http://recepcion.ws.pade.mx" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://www.pade.mx:80/PadeServ/RecepcionService?xsd=1" namespace="http://recepcion.ws.pade.mx" />
+    </xsd:schema>
+  </types>
+  <message name="cfdiPorUUID">
+    <part name="parameters" element="tns:cfdiPorUUID" />
+  </message>
+  <message name="cfdiPorUUIDResponse">
+    <part name="parameters" element="tns:cfdiPorUUIDResponse" />
+  </message>
+  <message name="recepcion">
+    <part name="parameters" element="tns:recepcion" />
+  </message>
+  <message name="recepcionResponse">
+    <part name="parameters" element="tns:recepcionResponse" />
+  </message>
+  <message name="verificacionPorXML">
+    <part name="parameters" element="tns:verificacionPorXML" />
+  </message>
+  <message name="verificacionPorXMLResponse">
+    <part name="parameters" element="tns:verificacionPorXMLResponse" />
+  </message>
+  <message name="verificacionPorQRCode">
+    <part name="parameters" element="tns:verificacionPorQRCode" />
+  </message>
+  <message name="verificacionPorQRCodeResponse">
+    <part name="parameters" element="tns:verificacionPorQRCodeResponse" />
+  </message>
+  <message name="recepcionMultiple">
+    <part name="parameters" element="tns:recepcionMultiple" />
+  </message>
+  <message name="recepcionMultipleResponse">
+    <part name="parameters" element="tns:recepcionMultipleResponse" />
+  </message>
+  <message name="recepcionArchivoZip">
+    <part name="parameters" element="tns:recepcionArchivoZip" />
+  </message>
+  <message name="recepcionArchivoZipResponse">
+    <part name="parameters" element="tns:recepcionArchivoZipResponse" />
+  </message>
+  <message name="cfdiPorEtiqueta">
+    <part name="parameters" element="tns:cfdiPorEtiqueta" />
+  </message>
+  <message name="cfdiPorEtiquetaResponse">
+    <part name="parameters" element="tns:cfdiPorEtiquetaResponse" />
+  </message>
+  <portType name="Recepcion">
+    <operation name="cfdiPorUUID">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/cfdiPorUUIDRequest" message="tns:cfdiPorUUID" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/cfdiPorUUIDResponse" message="tns:cfdiPorUUIDResponse" />
+    </operation>
+    <operation name="recepcion">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/recepcionRequest" message="tns:recepcion" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/recepcionResponse" message="tns:recepcionResponse" />
+    </operation>
+    <operation name="verificacionPorXML">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/verificacionPorXMLRequest" message="tns:verificacionPorXML" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/verificacionPorXMLResponse" message="tns:verificacionPorXMLResponse" />
+    </operation>
+    <operation name="verificacionPorQRCode">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/verificacionPorQRCodeRequest" message="tns:verificacionPorQRCode" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/verificacionPorQRCodeResponse" message="tns:verificacionPorQRCodeResponse" />
+    </operation>
+    <operation name="recepcionMultiple">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/recepcionMultipleRequest" message="tns:recepcionMultiple" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/recepcionMultipleResponse" message="tns:recepcionMultipleResponse" />
+    </operation>
+    <operation name="recepcionArchivoZip">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/recepcionArchivoZipRequest" message="tns:recepcionArchivoZip" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/recepcionArchivoZipResponse" message="tns:recepcionArchivoZipResponse" />
+    </operation>
+    <operation name="cfdiPorEtiqueta">
+      <input wsam:Action="http://recepcion.ws.pade.mx/Recepcion/cfdiPorEtiquetaRequest" message="tns:cfdiPorEtiqueta" />
+      <output wsam:Action="http://recepcion.ws.pade.mx/Recepcion/cfdiPorEtiquetaResponse" message="tns:cfdiPorEtiquetaResponse" />
+    </operation>
+  </portType>
+  <binding name="RecepcionPortBinding" type="tns:Recepcion">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="cfdiPorUUID">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="recepcion">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="verificacionPorXML">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="verificacionPorQRCode">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="recepcionMultiple">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="recepcionArchivoZip">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="cfdiPorEtiqueta">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="RecepcionService">
+    <port name="RecepcionPort" binding="tns:RecepcionPortBinding">
+      <soap:address location="http://www.pade.mx:80/PadeServ/RecepcionService" />
+    </port>
+  </service>
+</definitions>

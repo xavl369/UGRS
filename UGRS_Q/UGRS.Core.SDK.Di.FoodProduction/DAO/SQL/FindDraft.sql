@@ -1,0 +1,1 @@
+select * from DRF1 where U_PL_Ticket = '{Folio}'

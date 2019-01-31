@@ -1,0 +1,2 @@
+select DocEntry, DocNum, Series, DocDate, TaxDate, Filler, ToWhsCode, JrnlMemo, Comments, U_PL_WhsReq, U_GLO_Alert, U_CO_TypeInvoice, U_MQ_OrigenFol 
+from OWTR T0 where ((T0.U_MQ_OrigenFol is null) and (T0.U_PL_WhsReq='{Warehouse}') and (T0.DocEntry='{DocEntry}'))

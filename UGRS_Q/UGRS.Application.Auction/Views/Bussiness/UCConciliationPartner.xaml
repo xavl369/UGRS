@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCConciliationPartner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             Loaded="UserControl_Loaded"
+             Background="White">
+    <Grid Name="grdPartnerConciliation">
+        <StackPanel Orientation="Horizontal">
+        <Label Content="Lista de clientes temporales" Margin="20,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"></Label>
+             </StackPanel>
+        <DataGrid Name="dgPartner" Grid.Row="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,50,20,90" FontSize="14"  MinHeight="300"  MinWidth="900"
+                  IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"  IsSynchronizedWithCurrentItem="true">
+            <DataGrid.Columns>
+                <DataGridTextColumn	Binding="{Binding Partner.Code}" Header="Código cliente" />
+                <DataGridTextColumn	Binding="{Binding Partner.Name}" Header="Cliente subastas" />
+                <DataGridTextColumn	Binding="{Binding Partner.TaxCode}" Header="RFC" />
+
+                <!--<DataGridTemplateColumn Header="Tipo"  >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Name="chkTipo" Padding="10,0,0,0" SelectionChanged="chkTipo_SelectionChanged" Width="150" Background="White" VerticalAlignment="Center" >
+                                <ComboBoxItem IsSelected="{Binding PartnerSAP.Temporary, Mode=TwoWay}" Content="Existente" Tag="1" ></ComboBoxItem>
+                                <ComboBoxItem IsSelected="True" Content="Nuevo" Tag="2"></ComboBoxItem>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTemplateColumn Header="Accion" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Conciliar" Name="btnConciliate" Click="btnConciliate_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTextColumn Header="Código cliente SAP"  Binding="{Binding PartnerSAP.Code, Mode=TwoWay}" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <EventSetter Event="MouseDoubleClick" Handler="dgPartner_CellDoubleClick" />
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                            <Setter Property="Height" Value="30"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="IsEnabled" Value="{Binding PartnerSAP.Temporary, Mode=TwoWay}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn	Binding="{Binding PartnerSAP.Name, Mode=TwoWay}" Width="*"  Header="Cliente SAP B1"  />
+
+                <!--<DataGridTemplateColumn Header="Autorizar" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox  Name="chkTemporal"  IsChecked="{Binding Partner.Temporary}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Name="btnSave" Content="Continuar" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Click="btnSave_Click"></Button>
+
+    </Grid>
+</UserControl>

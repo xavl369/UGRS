@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCDeductionCheck"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="White"
+             MinWidth="800" MinHeight="600"
+             Loaded="UserControl_Loaded">
+    <Grid Name="grdDeductionCheck" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- AUCTION SEARCH -->
+        <Border Grid.Column="0" Grid.Row="0" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Stretch" Margin="15,15,15,7.5">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Folio subasta:" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                <TextBox Name="txtAuction" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Width="120" KeyDown="txtAuction_KeyDown" TextChanged="txtAuction_TextChanged" FontSize="14"></TextBox>
+                <Label Content="Fecha:" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                <TextBox Name="txtDate" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Width="100" FontSize="14" IsEnabled="False"></TextBox>
+                <Label Content="Tipo:" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                <TextBox Name="txtType" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Width="100" FontSize="14" IsEnabled="False"></TextBox>
+            </Grid>
+        </Border>
+        <!-- DATA GRID -->
+        <Border Grid.Column="0" Grid.Row="1" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Stretch" Margin="15,15,15,7.5">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+                <DataGrid Name="dgDeductionCheck" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" FontSize="14" MinHeight="300"
+                       SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <!-- SELLER CODE -->
+                        <DataGridTextColumn	Binding="{Binding SellerCode}" IsReadOnly="True" Header="Código SN" Width="100" />
+                        <!-- SELLER NAME -->
+                        <DataGridTextColumn	Binding="{Binding SellerName}" IsReadOnly="True" Header="Nombre SN" Width="30*" />
+                        <!-- APPLY DEDUCTIONS -->
+                        <DataGridTemplateColumn Width="150" Header="Aplicar deducciones">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ToggleButton Name="tbnDeduct" IsChecked="{Binding Deduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="tbnDeduct_Click" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!-- COMMENTS -->
+                        <DataGridTemplateColumn Width="70*" Header="Comentarios">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Name="txtComments" Text="{Binding Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" LostFocus="txtComments_LostFocus" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+        <!-- BUTTONS -->
+        <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancelar" Name="btnCancel" VerticalAlignment="Center" Margin="0,0,15,15" Click="btnCancel_Click"></Button>
+                <Button Content="Guardar" Name="btnSave" VerticalAlignment="Center" Margin="0,0,15,15" Click="btnSave_Click"></Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsPartnerDTO" targetNamespace="http://tempuri.org/dsPartnerDTO.xsd" xmlns:mstns="http://tempuri.org/dsPartnerDTO.xsd" xmlns="http://tempuri.org/dsPartnerDTO.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsPartnerDTO" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsPartnerDTO" msprop:Generator_UserDSName="dsPartnerDTO">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PartnerDTO" msprop:Generator_TableClassName="PartnerDTODataTable" msprop:Generator_TableVarName="tablePartnerDTO" msprop:Generator_TablePropName="PartnerDTO" msprop:Generator_RowDeletingName="PartnerDTORowDeleting" msprop:Generator_RowChangingName="PartnerDTORowChanging" msprop:Generator_RowEvHandlerName="PartnerDTORowChangeEventHandler" msprop:Generator_RowDeletedName="PartnerDTORowDeleted" msprop:Generator_UserTableName="PartnerDTO" msprop:Generator_RowChangedName="PartnerDTORowChanged" msprop:Generator_RowEvArgName="PartnerDTORowChangeEvent" msprop:Generator_RowClassName="PartnerDTORow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PartnerId" msprop:Generator_ColumnVarNameInTable="columnPartnerId" msprop:Generator_ColumnPropNameInRow="PartnerId" msprop:Generator_ColumnPropNameInTable="PartnerIdColumn" msprop:Generator_UserColumnName="PartnerId" type="xs:long" minOccurs="0" />
+              <xs:element name="Code" msprop:Generator_ColumnVarNameInTable="columnCode" msprop:Generator_ColumnPropNameInRow="Code" msprop:Generator_ColumnPropNameInTable="CodeColumn" msprop:Generator_UserColumnName="Code" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="PartnerStatusId" msprop:Generator_ColumnVarNameInTable="columnPartnerStatusId" msprop:Generator_ColumnPropNameInRow="PartnerStatusId" msprop:Generator_ColumnPropNameInTable="PartnerStatusIdColumn" msprop:Generator_UserColumnName="PartnerStatusId" type="xs:int" minOccurs="0" />
+              <xs:element name="PartnerStatus" msprop:Generator_ColumnVarNameInTable="columnPartnerStatus" msprop:Generator_ColumnPropNameInRow="PartnerStatus" msprop:Generator_ColumnPropNameInTable="PartnerStatusColumn" msprop:Generator_UserColumnName="PartnerStatus" type="xs:string" minOccurs="0" />
+              <xs:element name="Temporary" msprop:Generator_ColumnVarNameInTable="columnTemporary" msprop:Generator_ColumnPropNameInRow="Temporary" msprop:Generator_ColumnPropNameInTable="TemporaryColumn" msprop:Generator_UserColumnName="Temporary" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

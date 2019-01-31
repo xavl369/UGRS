@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+
+  <appSettings>
+    <add key="ContratoProd" value="6220e7ae-69b4-11e3-a8b7-109add4fad20" />
+    <add key="UsuarioProd" value="QUALISYS" />
+    <add key="PasswProd" value="Q#4l1sys" />
+
+    <add key="Prueba" value="1" />
+  </appSettings>
+</configuration>

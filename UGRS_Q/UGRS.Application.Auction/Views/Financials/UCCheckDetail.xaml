@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCCheckDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:convert="clr-namespace:UGRS.Application.Auctions.Converters"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="100" d:DesignWidth="600" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <convert:BooleanConverter x:Key="BooleanConverter" />
+    </UserControl.Resources>
+    <Grid Name="grdDetailList">
+        <DataGrid Name="dgDetailList" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" 
+              IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1"
+              IsSynchronizedWithCurrentItem="True">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="300" Binding="{Binding BatchNumber, Mode=OneTime}" Header="Lote SAP B1"  />
+                <DataGridTextColumn	Width="100" Binding="{Binding FoodCharge, Converter={StaticResource BooleanConverter}, Mode=OneTime}" Header="Cobro 3%" />
+                <DataGridTextColumn	Width="100" Binding="{Binding FoodDeliveries, Converter={StaticResource BooleanConverter}, Mode=OneTime}" Header="Entregas" />
+                <DataGridTextColumn	Width="100" Binding="{Binding AlfalfaDeliveries, Converter={StaticResource BooleanConverter}, Mode=OneTime}" Header="Alfalfa" />
+                <DataGridTemplateColumn Width="100" Header="Aplica 3%" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ToggleButton IsChecked="{Binding ApplyFoodCharge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ToggleButton_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

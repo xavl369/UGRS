@@ -1,0 +1,1 @@
+﻿select DocEntry from OIGE where Ref2 ='{Reference}'

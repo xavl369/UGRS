@@ -1,0 +1,1 @@
+﻿select * from [@UG_CU_INS1] where Code = '{Code}'

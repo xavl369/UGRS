@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCGoodIssues"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="White"
+             Loaded="UserControl_Loaded"
+             MinWidth="600">
+    <Grid Name="grdGoodIssues" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- FORM -->
+        <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Stretch">
+            <StackPanel Margin="10" HorizontalAlignment="Left">
+                <DockPanel>
+                    <Label Name="lbltitle" Content="Nuevo registro" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left" Margin="10"></Label>
+                </DockPanel>
+                <Grid Name="grIssues">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
+                        <Label Content="Folio subasta:" HorizontalAlignment="Left" Margin="10,10,5,10"></Label>
+                        <TextBox Name="txtAuction" HorizontalAlignment="Left" Margin="0,10,10,10" Width="120" KeyDown="txtAuction_KeyDown" TextChanged="txtAuction_TextChanged" FontSize="14"></TextBox>
+                        <Label Content="No. comprador:" HorizontalAlignment="Left" Margin="10,10,5,10"></Label>
+                        <TextBox x:Name="txtCustomer" HorizontalAlignment="Left" Margin="0,10,5,10" Width="100" KeyDown="txtCustomer_KeyDown" TextChanged="txtCustomer_TextChanged" FontSize="14"/>
+                        <TextBlock Name="tbCustomer" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" MinWidth="150" Margin="5,10,10,10"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <!-- SEARCH -->
+        <TextBox Grid.Row="1" VerticalAlignment="Bottom" Name="txtSearch" Margin="0,10,0,0" materialDesign:HintAssist.FloatingScale="0.90" FontSize="14" TextChanged="txtSearch_TextChanged" KeyDown="txtSearch_KeyDown" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 Height="41">
+            <materialDesign:HintAssist.Hint>
+                <StackPanel Orientation="Horizontal" Margin="-2 0 0 0">
+                    <materialDesign:PackIcon Kind="Magnify" />
+                    <TextBlock>Buscar</TextBlock>
+                </StackPanel>
+            </materialDesign:HintAssist.Hint>
+        </TextBox>
+        <!-- FORM -->
+        <Grid Grid.Row="2" Name="grdList">
+            <DataGrid Name="dgBatch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" FontSize="14" MinHeight="300"
+                       SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="dgBatch_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <!-- BUYER -->
+                    <DataGridTextColumn	Binding="{Binding BuyerName}" IsReadOnly="True" Header="Comprador" Width="30*" />
+                    <!-- ITEM TYPE -->
+                    <!--<DataGridTextColumn Binding="{Binding ItemTypeName}" IsReadOnly="True" Header="Clasificación" Width="25*" />-->
+                    <DataGridTextColumn Binding="{Binding Gender}" IsReadOnly="True" Header="Genero" Width="25*" />
+                    <!-- TOTAL QUANTITY -->
+                    <DataGridTextColumn Binding="{Binding TotalQuantity, Mode=OneTime}" IsReadOnly="True">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" Width="100" TextAlignment="Center">
+                                    Cantidad comprada
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                    <!-- AVAILABLE QUANTITY -->
+                    <DataGridTextColumn	Binding="{Binding AvailableQuantity, Mode=OneTime}" IsReadOnly="True">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" Width="100" TextAlignment="Center">
+                                    Existencia
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                    <!-- QUANTITY TO PICK -->
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" Width="100" TextAlignment="Center">
+                                    Cantidad a dar salida
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Name="txtQuantityToPick" Text="{Binding QuantityToPick, Mode=TwoWay}" PreviewTextInput="txtQuantityToPick_PreviewTextInput" LostFocus="txtQuantityToPick_LostFocus" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!-- BUTTON -->
+        <Button Content="Guardar" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Name="btnSave" Margin="10" Click="btnSave_Click"></Button>
+    </Grid>
+</UserControl>

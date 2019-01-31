@@ -1,0 +1,642 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37DFFD4B-A7B1-4700-B348-66B12CA07B58}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.Data.Auctions</RootNamespace>
+    <AssemblyName>UGRS.Data.Auctions</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Context\AuctionsContext.cs" />
+    <Compile Include="DAO\Base\BaseDAO.cs" />
+    <Compile Include="DAO\Base\TransactionDAO.cs" />
+    <Compile Include="Factories\AuctionsServicesFactory.cs" />
+    <Compile Include="Factories\BusinessServicesFactory.cs" />
+    <Compile Include="Factories\FinancialsServicesFactory.cs" />
+    <Compile Include="Factories\InventoryServicesFactory.cs" />
+    <Compile Include="Factories\ReportsServiceFactory.cs" />
+    <Compile Include="Factories\SecurityServicesFactory.cs" />
+    <Compile Include="Factories\SystemServicesFactory.cs" />
+    <Compile Include="Factories\UsersServicesFactory.cs" />
+    <!--<<<<<<< Updated upstream-->
+    <!--=======
+>>>>>>> Stashed changes-->
+    <Compile Include="Migrations\201707262252012_InitialDatabaseVersion.cs" />
+    <Compile Include="Migrations\201707262252012_InitialDatabaseVersion.Designer.cs">
+      <DependentUpon>201707262252012_InitialDatabaseVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707311546494_OptionalSeller.cs" />
+    <Compile Include="Migrations\201707311546494_OptionalSeller.Designer.cs">
+      <DependentUpon>201707311546494_OptionalSeller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707312146470_Delivered.cs" />
+    <Compile Include="Migrations\201707312146470_Delivered.Designer.cs">
+      <DependentUpon>201707312146470_Delivered.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709141631458_BatchReprogrammed.cs" />
+    <Compile Include="Migrations\201709141631458_BatchReprogrammed.Designer.cs">
+      <DependentUpon>201709141631458_BatchReprogrammed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709182338004_ItemDefinition.cs" />
+    <Compile Include="Migrations\201709182338004_ItemDefinition.Designer.cs">
+      <DependentUpon>201709182338004_ItemDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709221822034_ItemTypeOptimization.cs" />
+    <Compile Include="Migrations\201709221822034_ItemTypeOptimization.Designer.cs">
+      <DependentUpon>201709221822034_ItemTypeOptimization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709270103313_BatchLine.cs" />
+    <Compile Include="Migrations\201709270103313_BatchLine.Designer.cs">
+      <DependentUpon>201709270103313_BatchLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709270106404_FixBatchLine.cs" />
+    <Compile Include="Migrations\201709270106404_FixBatchLine.Designer.cs">
+      <DependentUpon>201709270106404_FixBatchLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710101551366_FoodCharge.cs" />
+    <Compile Include="Migrations\201710101551366_FoodCharge.Designer.cs">
+      <DependentUpon>201710101551366_FoodCharge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710201955416_Set_Itemtype_Null.cs" />
+    <Compile Include="Migrations\201710201955416_Set_Itemtype_Null.Designer.cs">
+      <DependentUpon>201710201955416_Set_Itemtype_Null.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710241841198_InvoicesAndJournalEntries.cs" />
+    <Compile Include="Migrations\201710241841198_InvoicesAndJournalEntries.Designer.cs">
+      <DependentUpon>201710241841198_InvoicesAndJournalEntries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710242000130_GuideCharge.cs" />
+    <Compile Include="Migrations\201710242000130_GuideCharge.Designer.cs">
+      <DependentUpon>201710242000130_GuideCharge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710242225113_DocumentEntity.cs" />
+    <Compile Include="Migrations\201710242225113_DocumentEntity.Designer.cs">
+      <DependentUpon>201710242225113_DocumentEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710250014376_PartnerMapping.cs" />
+    <Compile Include="Migrations\201710250014376_PartnerMapping.Designer.cs">
+      <DependentUpon>201710250014376_PartnerMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710250016188_ExportPartnerMapping.cs" />
+    <Compile Include="Migrations\201710250016188_ExportPartnerMapping.Designer.cs">
+      <DependentUpon>201710250016188_ExportPartnerMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710250055395_MappingType.cs" />
+    <Compile Include="Migrations\201710250055395_MappingType.Designer.cs">
+      <DependentUpon>201710250055395_MappingType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710252353147_JournalEntryCorrection.cs" />
+    <Compile Include="Migrations\201710252353147_JournalEntryCorrection.Designer.cs">
+      <DependentUpon>201710252353147_JournalEntryCorrection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710252357305_JournalEntryCorrection2.cs" />
+    <Compile Include="Migrations\201710252357305_JournalEntryCorrection2.Designer.cs">
+      <DependentUpon>201710252357305_JournalEntryCorrection2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710271908205_DateNulls.cs" />
+    <Compile Include="Migrations\201710271908205_DateNulls.Designer.cs">
+      <DependentUpon>201710271908205_DateNulls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710272234075_DeliveryFood.cs" />
+    <Compile Include="Migrations\201710272234075_DeliveryFood.Designer.cs">
+      <DependentUpon>201710272234075_DeliveryFood.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710280032181_FoodChargeCorrection.cs" />
+    <Compile Include="Migrations\201710280032181_FoodChargeCorrection.Designer.cs">
+      <DependentUpon>201710280032181_FoodChargeCorrection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710281805173_FoodChargeLine.cs" />
+    <Compile Include="Migrations\201710281805173_FoodChargeLine.Designer.cs">
+      <DependentUpon>201710281805173_FoodChargeLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710301546317_FoodChargeLine1.cs" />
+    <Compile Include="Migrations\201710301546317_FoodChargeLine1.Designer.cs">
+      <DependentUpon>201710301546317_FoodChargeLine1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710301551549_FoodChargeLineCorrection.cs" />
+    <Compile Include="Migrations\201710301551549_FoodChargeLineCorrection.Designer.cs">
+      <DependentUpon>201710301551549_FoodChargeLineCorrection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710301624077_FoodChargeLineCorrection2.cs" />
+    <Compile Include="Migrations\201710301624077_FoodChargeLineCorrection2.Designer.cs">
+      <DependentUpon>201710301624077_FoodChargeLineCorrection2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710301850114_FoodDelivery.cs" />
+    <Compile Include="Migrations\201710301850114_FoodDelivery.Designer.cs">
+      <DependentUpon>201710301850114_FoodDelivery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711082229409_BatchLineBatchNumber.cs" />
+    <Compile Include="Migrations\201711082229409_BatchLineBatchNumber.Designer.cs">
+      <DependentUpon>201711082229409_BatchLineBatchNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711091639487_BatchNumberInventoryTransactions.cs" />
+    <Compile Include="Migrations\201711091639487_BatchNumberInventoryTransactions.Designer.cs">
+      <DependentUpon>201711091639487_BatchNumberInventoryTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711091902359_ForeignName.cs" />
+    <Compile Include="Migrations\201711091902359_ForeignName.Designer.cs">
+      <DependentUpon>201711091902359_ForeignName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711112102003_FoodChargeCheckList.cs" />
+    <Compile Include="Migrations\201711112102003_FoodChargeCheckList.Designer.cs">
+      <DependentUpon>201711112102003_FoodChargeCheckList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711131646220_FoodChargeCheckCorrection.cs" />
+    <Compile Include="Migrations\201711131646220_FoodChargeCheckCorrection.Designer.cs">
+      <DependentUpon>201711131646220_FoodChargeCheckCorrection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711142128435_FoodChargeLineRework.cs" />
+    <Compile Include="Migrations\201711142128435_FoodChargeLineRework.Designer.cs">
+      <DependentUpon>201711142128435_FoodChargeLineRework.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711151959195_OptionalForeignName.cs" />
+    <Compile Include="Migrations\201711151959195_OptionalForeignName.Designer.cs">
+      <DependentUpon>201711151959195_OptionalForeignName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711230120104_addTrades.cs" />
+    <Compile Include="Migrations\201711230120104_addTrades.Designer.cs">
+      <DependentUpon>201711230120104_addTrades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711232155172_Trade_BaseEntity.cs" />
+    <Compile Include="Migrations\201711232155172_Trade_BaseEntity.Designer.cs">
+      <DependentUpon>201711232155172_Trade_BaseEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712020023419_weight_to_trade.cs" />
+    <Compile Include="Migrations\201712020023419_weight_to_trade.Designer.cs">
+      <DependentUpon>201712020023419_weight_to_trade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804110119560_PartnerCategory.cs" />
+    <Compile Include="Migrations\201804110119560_PartnerCategory.Designer.cs">
+      <DependentUpon>201804110119560_PartnerCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804161621200_PartnerClassifications.cs" />
+    <Compile Include="Migrations\201804161621200_PartnerClassifications.Designer.cs">
+      <DependentUpon>201804161621200_PartnerClassifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804170032012_BatchBuyerClassification.cs" />
+    <Compile Include="Migrations\201804170032012_BatchBuyerClassification.Designer.cs">
+      <DependentUpon>201804170032012_BatchBuyerClassification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804241835590_Authorization.cs" />
+    <Compile Include="Migrations\201804241835590_Authorization.Designer.cs">
+      <DependentUpon>201804241835590_Authorization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804261900570_ChangeId.cs" />
+    <Compile Include="Migrations\201804261900570_ChangeId.Designer.cs">
+      <DependentUpon>201804261900570_ChangeId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804261905168_ChangeObjectId.cs" />
+    <Compile Include="Migrations\201804261905168_ChangeObjectId.Designer.cs">
+      <DependentUpon>201804261905168_ChangeObjectId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805182325073_DeductionCheckEntity.cs" />
+    <Compile Include="Migrations\201805182325073_DeductionCheckEntity.Designer.cs">
+      <DependentUpon>201805182325073_DeductionCheckEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805232332535_StockExpirationDate.cs" />
+    <Compile Include="Migrations\201805232332535_StockExpirationDate.Designer.cs">
+      <DependentUpon>201805232332535_StockExpirationDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805251846025_CleanAuctionCatalogs.cs" />
+    <Compile Include="Migrations\201805251846025_CleanAuctionCatalogs.Designer.cs">
+      <DependentUpon>201805251846025_CleanAuctionCatalogs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805291749089_GoodsReceiptDate.cs" />
+    <Compile Include="Migrations\201805291749089_GoodsReceiptDate.Designer.cs">
+      <DependentUpon>201805291749089_GoodsReceiptDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806012318342_InvoiceCreditPayment.cs" />
+    <Compile Include="Migrations\201806012318342_InvoiceCreditPayment.Designer.cs">
+      <DependentUpon>201806012318342_InvoiceCreditPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806072341196_GoodsIssueAndGoodsReturnWithoutCustomer.cs" />
+    <Compile Include="Migrations\201806072341196_GoodsIssueAndGoodsReturnWithoutCustomer.Designer.cs">
+      <DependentUpon>201806072341196_GoodsIssueAndGoodsReturnWithoutCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806080038046_MovementsNumber.cs" />
+    <Compile Include="Migrations\201806080038046_MovementsNumber.Designer.cs">
+      <DependentUpon>201806080038046_MovementsNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806081628418_DocumentsFolio.cs" />
+    <Compile Include="Migrations\201806081628418_DocumentsFolio.Designer.cs">
+      <DependentUpon>201806081628418_DocumentsFolio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806131940365_ItemGender.cs" />
+    <Compile Include="Migrations\201806131940365_ItemGender.Designer.cs">
+      <DependentUpon>201806131940365_ItemGender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806181922320_EmptyMovementsStock.cs" />
+    <Compile Include="Migrations\201806181922320_EmptyMovementsStock.Designer.cs">
+      <DependentUpon>201806181922320_EmptyMovementsStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806181926280_GoodsIssueWeight.cs" />
+    <Compile Include="Migrations\201806181926280_GoodsIssueWeight.Designer.cs">
+      <DependentUpon>201806181926280_GoodsIssueWeight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806190015311_GoodsReturnWeight.cs" />
+    <Compile Include="Migrations\201806190015311_GoodsReturnWeight.Designer.cs">
+      <DependentUpon>201806190015311_GoodsReturnWeight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807102305315_Items_level.cs" />
+    <Compile Include="Migrations\201807102305315_Items_level.Designer.cs">
+      <DependentUpon>201807102305315_Items_level.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807251558561_Auctions_PreclosureTime.cs" />
+    <Compile Include="Migrations\201807251558561_Auctions_PreclosureTime.Designer.cs">
+      <DependentUpon>201807251558561_Auctions_PreclosureTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808012246177_Auction_ReopenTime_added.cs" />
+    <Compile Include="Migrations\201808012246177_Auction_ReopenTime_added.Designer.cs">
+      <DependentUpon>201808012246177_Auction_ReopenTime_added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808102154041_Stock_PaymentField.cs" />
+    <Compile Include="Migrations\201808102154041_Stock_PaymentField.Designer.cs">
+      <DependentUpon>201808102154041_Stock_PaymentField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808141553179_Stock_Folio.cs" />
+    <Compile Include="Migrations\201808141553179_Stock_Folio.Designer.cs">
+      <DependentUpon>201808141553179_Stock_Folio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808151757201_GoodsReturns_ReturnedMotive.cs" />
+    <Compile Include="Migrations\201808151757201_GoodsReturns_ReturnedMotive.Designer.cs">
+      <DependentUpon>201808151757201_GoodsReturns_ReturnedMotive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808212256598_Invoice_PayedField.cs" />
+    <Compile Include="Migrations\201808212256598_Invoice_PayedField.Designer.cs">
+      <DependentUpon>201808212256598_Invoice_PayedField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808300128591_InvoiceFields_Payments.cs" />
+    <Compile Include="Migrations\201808300128591_InvoiceFields_Payments.Designer.cs">
+      <DependentUpon>201808300128591_InvoiceFields_Payments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808301846188_InvoiceFields_Payments_2.cs" />
+    <Compile Include="Migrations\201808301846188_InvoiceFields_Payments_2.Designer.cs">
+      <DependentUpon>201808301846188_InvoiceFields_Payments_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808301847421_InvoiceFields_Payments_3.cs" />
+    <Compile Include="Migrations\201808301847421_InvoiceFields_Payments_3.Designer.cs">
+      <DependentUpon>201808301847421_InvoiceFields_Payments_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809111556037_Auction_Field_Reprocessed.cs" />
+    <Compile Include="Migrations\201809111556037_Auction_Field_Reprocessed.Designer.cs">
+      <DependentUpon>201809111556037_Auction_Field_Reprocessed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809140132160_Batches_GenderField.cs" />
+    <Compile Include="Migrations\201809140132160_Batches_GenderField.Designer.cs">
+      <DependentUpon>201809140132160_Batches_GenderField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809141620587_Batches_GenderField_changed.cs" />
+    <Compile Include="Migrations\201809141620587_Batches_GenderField_changed.Designer.cs">
+      <DependentUpon>201809141620587_Batches_GenderField_changed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809141624546_Batches_GenderField_changed_V2.cs" />
+    <Compile Include="Migrations\201809141624546_Batches_GenderField_changed_V2.Designer.cs">
+      <DependentUpon>201809141624546_Batches_GenderField_changed_V2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809261656404_ExpirationDate_FoodChargeCheck.cs" />
+    <Compile Include="Migrations\201809261656404_ExpirationDate_FoodChargeCheck.Designer.cs">
+      <DependentUpon>201809261656404_ExpirationDate_FoodChargeCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809271619436_Auctions_CostingCode.cs" />
+    <Compile Include="Migrations\201809271619436_Auctions_CostingCode.Designer.cs">
+      <DependentUpon>201809271619436_Auctions_CostingCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810030003452_ItemType_SellType.cs" />
+    <Compile Include="Migrations\201810030003452_ItemType_SellType.Designer.cs">
+      <DependentUpon>201810030003452_ItemType_SellType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810030018298_ItemType_PerPrice_Dropped.cs" />
+    <Compile Include="Migrations\201810030018298_ItemType_PerPrice_Dropped.Designer.cs">
+      <DependentUpon>201810030018298_ItemType_PerPrice_Dropped.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810031837318_Batch_SellType_Field.cs" />
+    <Compile Include="Migrations\201810031837318_Batch_SellType_Field.Designer.cs">
+      <DependentUpon>201810031837318_Batch_SellType_Field.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811131922435_JournalLines_Comments.cs" />
+    <Compile Include="Migrations\201811131922435_JournalLines_Comments.Designer.cs">
+      <DependentUpon>201811131922435_JournalLines_Comments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812271748558_InvoiceLine_DeliveryLines.cs" />
+    <Compile Include="Migrations\201812271748558_InvoiceLine_DeliveryLines.Designer.cs">
+      <DependentUpon>201812271748558_InvoiceLine_DeliveryLines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812271758256_InvoiceLine_DeliveryLines2.cs" />
+    <Compile Include="Migrations\201812271758256_InvoiceLine_DeliveryLines2.Designer.cs">
+      <DependentUpon>201812271758256_InvoiceLine_DeliveryLines2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core.Auctions\UGRS.Core.Auctions.csproj">
+      <Project>{1ff60116-695a-48ea-b4ad-2b780a0e95de}</Project>
+      <Name>UGRS.Core.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201707262252012_InitialDatabaseVersion.resx">
+      <DependentUpon>201707262252012_InitialDatabaseVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707311546494_OptionalSeller.resx">
+      <DependentUpon>201707311546494_OptionalSeller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707312146470_Delivered.resx">
+      <DependentUpon>201707312146470_Delivered.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709141631458_BatchReprogrammed.resx">
+      <DependentUpon>201709141631458_BatchReprogrammed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709182338004_ItemDefinition.resx">
+      <DependentUpon>201709182338004_ItemDefinition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709221822034_ItemTypeOptimization.resx">
+      <DependentUpon>201709221822034_ItemTypeOptimization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709270103313_BatchLine.resx">
+      <DependentUpon>201709270103313_BatchLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709270106404_FixBatchLine.resx">
+      <DependentUpon>201709270106404_FixBatchLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710101551366_FoodCharge.resx">
+      <DependentUpon>201710101551366_FoodCharge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710201955416_Set_Itemtype_Null.resx">
+      <DependentUpon>201710201955416_Set_Itemtype_Null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710241841198_InvoicesAndJournalEntries.resx">
+      <DependentUpon>201710241841198_InvoicesAndJournalEntries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710242000130_GuideCharge.resx">
+      <DependentUpon>201710242000130_GuideCharge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710242225113_DocumentEntity.resx">
+      <DependentUpon>201710242225113_DocumentEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710250014376_PartnerMapping.resx">
+      <DependentUpon>201710250014376_PartnerMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710250016188_ExportPartnerMapping.resx">
+      <DependentUpon>201710250016188_ExportPartnerMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710250055395_MappingType.resx">
+      <DependentUpon>201710250055395_MappingType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710252353147_JournalEntryCorrection.resx">
+      <DependentUpon>201710252353147_JournalEntryCorrection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710252357305_JournalEntryCorrection2.resx">
+      <DependentUpon>201710252357305_JournalEntryCorrection2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710271908205_DateNulls.resx">
+      <DependentUpon>201710271908205_DateNulls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710272234075_DeliveryFood.resx">
+      <DependentUpon>201710272234075_DeliveryFood.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710280032181_FoodChargeCorrection.resx">
+      <DependentUpon>201710280032181_FoodChargeCorrection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710281805173_FoodChargeLine.resx">
+      <DependentUpon>201710281805173_FoodChargeLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710301546317_FoodChargeLine1.resx">
+      <DependentUpon>201710301546317_FoodChargeLine1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710301551549_FoodChargeLineCorrection.resx">
+      <DependentUpon>201710301551549_FoodChargeLineCorrection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710301624077_FoodChargeLineCorrection2.resx">
+      <DependentUpon>201710301624077_FoodChargeLineCorrection2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710301850114_FoodDelivery.resx">
+      <DependentUpon>201710301850114_FoodDelivery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711082229409_BatchLineBatchNumber.resx">
+      <DependentUpon>201711082229409_BatchLineBatchNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091639487_BatchNumberInventoryTransactions.resx">
+      <DependentUpon>201711091639487_BatchNumberInventoryTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091902359_ForeignName.resx">
+      <DependentUpon>201711091902359_ForeignName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711112102003_FoodChargeCheckList.resx">
+      <DependentUpon>201711112102003_FoodChargeCheckList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131646220_FoodChargeCheckCorrection.resx">
+      <DependentUpon>201711131646220_FoodChargeCheckCorrection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711142128435_FoodChargeLineRework.resx">
+      <DependentUpon>201711142128435_FoodChargeLineRework.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711151959195_OptionalForeignName.resx">
+      <DependentUpon>201711151959195_OptionalForeignName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711230120104_addTrades.resx">
+      <DependentUpon>201711230120104_addTrades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711232155172_Trade_BaseEntity.resx">
+      <DependentUpon>201711232155172_Trade_BaseEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712020023419_weight_to_trade.resx">
+      <DependentUpon>201712020023419_weight_to_trade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804110119560_PartnerCategory.resx">
+      <DependentUpon>201804110119560_PartnerCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804161621200_PartnerClassifications.resx">
+      <DependentUpon>201804161621200_PartnerClassifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804170032012_BatchBuyerClassification.resx">
+      <DependentUpon>201804170032012_BatchBuyerClassification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804241835590_Authorization.resx">
+      <DependentUpon>201804241835590_Authorization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804261900570_ChangeId.resx">
+      <DependentUpon>201804261900570_ChangeId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804261905168_ChangeObjectId.resx">
+      <DependentUpon>201804261905168_ChangeObjectId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805182325073_DeductionCheckEntity.resx">
+      <DependentUpon>201805182325073_DeductionCheckEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805232332535_StockExpirationDate.resx">
+      <DependentUpon>201805232332535_StockExpirationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805251846025_CleanAuctionCatalogs.resx">
+      <DependentUpon>201805251846025_CleanAuctionCatalogs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805291749089_GoodsReceiptDate.resx">
+      <DependentUpon>201805291749089_GoodsReceiptDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806012318342_InvoiceCreditPayment.resx">
+      <DependentUpon>201806012318342_InvoiceCreditPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806072341196_GoodsIssueAndGoodsReturnWithoutCustomer.resx">
+      <DependentUpon>201806072341196_GoodsIssueAndGoodsReturnWithoutCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806080038046_MovementsNumber.resx">
+      <DependentUpon>201806080038046_MovementsNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806081628418_DocumentsFolio.resx">
+      <DependentUpon>201806081628418_DocumentsFolio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806131940365_ItemGender.resx">
+      <DependentUpon>201806131940365_ItemGender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806181922320_EmptyMovementsStock.resx">
+      <DependentUpon>201806181922320_EmptyMovementsStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806181926280_GoodsIssueWeight.resx">
+      <DependentUpon>201806181926280_GoodsIssueWeight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806190015311_GoodsReturnWeight.resx">
+      <DependentUpon>201806190015311_GoodsReturnWeight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807102305315_Items_level.resx">
+      <DependentUpon>201807102305315_Items_level.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807251558561_Auctions_PreclosureTime.resx">
+      <DependentUpon>201807251558561_Auctions_PreclosureTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808012246177_Auction_ReopenTime_added.resx">
+      <DependentUpon>201808012246177_Auction_ReopenTime_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808102154041_Stock_PaymentField.resx">
+      <DependentUpon>201808102154041_Stock_PaymentField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808141553179_Stock_Folio.resx">
+      <DependentUpon>201808141553179_Stock_Folio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808151757201_GoodsReturns_ReturnedMotive.resx">
+      <DependentUpon>201808151757201_GoodsReturns_ReturnedMotive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808212256598_Invoice_PayedField.resx">
+      <DependentUpon>201808212256598_Invoice_PayedField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808300128591_InvoiceFields_Payments.resx">
+      <DependentUpon>201808300128591_InvoiceFields_Payments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808301846188_InvoiceFields_Payments_2.resx">
+      <DependentUpon>201808301846188_InvoiceFields_Payments_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808301847421_InvoiceFields_Payments_3.resx">
+      <DependentUpon>201808301847421_InvoiceFields_Payments_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809111556037_Auction_Field_Reprocessed.resx">
+      <DependentUpon>201809111556037_Auction_Field_Reprocessed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809140132160_Batches_GenderField.resx">
+      <DependentUpon>201809140132160_Batches_GenderField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809141620587_Batches_GenderField_changed.resx">
+      <DependentUpon>201809141620587_Batches_GenderField_changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809141624546_Batches_GenderField_changed_V2.resx">
+      <DependentUpon>201809141624546_Batches_GenderField_changed_V2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809261656404_ExpirationDate_FoodChargeCheck.resx">
+      <DependentUpon>201809261656404_ExpirationDate_FoodChargeCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809271619436_Auctions_CostingCode.resx">
+      <DependentUpon>201809271619436_Auctions_CostingCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810030003452_ItemType_SellType.resx">
+      <DependentUpon>201810030003452_ItemType_SellType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810030018298_ItemType_PerPrice_Dropped.resx">
+      <DependentUpon>201810030018298_ItemType_PerPrice_Dropped.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810031837318_Batch_SellType_Field.resx">
+      <DependentUpon>201810031837318_Batch_SellType_Field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811131922435_JournalLines_Comments.resx">
+      <DependentUpon>201811131922435_JournalLines_Comments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812271748558_InvoiceLine_DeliveryLines.resx">
+      <DependentUpon>201812271748558_InvoiceLine_DeliveryLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812271758256_InvoiceLine_DeliveryLines2.resx">
+      <DependentUpon>201812271758256_InvoiceLine_DeliveryLines2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

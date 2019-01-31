@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3D3B288-95B2-4A3D-9128-06DEDF09D7F4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.Core.SDK.DI.Auctions</RootNamespace>
+    <AssemblyName>UGRS.Core.SDK.DI.Auctions</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SAPBusinessOneSDK, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c7c3cb60e45d119f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\SAPBusinessOneSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuctionsServicesFactory.cs" />
+    <Compile Include="DAO\DeliveryFoodDAO.cs" />
+    <Compile Include="DAO\FinancialsDAO.cs" />
+    <Compile Include="DAO\ItemBatchDAO.cs" />
+    <Compile Include="DAO\BusinessPartnerDAO.cs" />
+    <Compile Include="DAO\ItemDAO.cs" />
+    <Compile Include="DTO\CustomerDTO.cs" />
+    <Compile Include="DTO\CustomerMappingDTO.cs" />
+    <Compile Include="DTO\DeliveryFoodDTO.cs" />
+    <Compile Include="DTO\ItemBatchDTO.cs" />
+    <Compile Include="DTO\ItemDTO.cs" />
+    <Compile Include="Enum\MappingTypeEnum.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AuctionBatchLineService.cs" />
+    <Compile Include="Services\AuctionService.cs" />
+    <Compile Include="Services\AuctionBatchService.cs" />
+    <Compile Include="Services\BusinessPartnerSevice.cs" />
+    <Compile Include="Services\DeliveryFoodService.cs" />
+    <Compile Include="Services\FinancialsService.cs" />
+    <Compile Include="Services\ItemBatchService.cs" />
+    <Compile Include="Services\ItemService.cs" />
+    <Compile Include="Services\SetupService.cs" />
+    <Compile Include="Tables\Auction.cs" />
+    <Compile Include="Tables\Batch.cs" />
+    <Compile Include="Tables\BatchLine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core.Auctions\UGRS.Core.Auctions.csproj">
+      <Project>{1ff60116-695a-48ea-b4ad-2b780a0e95de}</Project>
+      <Name>UGRS.Core.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK.DI\UGRS.Core.SDK.DI.csproj">
+      <Project>{909b9975-2b24-41ef-abb0-d90b904d75dd}</Project>
+      <Name>UGRS.Core.SDK.DI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK\UGRS.Core.SDK.csproj">
+      <Project>{19131849-410b-4c79-9c46-6fe46915e315}</Project>
+      <Name>UGRS.Core.SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetAcutionBatchesByFilters.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetCustomerByCardCode.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetItemByCode.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetItemBatchesListByWarehouse.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetUpdatedItemBatchesListByWarehouse.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetItemBatcheByFilters.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\SearchCustomer.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetBatchNumerListByFilters.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDeliveriesFood.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetPrice.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetCardCodesList.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetItemCodesList.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetUpdatedCardCodesList.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetUpdatedItemCodesList.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDeliveriesFoodList.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetUpdatedDeliveriesFoodList.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDeliveryFood.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDocEntryByCC.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDocEntry.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDraftDocEntry.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetPayCondition.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DAO\SQL\GetDocTotalByFilters.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

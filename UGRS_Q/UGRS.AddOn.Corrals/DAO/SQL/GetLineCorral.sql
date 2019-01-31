@@ -1,0 +1,1 @@
+﻿select U_GLO_Corral from ODLN where DocNum = '{BaseRef}'

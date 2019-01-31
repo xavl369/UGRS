@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1E173C52-1571-4971-A19D-6CD992104974}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.AddOn.PurchaseInvoice</RootNamespace>
+    <AssemblyName>UGRS.AddOn.PurchaseInvoice</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>UGRS.AddOn.PurchaseInvoice.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="SAPBusinessOneSDK" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaz\IXmlSchemaSetValidator.cs" />
+    <Compile Include="ModalFormXml.cs" />
+    <Compile Include="Models\Concepts.cs" />
+    <Compile Include="Models\mPurchaseInvoice.cs" />
+    <Compile Include="PurchaseInvoices.cs" />
+    <Compile Include="Service References\RecepcionCfdiService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\RecepcionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ConfigurationManager.cs" />
+    <Compile Include="Utils\ReceiptService.cs" />
+    <Compile Include="Utils\XmlSchemaSetValidador.cs" />
+    <None Include="app.config" />
+    <None Include="catCFDI.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Form1.b1f">
+      <FormCategory>UserForm</FormCategory>
+    </None>
+    <Compile Include="Form1.b1f.cs">
+      <DependentUpon>Form1.b1f</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="cfdv32.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cfdv33.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\RecepcionCfdiService.wsdl" />
+    <None Include="Service References\RecepcionCfdiService\RecepcionCfdiService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.cfdiPorEtiquetav33Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.cfdiPorUUIDv33Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.recepcionCfdiMultipleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.recepcionCfdiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.recepcionCfdiZipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.verificacionPorQRCodev33Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\UGRS.AddOn.PurchaseInvoice.RecepcionCfdiService.verificacionPorXMLv33Response.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\RecepcionService.wsdl" />
+    <None Include="Service References\RecepcionService\RecepcionService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.cfdiPorEtiquetaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.cfdiPorUUIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.recepcionArchivoZipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.recepcionMultipleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.recepcionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.verificacionPorQRCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RecepcionService\UGRS.AddOn.PurchaseInvoice.RecepcionService.verificacionPorXMLResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="tdCFDI.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core.SDK.DI\UGRS.Core.SDK.DI.csproj">
+      <Project>{909b9975-2b24-41ef-abb0-d90b904d75dd}</Project>
+      <Name>UGRS.Core.SDK.DI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK.UI\UGRS.Core.SDK.UI.csproj">
+      <Project>{baf4f5cb-2544-4451-b270-e66f74c3ed4a}</Project>
+      <Name>UGRS.Core.SDK.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK\UGRS.Core.SDK.csproj">
+      <Project>{19131849-410b-4c79-9c46-6fe46915e315}</Project>
+      <Name>UGRS.Core.SDK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FormXml.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FormXmlArticles.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Service References\RecepcionService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\RecepcionService\configuration.svcinfo" />
+    <None Include="Service References\RecepcionService\configuration91.svcinfo" />
+    <None Include="Service References\RecepcionCfdiService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\RecepcionCfdiService\configuration.svcinfo" />
+    <None Include="Service References\RecepcionCfdiService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\RecepcionCfdiService\" />
+    <WCFMetadataStorage Include="Service References\RecepcionService\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

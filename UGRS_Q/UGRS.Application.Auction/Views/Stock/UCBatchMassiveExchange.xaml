@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCBatchMassiveExchange"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="White"
+      Loaded="UserControl_Loaded"
+      MinWidth="600">
+    <Grid Name="grdBatchExchange"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,30,30,60">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--AUCTION SEARCH -->
+        <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Stretch" Margin="0,0,0,5" Grid.ColumnSpan="2">
+            <StackPanel Margin="10" HorizontalAlignment="Left">
+                <Grid Name="grdAuctionSearch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="240"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Folio subasta:" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"  ></Label>
+                    <TextBox Name="txtAuction" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Width="120" FontSize="14" KeyDown="txtAuction_KeyDown" TextChanged="txtAuction_TextChanged"></TextBox>
+                    <Label Content="Comprador:" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                    <TextBox Name="txtBuyer" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,0,0" Width="100" FontSize="14" IsEnabled="False" KeyDown="txtBuyer_KeyDown" TextChanged="txtBuyer_TextChanged"></TextBox>
+                    <Label Content="Comprador 2:" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                    <TextBox Name="txtBuyer2" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,0,0" Width="100" FontSize="14" IsEnabled="False" TextChanged="txtBuyer_TextChanged" KeyDown="txtBuyer_KeyDown"></TextBox>
+                    <Label Name="lblBuyer" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                    <Label Name="lblBuyer2"  Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"></Label>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <!-- DATAGRIDVIEW-->
+        <Grid Grid.Row="2" Name="grdExchange">
+            <DataGrid Name="dgBatch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" FontSize="14" MinHeight="300"
+                       SelectionMode="Single" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn	Binding="{Binding Clasification}" IsReadOnly="True" Header="Clasificación" Width="30*" />
+                    <DataGridTextColumn Binding="{Binding Batch}" IsReadOnly="True" Header="Lote" Width="30*" />
+                    <DataGridTextColumn Binding="{Binding Quantity}" Header="Cantidad" IsReadOnly="True" Width="30*"/>
+                    <DataGridTextColumn Binding="{Binding HasGoodIssue}" Header="Movimientos" IsReadOnly="True" Width="30*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!-- BUTTON -->
+        <Button Content="Guardar" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Name="btnSave" Margin="0,0,0,-46" Click="btnSave_Click"></Button>
+    </Grid>
+
+</UserControl>

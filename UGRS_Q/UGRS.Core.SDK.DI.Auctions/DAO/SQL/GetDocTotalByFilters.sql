@@ -1,0 +1,1 @@
+    SELECT DocTotal FROM OINV WHERE NumAtCard = '{NumAtCard}'  AND CardCode = '{CardCode}'

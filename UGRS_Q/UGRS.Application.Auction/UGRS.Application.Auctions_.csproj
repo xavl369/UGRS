@@ -1,0 +1,594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49DA00AE-D525-4882-8C20-B877411204D9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.Application.Auctions</RootNamespace>
+    <AssemblyName>UGRS.Application.Auctions</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>Auctions.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Dragablz, Version=0.0.3.186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.186\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.2.0-beta1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.2.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.0.823, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.3.0.823\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SAPBusinessObjects.WPF.Viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\SAPBusinessObjects.WPF.Viewer.dll</HintPath>
+    </Reference>
+    <Reference Include="SAPBusinessObjects.WPF.ViewerShared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\SAPBusinessObjects.WPF.ViewerShared.dll</HintPath>
+    </Reference>
+    <Reference Include="SAPBusinessOneSDK, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c7c3cb60e45d119f, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Auction\UCAuction.xaml.cs">
+      <DependentUpon>UCAuction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Auction\UCCloseAuction.xaml.cs">
+      <DependentUpon>UCCloseAuction.xaml</DependentUpon>
+    <Compile Include="Auction\UCFoodPaymentList.xaml.cs">
+      <DependentUpon>UCFoodPaymentList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCAuctionHeader.xaml.cs">
+      <DependentUpon>UCAuctionHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Auction\UCBatches.xaml.cs">
+      <DependentUpon>UCBatches.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Auction\UCCloseAuctionWin.xaml.cs">
+      <DependentUpon>UCCloseAuctionWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Auction\UCFoodPayment.xaml.cs">
+      <DependentUpon>UCFoodPayment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCBatchAuction.xaml.cs">
+      <DependentUpon>UCBatchAuction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCCustomerStockDetail.xaml.cs">
+      <DependentUpon>UCCustomerStockDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCLeftBatchForm.xaml.cs">
+      <DependentUpon>UCLeftBatchForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Auction\UCLocations.xaml.cs">
+      <DependentUpon>UCLocations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCPrintBatch.xaml.cs">
+      <DependentUpon>UCPrintBatch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCRightBatchForm.xaml.cs">
+      <DependentUpon>UCRightBatchForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCSearchBatch.xaml.cs">
+      <DependentUpon>UCSearchBatch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BatchAuction\UCSkipBatch.xaml.cs">
+      <DependentUpon>UCSkipBatch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bussiness\UCConciliationPartner.xaml.cs">
+      <DependentUpon>UCConciliationPartner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bussiness\UCPartner.xaml.cs">
+      <DependentUpon>UCPartner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Catalogs\UCAuctionCategory.xaml.cs">
+      <DependentUpon>UCAuctionCategory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Catalogs\UCAuctionType.xaml.cs">
+      <DependentUpon>UCAuctionType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Catalogs\UCItemTypes.xaml.cs">
+      <DependentUpon>UCItemTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\BatchAuctionEvents.cs" />
+    <Compile Include="History\UCAuctionsHistory.xaml.cs">
+      <DependentUpon>UCAuctionsHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="History\UCBatchesHistory.xaml.cs">
+      <DependentUpon>UCBatchesHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\UCItemDefinitions.xaml.cs">
+      <DependentUpon>UCItemDefinitions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\UCItems.xaml.cs">
+      <DependentUpon>UCItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginDialog.xaml.cs">
+      <DependentUpon>LoginDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FormDetalleSubasta.xaml.cs">
+      <DependentUpon>FormDetalleSubasta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageConsultas.xaml.cs">
+      <DependentUpon>PageConsultas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageProgramarSubasta.xaml.cs">
+      <DependentUpon>PageProgramarSubasta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainAuction.xaml.cs">
+      <DependentUpon>MainAuction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageReportes.xaml.cs">
+      <DependentUpon>PageReportes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\UCBatchesByBuyerFilter.xaml.cs">
+      <DependentUpon>UCBatchesByBuyerFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\UCBatchesBySellerFilter.xaml.cs">
+      <DependentUpon>UCBatchesBySellerFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\UCGoodsReceiptsReport.xaml.cs">
+      <DependentUpon>UCGoodsReceiptsReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\UCPartnersReport.xaml.cs">
+      <DependentUpon>UCPartnersReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\UCReportViewer.xaml.cs">
+      <DependentUpon>UCReportViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\UCPermission.xaml.cs">
+      <DependentUpon>UCPermission.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\UCPermissionDialog.xaml.cs">
+      <DependentUpon>UCPermissionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\UCGoodIssues.xaml.cs">
+      <DependentUpon>UCGoodIssues.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\UCGoodsReceipt.xaml.cs">
+      <DependentUpon>UCGoodsReceipt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\UCGoodsReturns.xaml.cs">
+      <DependentUpon>UCGoodsReturns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemConfig\UCConfiguration.xaml.cs">
+      <DependentUpon>UCConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemConfig\UCModule.xaml.cs">
+      <DependentUpon>UCModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemConfig\UCSections.xaml.cs">
+      <DependentUpon>UCSections.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UCUsers.xaml.cs">
+      <DependentUpon>UCUsers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UCUserType.xaml.cs">
+      <DependentUpon>UCUserType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\PartnerMappingDTO.cs" />
+    <Compile Include="Utils\FunctionsUI.cs" />
+    <Compile Include="WindowDialog.xaml.cs">
+      <DependentUpon>WindowDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Auction\UCAuction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Auction\UCCloseAuction.xaml">
+	 <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Auction\UCFoodPaymentList.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BatchAuction\UCAuctionHeader.xaml">
+      <SubType>Designer</SubType>
+
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BatchAuction\UCAuctionHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Auction\UCBatches.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Auction\UCCloseAuctionWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Auction\UCFoodPayment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCBatchAuction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCCustomerStockDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCLeftBatchForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Auction\UCLocations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCPrintBatch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCRightBatchForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCSearchBatch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BatchAuction\UCSkipBatch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bussiness\UCConciliationPartner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Bussiness\UCPartner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Catalogs\UCAuctionCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Catalogs\UCAuctionType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Catalogs\UCItemTypes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="History\UCAuctionsHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="History\UCBatchesHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Inventory\UCItemDefinitions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Inventory\UCItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Page Include="LoginDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\FormDetalleSubasta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PageConsultas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PageProgramarSubasta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainAuction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PageReportes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\UCBatchesByBuyerFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\UCBatchesBySellerFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\UCGoodsReceiptsReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\UCPartnersReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\UCReportViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\UCPermission.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\UCPermissionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stock\UCGoodIssues.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stock\UCGoodsReceipt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stock\UCGoodsReturns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemConfig\UCConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemConfig\UCModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemConfig\UCSections.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\UCUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\UCUserType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Configurations\Auctions.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Configurations\Boards.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Configurations\WeighingMachine.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core.Application\UGRS.Core.Application.csproj">
+      <Project>{7e08565a-7027-4e83-a65d-a4c63c826173}</Project>
+      <Name>UGRS.Core.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.Auctions\UGRS.Core.Auctions.csproj">
+      <Project>{1ff60116-695a-48ea-b4ad-2b780a0e95de}</Project>
+      <Name>UGRS.Core.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core.SDK.DI.Auctions\UGRS.Core.SDK.DI.Auctions.csproj">
+      <Project>{a3d3b288-95b2-4a3d-9128-06dedf09d7f4}</Project>
+      <Name>UGRS.Core.SDK.DI.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Data.Auctions\UGRS.Data.Auctions.csproj">
+      <Project>{37dffd4b-a7b1-4700-b348-66b12ca07b58}</Project>
+      <Name>UGRS.Data.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Object.Auctions\UGRS.Object.Auctions.csproj">
+      <Project>{e0137dec-58c3-4c2a-9bfd-b6287fcdcdcd}</Project>
+      <Name>UGRS.Object.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Object.Boards\UGRS.Object.Boards.csproj">
+      <Project>{a7117ab4-3cfc-49b8-9dd8-95b32a86e17d}</Project>
+      <Name>UGRS.Object.Boards</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Object.WeighingMachine\UGRS.Object.WeighingMachine.csproj">
+      <Project>{6214fef9-9914-44c7-8a78-cf95c4fe58ce}</Project>
+      <Name>UGRS.Object.WeighingMachine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UGRS.Reports.Auctions\UGRS.Reports.Auctions.csproj">
+      <Project>{aaa28d22-0b47-4e2a-932c-ef89cd314307}</Project>
+      <Name>UGRS.Reports.Auctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPF.MDI\WPF.MDI.csproj">
+      <Project>{be1ed569-5e0b-4df0-8964-33ad2aae4c4a}</Project>
+      <Name>WPF.MDI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Subasta.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\img\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Auctions.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

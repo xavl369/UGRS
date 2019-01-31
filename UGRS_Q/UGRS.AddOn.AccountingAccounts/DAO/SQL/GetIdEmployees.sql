@@ -1,0 +1,1 @@
+select empID,ExtEmpNo, CONCAT(lastName, ' ', firstName) as FullName from OHEM

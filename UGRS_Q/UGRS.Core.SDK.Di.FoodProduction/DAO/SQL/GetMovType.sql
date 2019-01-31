@@ -1,0 +1,1 @@
+select Code from [@UG_GLO_INMO] where U_Addon = 'PL' and U_Type = 'E'

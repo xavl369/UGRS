@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCCloseAuctionWin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="White" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid Name="grdCloseAuction" Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!--FORM-->
+            <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Stretch" Name="BrdNewRegistry">
+                <StackPanel Margin="10" HorizontalAlignment="Left">
+                    <DockPanel>
+                        <Label Name="lbltitle" Content="Cierre de subasta" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left" Margin="10"></Label>
+                    </DockPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!--FOLIO-->
+                        <Label Content="Folio:"  HorizontalAlignment="Left" Margin="10"></Label>
+                        <TextBox Name="txtFolio" VerticalAlignment="Center" IsEnabled="False" Width="200" Margin="100,0,10,0" FontSize="14"  KeyDown="txtFolio_KeyDown"></TextBox>
+                        <!--COMISSION-->
+                        <Label Content="Comisión:" Grid.Row="1" HorizontalAlignment="Left" Margin="10"></Label>
+                        <TextBox Name="txtCommission" Grid.Row="1" VerticalAlignment="Center"  IsEnabled="False" Width="200" Margin="100,0,10,0" FontSize="14"></TextBox>
+                        <!--DATE-->
+                        <Label Content="Fecha:" Grid.Row="2" HorizontalAlignment="Left" Margin="10" IsEnabled="False"></Label>
+                        <DatePicker Name="dpDate" Grid.Row="2" VerticalAlignment="Center" DisplayDate="2017-05-22" Width="200" Margin="100,0,10,0" IsEnabled="False" FontSize="14"  />
+                        <!--AUCTION TYPE-->
+                        <Label Content="Tipo:" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="10"></Label>
+                        <TextBox Name="txtAuctionType" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Width="200" Margin="100,0,10,0" IsEnabled="False" FontSize="14"></TextBox>
+                        <!--AUCTION CATEGORY-->
+                        <Label Content="Categoría:" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10"></Label>
+                        <TextBox Name="txtAuctionCategory" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Width="200" Margin="100,0,10,0"  IsEnabled="False" FontSize="14"></TextBox>
+                        <!--INVOICES-->
+                        <Label Content="Facturas: " Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="200,10,0,10"></Label>
+                        <TextBox Name="txtInvoices" IsEnabled="False" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="267,5,0,14" Width="30" Height="30" HorizontalContentAlignment="Center"></TextBox>
+                        <!--TRADES-->
+                        <Label Content="Tratos: " Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="110,10,0,10"></Label>
+                        <TextBox Name="txtTrades" IsEnabled="False" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="160,5,0,14" Width="30" Height="30" HorizontalContentAlignment="Center"></TextBox>
+                        <!--BATCHES-->
+                        <Label Content=" Lotes:  " Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,10"/>
+                        <TextBox x:Name="txtBatches" IsEnabled="False" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="65,5,0,14" Width="30" Height="30" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <!--BATCH-->
+            <DataGrid Name="dgBatch" Visibility="Collapsed" Grid.Row="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" FontSize="14" 
+                    IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn	Binding="{Binding Number}" Header="Lote" />
+                    <DataGridTextColumn Binding="{Binding ItemType.Name}" Header="Tipo de artículo" />
+                    <DataGridTextColumn	Binding="{Binding Quantity}" Header="Cantidad" />
+                    <DataGridTextColumn Binding="{Binding Seller.Code}" Header="Cod. Vendedor" />
+                    <DataGridTextColumn Binding="{Binding Seller.Name}" Header="Vendedor" />
+                    <DataGridTextColumn Binding="{Binding Buyer.Code}" Header="Cod. Comprador" />
+                    <DataGridTextColumn Binding="{Binding Buyer.Name}" Header="Comprador" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--PREVIEW DETAILS-->
+            <Grid Name="grdDetails" Grid.Row="2" Margin="0,16,0,0"></Grid>
+            <!--BUTTONS-->
+            <StackPanel Name="pnlButtons" Grid.Column="2" Grid.RowSpan="3">
+                <Button Name="btnSave"  Height="80" Width="100" Margin="15,0" Click="btnSave_Click" IsEnabled="False">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:PackIcon Kind="ContentSave" HorizontalAlignment="Center" Height="30" Width="30"  />
+                        <TextBlock Text="Cerrar subasta" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Foreground="White"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Name="btnCancel"  Height="80" Width="100" Margin="5" Click="btnCancel_Click" IsEnabled="True">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:PackIcon Kind="Close" HorizontalAlignment="Center" Height="30" Width="30"  />
+                        <Label Content="Cancelar" FontSize="12" Foreground="White"></Label>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <!--LOADING-->
+        <Grid Name="grdLoading" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" Visibility="Collapsed">
+            <Grid Background="#fff" Opacity="0.9"/>
+            <ProgressBar Name="pbLoading" Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Visible" Foreground="#FFFCB913" Opacity="2"               
+                     Value="0" IsIndeterminate="True" Width="60" Height="60" Margin="0,-60,0,0" 
+                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Name="txtWait" Margin="0,60,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#333">Por favor espere...</TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCPermission"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+          Background="White" Loaded="UserControl_Loaded">
+         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25,15,25,25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Name="txtSearch" Margin="0,0,20,0" materialDesign:HintAssist.FloatingScale="0.90" TextChanged="TextBox_TextChanged" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                         Height="41" FontSize="14">
+                <materialDesign:HintAssist.Hint>
+                    <StackPanel Orientation="Horizontal" Margin="-2 0 0 0">
+                        <materialDesign:PackIcon Kind="Magnify" />
+                        <TextBlock>Buscar</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
+            <StackPanel Orientation="Horizontal" Grid.Column="1"> 
+                <Label Content="Tipo de permiso" VerticalAlignment="Bottom"></Label>
+                <ComboBox Name="cbType"  VerticalAlignment="Bottom"  SelectionChanged="cbType_SelectionChanged"  IsEditable="True" IsReadOnly="True" Text="Seleccionar" FontSize="14"></ComboBox>
+            </StackPanel>
+        </Grid>
+        <DataGrid SelectionUnit="FullRow" Name="dgUserType" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,20,0" 
+                       IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False" Background="White" BorderBrush="LightGray" BorderThickness="1" 
+                       HorizontalContentAlignment="Stretch"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <!--<DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        --><!-- Update from comments.
+                     Remove the focus indication for the selected cell --><!--
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    </Style>
+                </DataGrid.CellStyle>-->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Nombre"  />
+                <DataGridTextColumn	Binding="{Binding Description}" Header="Descripción" Width="*" />
+                    <DataGridTemplateColumn >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnConfig" BorderBrush="Transparent" Click="btnConfig_Click"  HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" Height="30" Width="30" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" >
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="SecondaryAccentBrush" Color="White"/>
+                                        <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Gray"/>
+                                    </Button.Resources>
+                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Top" Height="20" Width="20"    >
+                                    </materialDesign:PackIcon>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        <Grid Grid.Row="2" Name="grdList">
+            <DataGrid 
+                SelectionUnit="FullRow" 
+                Name="dgUser" 
+                MinHeight="300" 
+                MinWidth="500"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Margin="0,20,20,0" 
+                FontSize="14" 
+                IsReadOnly="True" 
+                SelectionMode="Single" 
+                AutoGenerateColumns="False" 
+                Background="White" 
+                BorderBrush="LightGray" 
+                BorderThickness="1" 
+                HorizontalContentAlignment="Stretch"
+                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <!--<DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            -->
+                <!-- Update from comments.
+                         Remove the focus indication for the selected cell -->
+                <!--
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        </Style>
+                    </DataGrid.CellStyle>-->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding UserName}" Header="Usuario" FontSize="14" />
+                    <DataGridTextColumn	Binding="{Binding FirstName}" Header="Nombre" FontSize="14" />
+                    <DataGridTextColumn	Binding="{Binding LastName}" Header="Apellido" Width="*" FontSize="14" />
+                    <DataGridTemplateColumn >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnConfigUser" BorderBrush="Transparent" Click="btnConfigUser_Click"  HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Style="{StaticResource MaterialDesignFloatingActionAccentButton}" Height="30" Width="30" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" >
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="SecondaryAccentBrush" Color="White"/>
+                                        <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="Gray"/>
+                                    </Button.Resources>
+                                    <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Top" Height="20" Width="20"    >
+                                    </materialDesign:PackIcon>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Name="grMenu" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"  Margin="10,0,0,0"></Grid>
+        <GridSplitter Name="GridSpliter" Margin="0,20,0,0" VerticalAlignment="Stretch" Width="4" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3"></GridSplitter>
+    </Grid>
+</UserControl>

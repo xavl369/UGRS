@@ -1,0 +1,1 @@
+SELECT * FROM [@UG_PE_WS_PERE] WHERE Code = '{Code}'

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://recepcion.ws.pade.mx" targetNamespace="http://recepcion.ws.pade.mx" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="cfdiPorEtiqueta" type="tns:cfdiPorEtiqueta" />
+  <xs:element name="cfdiPorEtiquetaResponse" type="tns:cfdiPorEtiquetaResponse" />
+  <xs:element name="cfdiPorUUID" type="tns:cfdiPorUUID" />
+  <xs:element name="cfdiPorUUIDResponse" type="tns:cfdiPorUUIDResponse" />
+  <xs:element name="recepcion" type="tns:recepcion" />
+  <xs:element name="recepcionArchivoZip" type="tns:recepcionArchivoZip" />
+  <xs:element name="recepcionArchivoZipResponse" type="tns:recepcionArchivoZipResponse" />
+  <xs:element name="recepcionMultiple" type="tns:recepcionMultiple" />
+  <xs:element name="recepcionMultipleResponse" type="tns:recepcionMultipleResponse" />
+  <xs:element name="recepcionResponse" type="tns:recepcionResponse" />
+  <xs:element name="verificacionPorQRCode" type="tns:verificacionPorQRCode" />
+  <xs:element name="verificacionPorQRCodeResponse" type="tns:verificacionPorQRCodeResponse" />
+  <xs:element name="verificacionPorXML" type="tns:verificacionPorXML" />
+  <xs:element name="verificacionPorXMLResponse" type="tns:verificacionPorXMLResponse" />
+  <xs:complexType name="verificacionPorQRCode">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" name="qrCode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificacionPorQRCodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recepcion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" name="cfdiXml" type="xs:string" />
+      <xs:element minOccurs="0" name="etiqueta" type="xs:string" />
+      <xs:element name="prueba" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="opciones" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recepcionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificacionPorXML">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" name="cfdiXml" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="verificacionPorXMLResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recepcionArchivoZip">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" name="archivo" nillable="true" type="xs:base64Binary" />
+      <xs:element name="prueba" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="opciones" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recepcionArchivoZipResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cfdiPorUUID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cfdiPorUUIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cfdiPorEtiqueta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" name="etiqueta" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cfdiPorEtiquetaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recepcionMultiple">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="contrato" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="passwd" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="arregloCfdiXml" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="etiquetas" nillable="true" type="xs:string" />
+      <xs:element name="prueba" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="opciones" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recepcionMultipleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

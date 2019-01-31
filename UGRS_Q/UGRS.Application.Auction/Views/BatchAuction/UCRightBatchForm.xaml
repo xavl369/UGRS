@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCRightBatchForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" d:DesignHeight="465" d:DesignWidth="400" Background="White" 
+             Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded">
+    <Border>
+        <Grid>
+            <!-- BATCH LABEL -->
+            <materialDesign:Chip 
+            Name="chpBatch"
+            Content="" 
+            Grid.Row="0" 
+            Grid.ColumnSpan="2"
+            IsDeletable="False"
+            Panel.ZIndex="1" 
+            Visibility="Collapsed"
+            Background="#F1F1F1F1"
+            RenderTransformOrigin="-5,0.5" 
+            Margin="140,-15,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            </materialDesign:Chip>
+            <!-- LOG LABEL -->
+            <materialDesign:Chip 
+            Name="chpLog"
+            Content="2018/05/03 06:26 PM" 
+            Grid.Row="0" 
+            Grid.ColumnSpan="2"
+            IsDeletable="True"
+            Panel.ZIndex="1" 
+            Visibility="Collapsed"
+            Background="#F1F1F1F1"
+            RenderTransformOrigin="-5,0.5" 
+            Margin="140,-15,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            DeleteClick="chpLog_DeleteClick">
+            </materialDesign:Chip>
+            <Border BorderBrush="LightGray" BorderThickness="2">
+                <Grid Name="grdRightBatch" Grid.Row="0" HorizontalAlignment="Center" Margin="15,20,15,15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="34"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- RIGHT FORM LABELS -->
+                    <Label Content="Clave vendedor:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" />
+                    <Label Content="Nombre vendedor:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" />
+                    <Label Content="RFC:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" />
+                    <Label Content="Cantidad:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="4" />
+                    <Label Content="Tipo de cabeza" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="6" />
+                    <Label Content="Peso:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="7" />
+                    <Label Content="Peso promedio:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="8" />
+                    <Label Content="Precio:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="9" />
+                    <Label Content="Importe:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="10" />
+                    <Label Content="Número comprador:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="11"></Label>
+                    <Label Content="Nombre comprador:" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="12"></Label>
+                    <!-- RIGHT FORM FIELDS -->
+                    <TextBox Name="txtSellerCode"  Grid.Column="1" Grid.Row="0" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" KeyDown="txtSellerCode_KeyDown" IsEnabled="False" FontSize="14"></TextBox>
+                    <TextBox Name="txtSellerName" Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" IsEnabled="False" FontSize="14" ></TextBox>
+                    <TextBox Name="txtTaxCode" Grid.Column="1" Grid.Row="2" Margin="10,0,0,0" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center" IsEnabled="False" FontSize="14" ></TextBox>
+                    <CheckBox Name="chkReprogrammed" Grid.Column="1" Grid.Row="3"  Margin="10,5,0,0" HorizontalAlignment="Right" Content=" ¿Reprogramado?" Click="chkReprogrammed_Click" KeyDown="chkReprogrammed_KeyDown" IsEnabled="False" FontSize="14"></CheckBox>
+                    <TextBox Name="txtQuantity" Grid.Column="1" Grid.Row="4" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" KeyDown="txtQuantity_KeyDown" PreviewTextInput="txtQuantity_PreviewTextInput" LostFocus="txtQuantity_LostFocus" IsEnabled="False" FontSize="14"></TextBox>
+                    <TextBlock Name="tblErrorQuantity" Grid.Column="1" Grid.Row="5" Margin="10,5,10,5" Text="Vendedor sin suficiente Stock." HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Red" FontSize="14" Visibility="Collapsed"></TextBlock>
+                    <TextBox Name="txtItemType" Grid.Column="1" Grid.Row="6" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" KeyDown="txtItemType_KeyDown" IsEnabled="False" FontSize="14"></TextBox>
+                    <TextBox Name="txtWeight" Grid.Column="1" Grid.Row="7" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" KeyDown="txtWeight_KeyDown" PreviewTextInput="txtWeight_PreviewTextInput" LostFocus="txtWeight_LostFocus" IsEnabled="False" FontSize="14"></TextBox>
+                    <TextBox Name="txtAverageWeight" Grid.Column="1" Grid.Row="8" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" IsEnabled="False" FontSize="14"></TextBox>
+                    <TextBox Name="txtPrice" Grid.Column="1" Grid.Row="9" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" KeyDown="txtPrice_KeyDown" IsEnabled="False" LostFocus="txtPrice_LostFocus" PreviewTextInput="txtPrice_PreviewTextInput" FontSize="14" ></TextBox>
+                    <TextBox Name="txtAmount" Grid.Column="1" Grid.Row="10" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"  IsEnabled="False" FontSize="14"></TextBox>
+                    <TextBox Name="txtBuyerCode" Grid.Column="1" Grid.Row="11" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" IsEnabled="False" KeyDown="txtBuyerCode_KeyDown" FontSize="14"></TextBox>
+                    <TextBox Name="txtBuyerName" Grid.Column="1" Grid.Row="12" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"  IsEnabled="False" FontSize="14"></TextBox>
+                    <CheckBox Name="chkUnsold" Grid.Column="1" Grid.Row="13"  Margin="0,5,10,3" HorizontalAlignment="Right" Content=" ¿No se vendio?" Click="chkUnsold_Click" KeyDown="chkUnsold_KeyDown" IsEnabled="False" FontSize="14" Width="119"></CheckBox>
+                    <ComboBox Name="cboReason" Grid.Row="13" Margin="78,3,0,0" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible" FontSize="14" KeyDown="cboReason_KeyDown" Grid.ColumnSpan="2"/>
+                    <CheckBox x:Name="chkSellType" Grid.Row="14" Margin="0,8,10,-6" Content=" Por Kilos"  Checked="chkSellType_Checked"  Unchecked="chkSellType_Unchecked" IsEnabled="False" FontSize="14" RenderTransformOrigin="-0.153,0.507" Grid.Column="1" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="119"/>
+                    <!-- RIGHT FORM BUTTONS -->
+                    <Button Name="btnLog" Grid.Row="0" ToolTip="Ver log de modificaciones" Click="btnLog_Click" Height="26" Width="26" Margin="4,1,0,4" Padding="5" HorizontalAlignment="Left" FontSize="10">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Clock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btnStockDetails" Grid.Row="4" ToolTip="Ver detalles del stock" Click="btnStockDetails_Click" Height="26" Width="26" Margin="0,0,110,5" Padding="5" HorizontalAlignment="Right" FontSize="10">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Information" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btnChangeWeight" Grid.Column="2" Grid.Row="7" ToolTip="Autorizar cambio de peso" Click="btnChangeWeight_Click" Height="26" Width="26" Margin="0" Padding="5" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btnChangePrice" Grid.Column="2" Grid.Row="9" ToolTip="Autorizar cambio de precio" Click="btnChangePrice_Click" Height="26" Width="26" Margin="0" Padding="5" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btnChangeBuyer" Grid.Column="2" Grid.Row="11" ToolTip="Autorizar cambio de comprador" Click="btnChangeBuyer_Click" Height="26" Width="26" Margin="0" Padding="5" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnChangeQuantity" Grid.Column="2" Grid.Row="4" ToolTip="Autorizar cambio de Cantidad" Click="btnChangeQuantity_Click" Height="26" Width="26" Margin="0,1,0,4" Padding="5" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnChangeSeller" Grid.Column="2" ToolTip="Autorizar cambio de Vendedor" Click="btnChangeSeller_Click" Height="26" Width="26" Margin="0,4,0,1" Padding="5" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnReprogrammated" Grid.Column="2" Grid.Row="2" ToolTip="Autorizar cambio de Cantidad" Click="btnReprogrammated_Click" Height="26" Width="26" Margin="0,26,0,10" Padding="5" HorizontalAlignment="Right" Grid.RowSpan="2">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSold" Grid.Column="2" Grid.Row="13" ToolTip="Autorizar cambio de comprador" Click="btnSold_Click" Height="26" Width="26" Margin="0,0,0,4" Padding="5" HorizontalAlignment="Right">
+                        <StackPanel Orientation="Vertical">
+                            <materialDesign:PackIcon Kind="Lock" HorizontalAlignment="Center" Height="16" Width="16"  />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,1 @@
+﻿EXEC SBO_UG_SP_AlimentoCU '{xmlString}'

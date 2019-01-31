@@ -1,0 +1,1 @@
+select T0.* from WTR1 T0 where T0.DocEntry='{DocEntry}'

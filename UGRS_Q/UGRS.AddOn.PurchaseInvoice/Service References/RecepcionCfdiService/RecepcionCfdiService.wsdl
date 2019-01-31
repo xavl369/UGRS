@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://recepcionCfdi.ws.pade.mx" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="RecepcionCfdiService" targetNamespace="http://recepcionCfdi.ws.pade.mx" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://timbrado.pade.mx:80/PadeServ/RecepcionCfdiService?xsd=1" namespace="http://recepcionCfdi.ws.pade.mx" />
+    </xsd:schema>
+  </types>
+  <message name="verificacionPorQRCodev33">
+    <part name="parameters" element="tns:verificacionPorQRCodev33" />
+  </message>
+  <message name="verificacionPorQRCodev33Response">
+    <part name="parameters" element="tns:verificacionPorQRCodev33Response" />
+  </message>
+  <message name="verificacionPorXMLv33">
+    <part name="parameters" element="tns:verificacionPorXMLv33" />
+  </message>
+  <message name="verificacionPorXMLv33Response">
+    <part name="parameters" element="tns:verificacionPorXMLv33Response" />
+  </message>
+  <message name="recepcionCfdiMultiple">
+    <part name="parameters" element="tns:recepcionCfdiMultiple" />
+  </message>
+  <message name="recepcionCfdiMultipleResponse">
+    <part name="parameters" element="tns:recepcionCfdiMultipleResponse" />
+  </message>
+  <message name="recepcionCfdi">
+    <part name="parameters" element="tns:recepcionCfdi" />
+  </message>
+  <message name="recepcionCfdiResponse">
+    <part name="parameters" element="tns:recepcionCfdiResponse" />
+  </message>
+  <message name="recepcionCfdiZip">
+    <part name="parameters" element="tns:recepcionCfdiZip" />
+  </message>
+  <message name="recepcionCfdiZipResponse">
+    <part name="parameters" element="tns:recepcionCfdiZipResponse" />
+  </message>
+  <message name="cfdiPorUUIDv33">
+    <part name="parameters" element="tns:cfdiPorUUIDv33" />
+  </message>
+  <message name="cfdiPorUUIDv33Response">
+    <part name="parameters" element="tns:cfdiPorUUIDv33Response" />
+  </message>
+  <message name="cfdiPorEtiquetav33">
+    <part name="parameters" element="tns:cfdiPorEtiquetav33" />
+  </message>
+  <message name="cfdiPorEtiquetav33Response">
+    <part name="parameters" element="tns:cfdiPorEtiquetav33Response" />
+  </message>
+  <portType name="RecepcionCfdi">
+    <operation name="verificacionPorQRCodev33">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/verificacionPorQRCodev33Request" message="tns:verificacionPorQRCodev33" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/verificacionPorQRCodev33Response" message="tns:verificacionPorQRCodev33Response" />
+    </operation>
+    <operation name="verificacionPorXMLv33">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/verificacionPorXMLv33Request" message="tns:verificacionPorXMLv33" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/verificacionPorXMLv33Response" message="tns:verificacionPorXMLv33Response" />
+    </operation>
+    <operation name="recepcionCfdiMultiple">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/recepcionCfdiMultipleRequest" message="tns:recepcionCfdiMultiple" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/recepcionCfdiMultipleResponse" message="tns:recepcionCfdiMultipleResponse" />
+    </operation>
+    <operation name="recepcionCfdi">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/recepcionCfdiRequest" message="tns:recepcionCfdi" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/recepcionCfdiResponse" message="tns:recepcionCfdiResponse" />
+    </operation>
+    <operation name="recepcionCfdiZip">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/recepcionCfdiZipRequest" message="tns:recepcionCfdiZip" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/recepcionCfdiZipResponse" message="tns:recepcionCfdiZipResponse" />
+    </operation>
+    <operation name="cfdiPorUUIDv33">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/cfdiPorUUIDv33Request" message="tns:cfdiPorUUIDv33" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/cfdiPorUUIDv33Response" message="tns:cfdiPorUUIDv33Response" />
+    </operation>
+    <operation name="cfdiPorEtiquetav33">
+      <input wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/cfdiPorEtiquetav33Request" message="tns:cfdiPorEtiquetav33" />
+      <output wsam:Action="http://recepcionCfdi.ws.pade.mx/RecepcionCfdi/cfdiPorEtiquetav33Response" message="tns:cfdiPorEtiquetav33Response" />
+    </operation>
+  </portType>
+  <binding name="RecepcionCfdiPortBinding" type="tns:RecepcionCfdi">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="verificacionPorQRCodev33">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="verificacionPorXMLv33">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="recepcionCfdiMultiple">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="recepcionCfdi">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="recepcionCfdiZip">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="cfdiPorUUIDv33">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="cfdiPorEtiquetav33">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="RecepcionCfdiService">
+    <port name="RecepcionCfdiPort" binding="tns:RecepcionCfdiPortBinding">
+      <soap:address location="http://timbrado.pade.mx:80/PadeServ/RecepcionCfdiService" />
+    </port>
+  </service>
+</definitions>

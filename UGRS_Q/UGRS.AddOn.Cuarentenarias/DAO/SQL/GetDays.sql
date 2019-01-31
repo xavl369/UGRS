@@ -1,0 +1,1 @@
+﻿select U_Value,Name,U_Comentario from [@UG_CONFIG] where Name =  'CU_GLO_DAYREJ'

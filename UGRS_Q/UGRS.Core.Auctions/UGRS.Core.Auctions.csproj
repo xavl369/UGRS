@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1FF60116-695A-48EA-B4AD-2B780A0E95DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.Core.Auctions</RootNamespace>
+    <AssemblyName>UGRS.Core.Auctions</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurations\Models\CategoryModel.cs" />
+    <Compile Include="Configurations\Models\LocationModel.cs" />
+    <Compile Include="Configurations\Sections\CategorySection.cs" />
+    <Compile Include="Configurations\Sections\LocationSection.cs" />
+    <Compile Include="DAO\Base\IBaseDAO.cs" />
+    <Compile Include="DAO\Inventory\IStockAuditDAO.cs" />
+    <Compile Include="DAO\QueryManager.cs" />
+    <Compile Include="DTO\Auctions\AuctionDTO.cs" />
+    <Compile Include="DTO\Auctions\BatchChargeDTO.cs" />
+    <Compile Include="DTO\Auctions\BatchChargeLineDTO.cs" />
+    <Compile Include="DTO\Auctions\DetailedBatchDTO.cs" />
+    <Compile Include="DTO\Auctions\BatchEasyDTO.cs" />
+    <Compile Include="DTO\Auctions\DetailedBatchLineDTO.cs" />
+    <Compile Include="DTO\Auction\BatchDTO.cs" />
+    <Compile Include="DTO\Auction\BatchLogDTO.cs" />
+    <Compile Include="DTO\Auction\FoodChargeDTO.cs" />
+    <Compile Include="DTO\Auction\SAPBatchDTO.cs" />
+    <Compile Include="DTO\Business\PartnerClassificationDTO.cs" />
+    <Compile Include="DTO\Catalogs\ItemTypeDTO.cs" />
+    <Compile Include="DTO\Financials\DeductionCheckDTO.cs" />
+    <Compile Include="DTO\Financials\FoodChargeCheckDTO.cs" />
+    <Compile Include="DTO\Financials\DeliveryFoodDTO.cs" />
+    <Compile Include="DTO\Financials\FoodChargeCheckLineDTO.cs" />
+    <Compile Include="DTO\Financials\GuideChargeDTO.cs" />
+    <Compile Include="DTO\Financials\InvoiceDTO.cs" />
+    <Compile Include="DTO\Financials\InvoiceLineDTO.cs" />
+    <Compile Include="DTO\Inspection\ChargeDTO.cs" />
+    <Compile Include="DTO\Inventory\BatchDivisionDTO.cs" />
+    <Compile Include="DTO\Inventory\BatchExchangeDTO.cs" />
+    <Compile Include="DTO\Inventory\BatchGroupDTO.cs" />
+    <Compile Include="DTO\Inventory\BatchSAPDTO.cs" />
+    <Compile Include="DTO\Inventory\CancelMovementDTO.cs" />
+    <Compile Include="DTO\Inventory\GoodsIssueDTO.cs" />
+    <Compile Include="DTO\Inventory\GoodsIssueLineDTO.cs" />
+    <Compile Include="DTO\Inventory\GoodsRecieptToPickDTO.cs" />
+    <Compile Include="DTO\Inventory\ItemBatchDTO.cs" />
+    <Compile Include="DTO\Inventory\ItemDefinitionDTO.cs" />
+    <Compile Include="DTO\Inventory\ItemTypeDefinitionDTO.cs" />
+    <Compile Include="DTO\Inventory\StockAuditDTO.cs" />
+    <Compile Include="DTO\Inventory\StockBatchDTO.cs" />
+    <Compile Include="DTO\Reports\Auctions\BatchDTO.cs" />
+    <Compile Include="DTO\Reports\Business\PartnerDTO.cs" />
+    <Compile Include="DTO\Reports\Inventory\GoodsIssueDTO.cs" />
+    <Compile Include="DTO\Reports\Inventory\GoodsReceiptDTO.cs" />
+    <Compile Include="DTO\Security\ModuleDTO.cs" />
+    <Compile Include="DTO\Security\SectionDTO.cs" />
+    <Compile Include="DTO\Security\SpecialFunctionDTO.cs" />
+    <Compile Include="DTO\Session\SessionDTO.cs" />
+    <Compile Include="DTO\System\LogDTO.cs" />
+    <Compile Include="DTO\System\MenuDTO.cs" />
+    <Compile Include="DTO\Users\UserDTO.cs" />
+    <Compile Include="Entities\Auctions\Auction.cs" />
+    <Compile Include="Entities\Auctions\Batch.cs" />
+    <Compile Include="Entities\Auctions\BatchLine.cs" />
+    <Compile Include="Entities\Auctions\Trade.cs" />
+    <Compile Include="Entities\Base\DocumentEntity.cs" />
+    <Compile Include="Entities\Business\PartnerClassification.cs" />
+    <Compile Include="Entities\Business\PartnerMapping.cs" />
+    <Compile Include="Entities\Financials\FoodChargeCheck.cs" />
+    <Compile Include="Entities\Financials\FoodDelivery.cs" />
+    <Compile Include="Entities\Financials\FoodCharge.cs" />
+    <Compile Include="Entities\Base\BaseEntity.cs" />
+    <Compile Include="Entities\Base\CatalogEntity.cs" />
+    <Compile Include="Entities\Base\ExportEntity.cs" />
+    <Compile Include="Entities\Base\TemporaryEntity.cs" />
+    <Compile Include="Entities\Business\Partner.cs" />
+    <Compile Include="Entities\Financials\FoodChargeLine.cs" />
+    <Compile Include="Entities\Financials\GuideCharge.cs" />
+    <Compile Include="Entities\Financials\Invoice.cs" />
+    <Compile Include="Entities\Financials\InvoiceLine.cs" />
+    <Compile Include="Entities\Financials\JournalEntry.cs" />
+    <Compile Include="Entities\Financials\JournalEntryLine.cs" />
+    <Compile Include="Entities\Financials\DeductionCheck.cs" />
+    <Compile Include="Entities\Inventory\GoodsIssue.cs" />
+    <Compile Include="Entities\Inventory\Document.cs" />
+    <Compile Include="Entities\Inventory\DocumentLine.cs" />
+    <Compile Include="Entities\Inventory\GoodsReturn.cs" />
+    <Compile Include="Entities\Inventory\Item.cs" />
+    <Compile Include="Entities\Inventory\ItemDefinition.cs" />
+    <Compile Include="Entities\Inventory\ItemType.cs" />
+    <Compile Include="Entities\Inventory\GoodsReceipt.cs" />
+    <Compile Include="Entities\Inventory\ItemTypeDefinition.cs" />
+    <Compile Include="Entities\Inventory\Stock.cs" />
+    <Compile Include="Entities\Security\Authorization.cs" />
+    <Compile Include="Entities\Security\Permission.cs" />
+    <Compile Include="Entities\System\Change.cs" />
+    <Compile Include="Entities\System\Configuration.cs" />
+    <Compile Include="Entities\System\Module.cs" />
+    <Compile Include="Entities\System\Section.cs" />
+    <Compile Include="Entities\Users\User.cs" />
+    <Compile Include="Entities\Users\UserType.cs" />
+    <Compile Include="Enums\Auctions\AuctionCategoryEnum.cs" />
+    <Compile Include="Enums\Auctions\AuctionTypeEnum.cs" />
+    <Compile Include="Enums\Auctions\BatchStatusFilterEnum.cs" />
+    <Compile Include="Enums\Auctions\LocationEnum.cs" />
+    <Compile Include="Enums\Auctions\UnsoldMotiveEnum.cs" />
+    <Compile Include="Enums\Base\AuctionSearchModeEnum.cs" />
+    <Compile Include="Enums\Base\FilterEnum.cs" />
+    <Compile Include="Enums\Base\SearchTypeEnum.cs" />
+    <Compile Include="Enums\Business\MappingTypeEnum.cs" />
+    <Compile Include="Enums\Business\PartnerStatusEnum.cs" />
+    <Compile Include="Enums\Catalogs\ItemTypeLevelEnum.cs" />
+    <Compile Include="Enums\Inventory\BaseDocumentEnum.cs" />
+    <Compile Include="Enums\Inventory\DocumentTypeEnum.cs" />
+    <Compile Include="Enums\Inventory\ItemStatusEnum.cs" />
+    <Compile Include="Enums\Inventory\ItemTypeGenderEnum.cs" />
+    <Compile Include="Enums\Inventory\SellTypeEnum.cs" />
+    <Compile Include="Enums\Security\PermissionTypeEnum.cs" />
+    <Compile Include="Enums\Security\SpecialFunctionsEnum.cs" />
+    <Compile Include="Enums\System\AccessTypeEnum.cs" />
+    <Compile Include="Enums\System\ChangeStatusEnum.cs" />
+    <Compile Include="Enums\System\ChangeTypeEnum.cs" />
+    <Compile Include="Enums\System\ConfigurationKeyEnum.cs" />
+    <Compile Include="Enums\System\EntityStatusEnum.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Auctions\AuctionService.cs" />
+    <Compile Include="Services\Auctions\AuctionStockService.cs" />
+    <Compile Include="Services\Auctions\BatchAuctionService.cs" />
+    <Compile Include="Services\Auctions\BatchLineService.cs" />
+    <Compile Include="Services\Auctions\BatchLogService.cs" />
+    <Compile Include="Services\Auctions\BatchService.cs" />
+    <Compile Include="Services\Auctions\FoodChargeService.cs" />
+    <Compile Include="Services\Business\PartnerClassificationService.cs" />
+    <Compile Include="Services\Business\PartnerMappingService.cs" />
+    <Compile Include="Services\Business\PartnerService.cs" />
+    <Compile Include="Services\Financials\DeductionCheckService.cs" />
+    <Compile Include="Services\Financials\FoodChargeCheckService.cs" />
+    <Compile Include="Services\Financials\FoodDeliveryService.cs" />
+    <Compile Include="Services\Financials\FoodChargeLineService.cs" />
+    <Compile Include="Services\Financials\FoodChargeService.cs" />
+    <Compile Include="Services\Financials\GuideChargeService.cs" />
+    <Compile Include="Services\Financials\InvoiceLineService.cs" />
+    <Compile Include="Services\Financials\InvoiceService.cs" />
+    <Compile Include="Services\Financials\JournalEntryLineService.cs" />
+    <Compile Include="Services\Financials\JournalEntryService.cs" />
+    <Compile Include="Services\Inventory\GoodsIssueService.cs" />
+    <Compile Include="Services\Inventory\GoodsReceiptService.cs" />
+    <Compile Include="Services\Inventory\GoodsReturnService.cs" />
+    <Compile Include="Services\Inventory\ItemDefinitionService.cs" />
+    <Compile Include="Services\Inventory\ItemService.cs" />
+    <Compile Include="Services\Inventory\ItemTypeDefinitionService.cs" />
+    <Compile Include="Services\Inventory\ItemTypeService.cs" />
+    <Compile Include="Services\Inventory\StockService.cs" />
+    <Compile Include="Services\Reports\AuctionsReportsService.cs" />
+    <Compile Include="Services\Reports\BusinessReportService.cs" />
+    <Compile Include="Services\Reports\InventoryReportService.cs" />
+    <Compile Include="Services\Security\AuthorizationService.cs" />
+    <Compile Include="Services\Security\PermissionService.cs" />
+    <Compile Include="Services\System\ConfigurationService.cs" />
+    <Compile Include="Services\System\ModuleService.cs" />
+    <Compile Include="Services\System\SectionService.cs" />
+    <Compile Include="Services\Trades\TradeService.cs" />
+    <Compile Include="Services\Users\UserTypeService.cs" />
+    <Compile Include="Services\Users\UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extension\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

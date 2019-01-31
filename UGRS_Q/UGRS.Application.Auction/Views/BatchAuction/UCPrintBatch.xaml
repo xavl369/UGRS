@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCPrintBatch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              Background="White">
+    <Grid Name="skpMain" >
+
+        <DocumentViewer Name="dvPrint" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DocumentViewer.Resources>
+                <!-- Hides the search box-->
+                <Style TargetType="ContentControl">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </Style>
+
+                <!-- Hides the toolbar -->
+                <Style TargetType="ToolBar">
+                    <Setter Property="Visibility" Value="Visible" />
+                </Style>
+            </DocumentViewer.Resources>
+        </DocumentViewer>
+
+        <StackPanel Name="skpContent" Margin="100,50">
+            <TextBlock Text="SUBASTA:" Name="lblAuction" FontSize="12" ></TextBlock>
+            <TextBlock Text="FECHA:" Name="lblDate" FontSize="12"></TextBlock>
+            <TextBlock Text="LOTE:" Name="lblBatch" FontSize="12"></TextBlock>
+            <TextBlock Text="RR:" Name="lblRR" FontSize="12"></TextBlock>
+            <TextBlock Text="VENDIDO:" Name="lblSold" FontSize="12"></TextBlock>
+            <TextBlock Text="CABEZAS:" Name="lblQuantity" FontSize="12"></TextBlock>
+            <TextBlock Text="ARTICULO:" Name="lblItem" FontSize="12"></TextBlock>
+            <TextBlock Text="PESO:" Name="lblWeight" FontSize="12"></TextBlock>
+            <TextBlock Text="PESO PROMEDIO:" Name="lblAverageWeight" FontSize="12"></TextBlock>
+            <TextBlock Text=""></TextBlock>
+            <TextBlock Text="VENDEDOR:" TextWrapping="Wrap" Name="lblSellerName" FontSize="12"></TextBlock>
+            <TextBlock Text="PRECIO:" Name="lblPrice" FontSize="12"></TextBlock>
+            <TextBlock Text="TOTAL:" Name="lblTotal" FontSize="12"></TextBlock>
+            <TextBlock Text="CLAVE COMP:" Name="lblBuyercode" FontSize="12"></TextBlock>
+            <TextBlock Text="COMPRADOR:" TextWrapping="Wrap" Name="lblBuyerName" FontSize="12"></TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

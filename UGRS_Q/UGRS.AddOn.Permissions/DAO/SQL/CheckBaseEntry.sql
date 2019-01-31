@@ -1,0 +1,1 @@
+﻿select * from ordr where DocNum = '{BaseEntry}'

@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E08565A-7027-4E83-A65D-A4C63C826173}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UGRS.Core.Application</RootNamespace>
+    <AssemblyName>UGRS.Core.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dragablz, Version=0.0.3.186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.186\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.3.0.823, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.3.0.823\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Access\BoardsAccess.cs" />
+    <Compile Include="Access\IAccessConfiguration.cs" />
+    <Compile Include="Access\WeighingMachineAccess.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Base\BaseModel.cs" />
+    <Compile Include="Base\BaseViewModel.cs" />
+    <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Enum\Base\ViewStatusEnum.cs" />
+    <Compile Include="Enum\Forms\FormModeEnum.cs" />
+    <Compile Include="Enum\Service\AccessEnum.cs" />
+    <Compile Include="Enum\Service\ServiceEnum.cs" />
+    <Compile Include="Extension\Controls\ComboBoxExtension.cs" />
+    <Compile Include="Extension\Controls\GridExtension.cs" />
+    <Compile Include="Extension\Controls\PasswordBoxExtension.cs" />
+    <Compile Include="Extension\Controls\StackPanelExtension.cs" />
+    <Compile Include="Extension\Controls\TextBlockExtension.cs" />
+    <Compile Include="Extension\Controls\TextBoxExtension.cs" />
+    <Compile Include="Extension\Controls\UserControlExtension.cs" />
+    <Compile Include="Forms\Log\LogViewerForm.xaml.cs">
+      <DependentUpon>LogViewerForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\PasswordBoxAssistant.cs" />
+    <Compile Include="Infrastructure\PasswordHelper.cs" />
+    <Compile Include="Services\AuctionsService.cs" />
+    <Compile Include="Services\BoardsService.cs" />
+    <Compile Include="Services\IServiceConfiguration.cs" />
+    <Compile Include="Services\WeighingMachineService.cs" />
+    <Compile Include="UC\Buttons\UCOkButton.xaml.cs">
+      <DependentUpon>UCOkButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Buttons\UCSaveOrCancelButtons.xaml.cs">
+      <DependentUpon>UCSaveOrCancelButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCAuctionsConfiguration.xaml.cs">
+      <DependentUpon>UCAuctionsConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCBoardsConfiguration.xaml.cs">
+      <DependentUpon>UCBoardsConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCComissionConfiguration.xaml.cs">
+      <DependentUpon>UCComissionConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCDataBaseConfiguration.xaml.cs">
+      <DependentUpon>UCDataBaseConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCEntityFrameworkConfiguration.xaml.cs">
+      <DependentUpon>UCEntityFrameworkConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCFinancialsConfiguration.xaml.cs">
+      <DependentUpon>UCFinancialsConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCFoodConfiguration.xaml.cs">
+      <DependentUpon>UCFoodConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCLocationConfiguration.xaml.cs">
+      <DependentUpon>UCLocationConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCLogConfiguration.xaml.cs">
+      <DependentUpon>UCLogConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCModeConfiguration.xaml.cs">
+      <DependentUpon>UCModeConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCRemotingConfiguration.xaml.cs">
+      <DependentUpon>UCRemotingConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCSapBuisnessOneConfiguration.xaml.cs">
+      <DependentUpon>UCSapBuisnessOneConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCSeriesConfiguration.xaml.cs">
+      <DependentUpon>UCSeriesConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCTimeConfiguration.xaml.cs">
+      <DependentUpon>UCTimeConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCWarehouseConfiguration.xaml.cs">
+      <DependentUpon>UCWarehouseConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Configuration\UCWeighingMachineConfiguration.xaml.cs">
+      <DependentUpon>UCWeighingMachineConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Log\UCLogViewer.xaml.cs">
+      <DependentUpon>UCLogViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Message\UCMessage.xaml.cs">
+      <DependentUpon>UCMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Message\UCOption.xaml.cs">
+      <DependentUpon>UCOption.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\CustomMessageBox.cs" />
+    <Compile Include="Utility\ExceptionUtility.cs" />
+    <Compile Include="Utility\WindowsHelper.cs" />
+    <Compile Include="Utility\LogViewer.cs" />
+    <Compile Include="Utility\WindowsUtility.cs" />
+    <Compile Include="Validations\RequiredValidation.cs" />
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Base\BaseForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\Log\LogViewerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Buttons\UCOkButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Buttons\UCSaveOrCancelButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCAuctionsConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCBoardsConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCComissionConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Configuration\UCDataBaseConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCEntityFrameworkConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCFinancialsConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Configuration\UCFoodConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Configuration\UCLocationConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCLogConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCModeConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCRemotingConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCSapBuisnessOneConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCSeriesConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Configuration\UCTimeConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Configuration\UCWarehouseConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Configuration\UCWeighingMachineConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Log\UCLogViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\Message\UCMessage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\Message\UCOption.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\Base\BaseForm.xaml.cs">
+      <DependentUpon>BaseForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\UGRS.Core\UGRS.Core.csproj">
+      <Project>{94ecc66f-57e7-4637-902d-2873cc636320}</Project>
+      <Name>UGRS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

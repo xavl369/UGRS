@@ -1,0 +1,1 @@
+﻿SELECT Currency,* FROM OCRD WHERE CardCode = '{CardCode}'

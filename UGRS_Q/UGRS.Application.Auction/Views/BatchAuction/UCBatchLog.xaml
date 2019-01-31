@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="UGRS.Application.Auctions.UCBatchLog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="White" Loaded="UserControl_Loaded"
+             MinHeight="400" MinWidth="600">
+    <Grid Name="grdBatchLog">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="46"/>
+        </Grid.RowDefinitions>
+        <DataGrid 
+            Name="dgLog" 
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch"
+            Margin="0,20,0,0" 
+            FontSize="14"
+            MinHeight="280"
+            IsReadOnly="True" 
+            SelectionMode="Single" 
+            AutoGenerateColumns="False" 
+            Background="White" 
+            BorderBrush="LightGray" 
+            BorderThickness="1" 
+            HorizontalContentAlignment="Stretch"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+            MouseDoubleClick="dgPartner_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn	Binding="{Binding Number}" Header="#"  Width="5*" />
+                <DataGridTextColumn	Binding="{Binding Auction}" Header="Subasta"  Width="10*" />
+                <DataGridTextColumn	Binding="{Binding BatchNumber}" Header="No. Lote" Width="10*"  />
+                <DataGridTextColumn	Binding="{Binding ModificationDate}" Header="Actualizado" Width="15*"  />
+                <DataGridTextColumn	Binding="{Binding ModificationUser}" Header="Actualizado por" Width="15*"  />
+                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Creado" Width="15*"/>
+                <DataGridTextColumn Binding="{Binding CreationUser}" Header="Creador" Width="10*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button 
+            Name="btnClose" 
+            Grid.Row="1" 
+            Margin="8,8,8,0"
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Center" 
+            Content="Cerrar" 
+            FontSize="14" 
+            Click="btnClose_Click" 
+        />
+    </Grid>
+</UserControl>

@@ -1,0 +1,1 @@
+﻿select U_Value,Name,U_Comentario from [@UG_CONFIG] where Name =  'CR_GLO_ITEMPAY'
