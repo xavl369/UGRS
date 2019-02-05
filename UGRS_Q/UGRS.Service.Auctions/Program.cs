@@ -45,7 +45,7 @@ namespace UGRS.Service.Auctions
                 //RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
 
                 //Console.WriteLine("El servicio se esta ejecutando...");
-                //mObjAuctions = (AuctionsServerObject)Activator.GetObject(typeof(AuctionsServerObject), "http://localhost:8830/Auctions");
+                ////mObjAuctions = (AuctionsServerObject)Activator.GetObject(typeof(AuctionsServerObject), "http://localhost:8830/Auctions");
                 //InitTablesAndFields();
                 //InitConfigurationsProcess();
                 //InitBusinnessPartnerProcess();
@@ -54,9 +54,9 @@ namespace UGRS.Service.Auctions
                 //InitStockProcess(GetWhsCode());
                 //InitAuctionProcess();
                 //InitStockConciliations();
-                //InitBatchesProcess(mObjAuctionDate);
+                InitBatchesProcess(mObjAuctionDate);
                 //InitFoodDeliveriesProcess(FoodWarehouse());
-                InitOperationsProcess(GetWhsCode());
+                //InitOperationsProcess(GetWhsCode());
 
                 Console.WriteLine("El servicio se ha detenido.");
                 //IChannel lObjChannel = (IChannel)ChannelServices.GetChannel(QsConfig.GetValue<string>("ChannelName"));

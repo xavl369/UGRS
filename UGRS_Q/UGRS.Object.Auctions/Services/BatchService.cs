@@ -57,6 +57,7 @@ namespace UGRS.Object.Auctions.Services
         {
             DateTime lDtmAuctOrLastDate = pDtAuctionDate != DateTime.MinValue ? pDtAuctionDate : GetLastCreationDate();
             var lLstCardCodes = SapBusinessPartnerService.GetCardCodesList().ToList();
+
             foreach (UGRS.Core.Auctions.Entities.Auctions.Batch lObjBatch in LocalBatchService.GetList().Where(x => x.CreationDate >= lDtmAuctOrLastDate).ToList())
             {
                 if (lLstCardCodes.Contains(lObjBatch.Seller != null ? lObjBatch.Seller.Code : string.Empty)
@@ -74,11 +75,17 @@ namespace UGRS.Object.Auctions.Services
         {
             DateTime lDtmAuctOrLastModification = pDtAuctionDate != DateTime.MinValue ? pDtAuctionDate : GetLastCreationDate();
 
-            lDtmAuctOrLastModification = Convert.ToDateTime("2019-01-22 12:00:00");
+            lDtmAuctOrLastModification = Convert.ToDateTime("2019-01-29 00:00:00");
 
             foreach (UGRS.Core.Auctions.Entities.Auctions.Batch lObjBatch in LocalBatchService.GetList().Where(x => x.ModificationDate >= lDtmAuctOrLastModification).ToList())
             {
-                if (SapBatchService.HasBeenUpdated(lObjBatch.Number,lObjBatch.Auction.Folio, lObjBatch.ModificationDate))
+
+                if(lObjBatch.Number == 432 || lObjBatch.Number ==78)
+                {
+
+                }
+
+                if (SapBatchService.HasBeenUpdated(lObjBatch.Number,lObjBatch.Auction.Folio, lObjBatch))
                 {
                     UpdateBatch(lObjBatch);
                 }
@@ -117,15 +124,18 @@ namespace UGRS.Object.Auctions.Services
 
         private UGRS.Core.SDK.DI.Auctions.Tables.Batch GetSAPBatch(UGRS.Core.Auctions.Entities.Auctions.Batch pObjBatch)
         {
+            bool lBoolPerPrice = pObjBatch.ItemType.SellType == Core.Auctions.Enums.Inventory.SellTypeEnum.PerPrice ? true : false;
             int lIntReturned = pObjBatch.GoodsReturns.Where(x => !x.Removed).Select(x => (int?)x.Quantity).Sum() ?? 0;
             int lIntQuantity = pObjBatch.Quantity - lIntReturned;
 
-            float lFltWeight = lIntQuantity * pObjBatch.AverageWeight;
+            float lFltWeight = lIntReturned != 0 ? lIntQuantity * pObjBatch.AverageWeight : pObjBatch.Weight;
+            float lFlAverageW = lIntReturned != 0 ? lFltWeight / lIntQuantity : pObjBatch.AverageWeight;
 
             //decimal lDmlPrice = (lBolPerPrice ? (pObjBatch.Price / pObjBatch.Quantity * lIntQuantity) : pObjBatch.Price);
             //decimal lDmlAmount = (lBolPerPrice ? lDmlPrice : pObjBatch.Price * (decimal)lFltWeight);
             decimal lDmlPrice = pObjBatch.Price;
-            decimal lDmlAmount = pObjBatch.Amount;
+            decimal lDmlAmount = lIntReturned != 0 ? lDmlPrice * (Convert.ToDecimal(pObjBatch.Weight - pObjBatch.GoodsReturns.Where(x => !x.Removed)
+                .Select(x => (float)x.Weight).Sum())) : lIntReturned != 0 && lBoolPerPrice ? pObjBatch.Price * lIntQuantity : pObjBatch.Amount;
 
             return new UGRS.Core.SDK.DI.Auctions.Tables.Batch()
             {
@@ -157,7 +167,7 @@ namespace UGRS.Object.Auctions.Services
                 Active = pObjBatch.Active,
                 CreationDate = pObjBatch.CreationDate,
                 CreationTime = pObjBatch.CreationDate,
-                ModificationDate = pObjBatch.ModificationDate,
+                ModificationDate =pObjBatch.ModificationDate,
                 ModificationTime = pObjBatch.ModificationDate
             };
         }

@@ -155,7 +155,7 @@ namespace UGRS.Application.Auctions
         private bool CheckFoodChecks()
         {
             //List<FoodChargeCheck> lLstFoodChargeCheck = mObjFinancialsFactory.GetFoodChargeCheckService().GetEntitiesList(mObjAuction.Id).ToList();
-            IList<long> lLstFoodChargeSellers = mObjFinancialsFactory.GetFoodChargeCheckService().GetEntitiesList(mObjAuction.Id).Select(x => x.SellerId).Distinct().ToList();
+            IList<long> lLstFoodChargeSellers = mObjFinancialsFactory.GetFoodChargeCheckService().GetList(mObjAuction.Id).Where(x=> x.ExpirationDate >= mObjAuction.Date).Select(x => x.SellerId).Distinct().ToList();
             IList<long> lLstLonSellers = mObjAuction.Batches.Where(x => x.SellerId != null).Select(y => y.SellerId ?? 0).Distinct().ToList();
             IList<long> lLstSellers = mObjInventoryFactory.GetStockService().GetListByWhs()
                 .Where(x => DbFunctions.TruncateTime(x.ExpirationDate) == DbFunctions.TruncateTime(mObjAuction.Date)

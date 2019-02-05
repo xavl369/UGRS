@@ -41,7 +41,7 @@
             // 
             this.serviceInstaller1.Description = "Servicio de importación de datos de Subastas de Unión Ganadera Regional de Sonora" +
     ".";
-            this.serviceInstaller1.DisplayName = "UGRS Auctions Service  1.3.7";
+            this.serviceInstaller1.DisplayName = "UGRS Auctions Service  1.3.8";
             this.serviceInstaller1.ServiceName = "AuctionsService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 

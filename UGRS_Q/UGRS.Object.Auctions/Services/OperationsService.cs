@@ -767,7 +767,8 @@ namespace UGRS.Object.Auctions.Services
 
 
             List<string> lLstFoodCharges = mObjFinancialSerfviceFactory.GetFoodChargeCheckService().GetList()
-                .Where(x => mLstObjGoodsIssues.Select(y => y.BatchNumber).Contains(x.BatchNumber) && x.ApplyFoodCharge).Select(x => x.BatchNumber).ToList();
+                .Where(x => x.ExpirationDate >= pObjAuction.Date && mLstObjGoodsIssues.Select(y => y.BatchNumber).Contains(x.BatchNumber)
+                    && x.ApplyFoodCharge).Select(x => x.BatchNumber).ToList();
 
             try
             {
@@ -775,10 +776,7 @@ namespace UGRS.Object.Auctions.Services
 
                 foreach (var lVarSeller in lLstSellerCharges)
                 {
-                    if (lVarSeller.Key == "CL00001980")
-                    {
 
-                    }
                     InvoiceLine lObjInvoiceLine = pLstInvoice.Where(x => x.CardCode == lVarSeller.Key).SelectMany(x => x.Lines).Where(x => x.ItemCode == lStrThreePercentCode).FirstOrDefault();
                     error = string.Format("{0} {1}", lVarSeller.Key, lObjInvoiceLine.Id);
 
@@ -804,7 +802,7 @@ namespace UGRS.Object.Auctions.Services
             }
             catch (Exception lObjException)
             {
-                LogUtility.Write("Error in food charges " + lObjException.Message +" "+ error);
+                LogUtility.Write("Error in food charges " + lObjException.Message + " " + error);
             }
 
             return lLstInvoices;
@@ -813,8 +811,6 @@ namespace UGRS.Object.Auctions.Services
         private double GetFoodCharge(float pFlWeight, DateTime pCreationDate, string pStrSapBatchNumber)
         {
             double lDbFoodCharge = 0;
-            DateTime lll = pCreationDate.AddMinutes(-30);
-
 
             double lDbDays = (pCreationDate.AddMinutes(-30) - mObjStockService.LocalStockService.GetListByWhs().Where(x => x.BatchNumber == pStrSapBatchNumber)
                 .Select(x => x.CreationDate).FirstOrDefault()
@@ -1632,148 +1628,6 @@ namespace UGRS.Object.Auctions.Services
             return lObjDocument;
         }
 
-        //private void ProcessAuctionsGoodsIssues(Auction pObjAuction,/* IList<GoodsIssue> pLstObjGoodsIssuesList*/ IList<Batch> pLstObjBatches, IList<Stock> pLstLocalAuctStock)
-        //{
-
-
-        //    SAPbobsCOM.Documents lObjDocument = null;
-
-
-        //    List<SAPBatchDTO> lLstObjGoodsIssues = GetGoodIssues(pLstObjBatches, pLstLocalAuctStock);
-
-        //    mLstObjGoodsIssues = lLstObjGoodsIssues;
-
-        //    var lVarGBatch = lLstObjGoodsIssues.GroupBy(X => X.SapArticle).Select(x => x).ToList();
-        //    try
-        //    {
-        //        if (lLstObjGoodsIssues.Count > 0)
-        //        {
-        //            if (!pObjAuction.ReOpened)
-        //            {
-        //                //Populate header
-        //                lObjDocument = (SAPbobsCOM.Documents)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInventoryGenExit);
-        //                lObjDocument.HandWritten = SAPbobsCOM.BoYesNoEnum.tNO;
-        //                lObjDocument.Series = GetGoodsIssueSeries();
-        //                lObjDocument.DocDate = DateTime.Now;
-        //                lObjDocument.DocDueDate = DateTime.Now;
-        //                lObjDocument.Comments = string.Format("Salidas de mercancías de los vendores de la subasta {0}", pObjAuction.Folio);
-        //                lObjDocument.UserFields.Fields.Item("U_GLO_InMo").Value = "S-GAN";
-        //                lObjDocument.JournalMemo = "Salidas de mercancías";
-
-        //                //Add line for each goods issue
-
-        //                foreach (var lVarBatch in lVarGBatch)
-        //                {
-        //                    //Pupulate line
-        //                    lObjDocument.Lines.ItemCode = lVarBatch.Key;
-
-        //                    lObjDocument.Lines.WarehouseCode = GetAuctionsWarehouse();
-        //                    int xd = lVarBatch.Where(x => x.SapArticle == lVarBatch.Key).Sum(x => x.Quantity);
-        //                    lObjDocument.Lines.Quantity = lVarBatch.Where(x => x.SapArticle == lVarBatch.Key).Sum(x => x.Quantity);
-
-        //                    foreach (var item in lVarBatch)
-        //                    {
-        //                        lObjDocument.Lines.BatchNumbers.Quantity = item.Quantity;
-
-        //                        lObjDocument.Lines.BatchNumbers.BatchNumber = item.BatchNumber;
-        //                        lObjDocument.Lines.BatchNumbers.Add();
-        //                    }
-        //                    lObjDocument.Lines.Add();
-        //                }
-        //                DIApplication.Company.StartTransaction();
-        //                HandleSapBoOperation(lObjDocument.Add());
-        //                DIApplication.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception lObjException)
-        //    {
-        //        ExceptionList.Add(new DAOException(string.Format("Error al exportar las salidas de ganado de los vendedores de la subasta '{0}'.", pObjAuction.Folio), lObjException));
-        //        DIApplication.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
-        //        //if (!DIApplication.Company.InTransaction)
-        //        //{
-        //        //    DIApplication.Company.StartTransaction();
-        //        //}
-
-        //    }
-        //    finally
-        //    {
-        //        MemoryUtility.ReleaseComObject(lObjDocument);
-        //    }
-        //}
-
-        //private void ProcessAuctionsGoodsReceipts(Auction pObjAuction, IList<GoodsReceipt> pLstGoodsReceipt)
-        //{
-        //    SAPbobsCOM.Documents lObjDocument = null;
-        //    var lVarX = pLstGoodsReceipt.Where(x => x.Quantity > 0).ToList();
-        //    var lVarGoodsReceipts = lVarX.GroupBy(x => new { sapItem = GetSAPArticle(x.ItemId) }).ToList();
-        //    try
-        //    {
-        //        if (!pObjAuction.ReOpened && lVarGoodsReceipts.Count > 0)
-        //        {
-        //            //Populate header
-        //            lObjDocument = (SAPbobsCOM.Documents)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInventoryGenEntry);
-        //            lObjDocument.HandWritten = SAPbobsCOM.BoYesNoEnum.tNO;
-
-        //            lObjDocument.Series = GetGoodsReceiptSeries();
-        //            lObjDocument.DocDate = DateTime.Now;
-        //            lObjDocument.DocDueDate = DateTime.Now;
-        //            lObjDocument.UserFields.Fields.Item("U_GLO_InMo").Value = "E-GAN";
-        //            lObjDocument.UserFields.Fields.Item("U_GLO_BusinessPartner").Value = "XXXX";
-        //            lObjDocument.UserFields.Fields.Item("U_GLO_Guide").Value = "XXXX";
-        //            lObjDocument.UserFields.Fields.Item("U_GLO_CheckIn").Value = DateTime.Now.ToString("HH:mm");
-        //            lObjDocument.Comments = string.Format("Entradas de mercancías de los compradores de la subasta {0}", pObjAuction.Folio);
-        //            lObjDocument.JournalMemo = "Entrada de mercancías";
-
-        //            //Add line for each goods issue
-
-        //            foreach (var lvarGoodReceipt in lVarGoodsReceipts)
-        //            {
-        //                lObjDocument.Lines.ItemCode = lvarGoodReceipt.Key.sapItem;
-        //                string dede = lvarGoodReceipt.Key.sapItem;
-
-        //                lObjDocument.Lines.WarehouseCode = GetAuctionsWarehouse();
-        //                int ded = lvarGoodReceipt.Where(x => GetSAPArticle(x.ItemId) == lvarGoodReceipt.Key.sapItem.ToString()).Sum(x => x.Quantity);
-        //                lObjDocument.Lines.Quantity = lvarGoodReceipt.Where(x => GetSAPArticle(x.ItemId) == lvarGoodReceipt.Key.sapItem.ToString()).Sum(x => x.Quantity);
-
-        //                foreach (var item in lvarGoodReceipt)
-        //                {
-        //                    lObjDocument.Lines.BatchNumbers.Quantity = item.Quantity;
-        //                    lObjDocument.Lines.BatchNumbers.BatchNumber = item.BatchNumber;
-        //                    //lObjDocument.Lines.BatchNumbers.ExpiryDate = DateTime.Now;
-        //                    lObjDocument.Lines.BatchNumbers.AddmisionDate = DateTime.Now;
-        //                    lObjDocument.Lines.BatchNumbers.ManufacturerSerialNumber = item.Customer.Code;
-        //                    lObjDocument.Lines.BatchNumbers.UserFields.Fields.Item("U_GLO_Time").Value = DateTime.Now.ToString("HH:mm");
-
-        //                    lObjDocument.Lines.BatchNumbers.Add();
-
-        //                }
-        //                lObjDocument.Lines.Add();
-        //            }
-
-        //            DIApplication.Company.StartTransaction();
-        //            HandleSapBoOperation(lObjDocument.Add());
-        //            DIApplication.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
-        //        }
-        //        LogUtility.Write("Goods receipts done");
-        //    }
-        //    catch (Exception lObjException)
-        //    {
-        //        ExceptionList.Add(new DAOException(string.Format("Error al exportar las entradas de ganado de los compradores de la subasta '{0}'.", pObjAuction.Folio), lObjException));
-
-        //        DIApplication.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
-        //        //if (!DIApplication.Company.InTransaction)
-        //        //{
-        //        //    DIApplication.Company.StartTransaction();
-        //        //}
-
-        //    }
-        //    finally
-        //    {
-        //        MemoryUtility.ReleaseComObject(lObjDocument);
-        //    }
-        //}
-
         private string GetSAPArticle(long pLonItemtypeId)
         {
             return mObjInventoryFactory.GetItemDefinitionService().GetArticle(pLonItemtypeId);
@@ -1813,10 +1667,6 @@ namespace UGRS.Object.Auctions.Services
                     {
                         if (lVarStock.CustomerId == lVarBatches.SellerId)
                         {
-                            if (lVarStock.CustomerId == 1980)
-                            { 
-                            }
-
                             if (lVarStock.ItemId == lVarBatches.ArticleId)
                             {
                                 if ((lVarStock.Quantity >= lIntHeads) && lVarStock.Quantity != 0)
@@ -1847,17 +1697,23 @@ namespace UGRS.Object.Auctions.Services
                         if (lBoolCreateBatch)
                         {
                             lObjSAPBatch.BatchesList = lLstTempBatch != null ? lLstTempBatch : lLstBatches;
-                            //lObjSAPBatch.BatchesList = lLstBatches;
                             lObjSAPBatch.BatchNumber = lVarStock.BatchNumber;
                             lObjSAPBatch.SapArticle = lVarStock.Item.Code;
                             lLstObjSAPBatch.Add(lObjSAPBatch);
 
                             if (lLstTempBatch != null)
                             {
-                                lLstBatches = lLstBatches.Where(x => lLstTempBatch.Any(y => y.Id == x.Id && y.Quantity != x.Quantity)).Select(x =>
+                                lLstBatches = lLstBatches.Where(x => lLstTempBatch.Any(y => y.Id == x.Id && y.Quantity != x.Quantity) ||
+                                    !lLstTempBatch.Any(y => y.Id == x.Id)
+                                    ).Select(x =>
                                 {
-                                    x.Quantity = x.Quantity - lLstTempBatch.Where(y => y.Id == x.Id).Select(y => y.Quantity).FirstOrDefault();
-                                    x.Weight = x.Weight - lLstTempBatch.Where(y => y.Id == x.Id).Select(y => y.Weight).FirstOrDefault();
+                                    x.Quantity = lLstTempBatch.Where(y => y.Id == x.Id)
+                                        .Select(y => y) != null ? x.Quantity - lLstTempBatch
+                                        .Where(y => y.Id == x.Id)
+                                        .Select(y => y.Quantity).FirstOrDefault() : x.Quantity;
+                                    x.Weight = lLstTempBatch.Where(y => y.Id == x.Id)
+                                        .Select(y => y) != null ? x.Weight - lLstTempBatch.Where(y => y.Id == x.Id)
+                                        .Select(y => y.Weight).FirstOrDefault() : x.Weight;
                                     return x;
                                 }).ToList();
 

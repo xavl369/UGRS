@@ -11,6 +11,7 @@ using UGRS.Core.SDK.DI.Auctions.Tables;
 using UGRS.Core.SDK.DI.DAO;
 using UGRS.Core.SDK.DI.Extension;
 using UGRS.Core.Utility;
+using System.Linq;
 
 namespace UGRS.Core.SDK.DI.Auctions.Services
 {
@@ -79,7 +80,7 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
 
         public DataTable GetBatchesByFilters(string pStrBuyer, string pStrSeller, string pStrSellerTaxCode, string pStrDate)
         {
-           return (DataTable)mObjQueryManager.GetBatchesByFilters(pStrBuyer, pStrSeller, pStrSellerTaxCode, pStrDate);
+            return (DataTable)mObjQueryManager.GetBatchesByFilters(pStrBuyer, pStrSeller, pStrSellerTaxCode, pStrDate);
         }
 
 
@@ -103,9 +104,28 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
             return mObjQueryManager.BatchExists(pStrFolio, pIntBatchNumber);
         }
 
-        public bool HasBeenUpdated(int pIntBatchNumber, string pStrAuctFolio, DateTime pDtmModificationDate)
+        public bool HasBeenUpdated(int pIntBatchNumber, string pStrAuctFolio, UGRS.Core.Auctions.Entities.Auctions.Batch pObjBatch)
         {
-            return !pDtmModificationDate.ToString("yyyy-MM-dd HH:mm").Equals(GetModificationDate(pIntBatchNumber, pStrAuctFolio).ToString("yyyy-MM-dd HH:mm"));
+            string lStrLastModificationDate = GetModificationDate(pIntBatchNumber, pStrAuctFolio).ToString("yyyy-MM-dd HH:mm");
+            bool lBoolUpdtd = false;
+
+
+            if (!pObjBatch.ModificationDate.ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate) &&
+                (pObjBatch.GoodsReturns != null && pObjBatch.GoodsReturns.Count > 0 && !pObjBatch.GoodsReturns
+                      .Select(x => x.ModificationDate).FirstOrDefault().ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate))
+                || CheckBatchTimes(pObjBatch))
+            {
+
+                lBoolUpdtd = true;
+            }
+
+            return lBoolUpdtd;
+        }
+
+        private bool CheckBatchTimes(Core.Auctions.Entities.Auctions.Batch pObjBatch)
+        {
+            TimeSpan d = pObjBatch.ModificationDate.Subtract(pObjBatch.CreationDate);
+            return d.TotalSeconds > 5 ? true : false;
         }
 
         private string GetCode(int pIntBatchNumber, string pStrAuctionFolio)
