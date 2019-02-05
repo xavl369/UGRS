@@ -75,7 +75,7 @@ namespace UGRS.Object.Auctions.Services
         {
             DateTime lDtmAuctOrLastModification = pDtAuctionDate != DateTime.MinValue ? pDtAuctionDate : GetLastCreationDate();
 
-            lDtmAuctOrLastModification = Convert.ToDateTime("2019-01-29 00:00:00");
+            //lDtmAuctOrLastModification = Convert.ToDateTime("2019-01-29 00:00:00");
 
             foreach (UGRS.Core.Auctions.Entities.Auctions.Batch lObjBatch in LocalBatchService.GetList().Where(x => x.ModificationDate >= lDtmAuctOrLastModification).ToList())
             {

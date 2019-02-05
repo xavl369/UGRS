@@ -65,12 +65,15 @@ namespace UGRS.Core.Auctions.Services.Reports
                 pLstObjBatches;
         }
 
-        public static IList<ReportBatchDTO> ToDTO(this IQueryable<Batch> pLstObjBatches)
+        public static IList<ReportBatchDTO> ToDTO(this IQueryable<Batch> pLstObjBatches,BatchStatusFilterEnum pEnum = BatchStatusFilterEnum.ALL)
         {
             var lLstBatches = pLstObjBatches.ToList();
 
-            lLstBatches.AddRange(
-            GetReturnsAsNotSold(pLstObjBatches.SelectMany(x=>x.GoodsReturns).Where(x=> !x.Removed).ToList()));
+            if (pEnum != BatchStatusFilterEnum.SOLD)
+            {
+                lLstBatches.AddRange(
+                GetReturnsAsNotSold(pLstObjBatches.SelectMany(x => x.GoodsReturns).Where(x => !x.Removed).ToList()));
+            }
 
             
             return lLstBatches.Where(x => x.Quantity > 0).Select(b => new ReportBatchDTO()
@@ -266,7 +269,7 @@ namespace UGRS.Core.Auctions.Services.Reports
                    .FilterByAuction(pStrAuctionFolio)
                    .FilterBySeller(pStrSellerCardCode)
                    .FilterByStatus(pEnmStatus)
-                   .ToDTO();
+                   .ToDTO(pEnmStatus);
         }
 
         public IList<ReportBatchDTO> GetInternalBatchesBySeller(DateTime? pDtmStartDate, DateTime? pDtmEndDate, string pStrAuctionFolio, string pStrSellerCardCode, BatchStatusFilterEnum pEnmStatus)
@@ -289,7 +292,7 @@ namespace UGRS.Core.Auctions.Services.Reports
                    .FilterByAuction(pStrAuctionFolio)
                    .FilterByBuyer(pStrBuyerCardCode)
                    .FilterByStatus(pEnmStatus)
-                   .ToDTO();
+                   .ToDTO(pEnmStatus);
         }
 
         public IList<ReportBatchDTO> GetBatchesByBuyer(DateTime? pDtmStartDate, DateTime? pDtmEndDate, string pStrAuctionFolio, string pStrBuyerCardCode)
