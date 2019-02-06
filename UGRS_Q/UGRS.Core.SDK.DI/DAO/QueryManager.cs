@@ -654,6 +654,7 @@ namespace UGRS.Core.SDK.DI.DAO
             }
             catch (Exception lObjException)
             {
+                return 0;
                 throw new QueryException(lObjException.Message, lObjException);
             }
             finally

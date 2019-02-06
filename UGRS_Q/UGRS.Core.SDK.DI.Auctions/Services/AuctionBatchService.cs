@@ -109,13 +109,13 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
             string lStrLastModificationDate = GetModificationDate(pIntBatchNumber, pStrAuctFolio).ToString("yyyy-MM-dd HH:mm");
             bool lBoolUpdtd = false;
 
+            string D = pObjBatch.ModificationDate.ToString("yyyy-MM-dd HH:mm");
 
             if (!pObjBatch.ModificationDate.ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate) &&
                 (pObjBatch.GoodsReturns != null && pObjBatch.GoodsReturns.Count > 0 && !pObjBatch.GoodsReturns
                       .Select(x => x.ModificationDate).FirstOrDefault().ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate))
                 || CheckBatchTimes(pObjBatch))
             {
-
                 lBoolUpdtd = true;
             }
 
@@ -130,10 +130,16 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
 
         private string GetCode(int pIntBatchNumber, string pStrAuctionFolio)
         {
-
-            long lLonBatchId = mObjQueryManager.GetBatchId(pIntBatchNumber, pStrAuctionFolio);
+            long lLonBatchId = GetBatchId(pIntBatchNumber, pStrAuctionFolio);
+             
             return mObjQueryManager.GetValue("Code", "U_Id", lLonBatchId.ToString(), "[@UG_SU_BAHS]");
         }
+
+        public long  GetBatchId(int pIntBatchNumber, string pStrAuctionFolio)
+        {
+            return mObjQueryManager.GetBatchId(pIntBatchNumber, pStrAuctionFolio);
+        }
+
 
         private DateTime GetModificationDate(int pIntBatchNumber, string pStrAuctionFolio)
         {

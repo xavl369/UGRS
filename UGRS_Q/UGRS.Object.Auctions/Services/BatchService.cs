@@ -79,13 +79,7 @@ namespace UGRS.Object.Auctions.Services
 
             foreach (UGRS.Core.Auctions.Entities.Auctions.Batch lObjBatch in LocalBatchService.GetList().Where(x => x.ModificationDate >= lDtmAuctOrLastModification).ToList())
             {
-
-                if(lObjBatch.Number == 432 || lObjBatch.Number ==78)
-                {
-
-                }
-
-                if (SapBatchService.HasBeenUpdated(lObjBatch.Number,lObjBatch.Auction.Folio, lObjBatch))
+                if (SapBatchService.HasBeenUpdated(lObjBatch.Number, lObjBatch.Auction.Folio, lObjBatch))
                 {
                     UpdateBatch(lObjBatch);
                 }
@@ -111,7 +105,7 @@ namespace UGRS.Object.Auctions.Services
         {
             try
             {
-                if (SapBatchService.Update(GetSAPBatch(pObjBatch),pObjBatch.Auction.Folio) != 0)
+                if (SapBatchService.Update(GetSAPBatch(pObjBatch), pObjBatch.Auction.Folio) != 0)
                 {
                     LogUtility.Write(string.Format("[ERROR] {0}", DIApplication.Company.GetLastErrorDescription()));
                 }
@@ -137,9 +131,10 @@ namespace UGRS.Object.Auctions.Services
             decimal lDmlAmount = lIntReturned != 0 ? lDmlPrice * (Convert.ToDecimal(pObjBatch.Weight - pObjBatch.GoodsReturns.Where(x => !x.Removed)
                 .Select(x => (float)x.Weight).Sum())) : lIntReturned != 0 && lBoolPerPrice ? pObjBatch.Price * lIntQuantity : pObjBatch.Amount;
 
+
             return new UGRS.Core.SDK.DI.Auctions.Tables.Batch()
             {
-                Id = GetNextBatchId(),
+                Id = GetBatchId(pObjBatch.Auction.Folio, pObjBatch.Number),
                 AuctionId = GetSapAuctionId(pObjBatch.Auction.Folio),
                 Number = pObjBatch.Number,
                 SellerId = pObjBatch.SellerId ?? 0,
@@ -167,9 +162,15 @@ namespace UGRS.Object.Auctions.Services
                 Active = pObjBatch.Active,
                 CreationDate = pObjBatch.CreationDate,
                 CreationTime = pObjBatch.CreationDate,
-                ModificationDate =pObjBatch.ModificationDate,
+                ModificationDate = pObjBatch.ModificationDate,
                 ModificationTime = pObjBatch.ModificationDate
             };
+        }
+
+        private long GetBatchId(string pStrFolio, int pIntNumber)
+        {
+            long lLonId = SapBatchService.GetBatchId(pIntNumber, pStrFolio);
+            return lLonId != 0 ? lLonId : GetNextBatchId();
         }
 
         private long GetNextBatchId()
