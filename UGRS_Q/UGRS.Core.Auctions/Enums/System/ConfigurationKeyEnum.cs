@@ -47,6 +47,8 @@ namespace UGRS.Core.Auctions.Enums.System
         [DescriptionAttribute("Cuenta de no cobro para guias")]
         NO_PAYMENT_GUIDES = 21,
         [DescriptionAttribute("Version de la aplicacion")]
-        APP_VERSION = 22
+        APP_VERSION = 22,
+        [DescriptionAttribute("Version de servicio de actualizacion")]
+        SERV_VERSION = 23
     }
 }
