@@ -75,14 +75,16 @@ namespace UGRS.Object.Auctions.Services
         {
             DateTime lDtmAuctOrLastModification = pDtAuctionDate != DateTime.MinValue ? pDtAuctionDate : GetLastCreationDate();
 
-            //lDtmAuctOrLastModification = Convert.ToDateTime("2019-01-29 00:00:00");
+            //lDtmAuctOrLastModification = Convert.ToDateTime("2019-02-07 13:06:00");
 
             foreach (UGRS.Core.Auctions.Entities.Auctions.Batch lObjBatch in LocalBatchService.GetList().Where(x => x.ModificationDate >= lDtmAuctOrLastModification).ToList())
             {
+
                 if (SapBatchService.HasBeenUpdated(lObjBatch.Number, lObjBatch.Auction.Folio, lObjBatch))
                 {
                     UpdateBatch(lObjBatch);
                 }
+  
             }
         }
 

@@ -819,16 +819,6 @@ namespace UGRS.Object.Auctions.Services
             return lDbFoodCharge = ((pFlWeight * (lDbDays)) * 0.03);
         }
 
-
-        private double GetFoodChargeAmount(float pflWeight, string pStrBatchNumber)
-        {
-            double lDbFoodCharge = 0;
-            double lDbtDays = (mObjStockService.LocalStockService.GetListByWhs().Where(x => x.BatchNumber == pStrBatchNumber).Select(x => x.CreationDate).FirstOrDefault()
-                - DateTime.Now).Days;
-
-            return lDbFoodCharge = ((pflWeight * (lDbtDays + 1)) * 0.3);
-        }
-
         private void RemoveInvoicedDrafs(IList<Invoice> pLstObjInvoices)
         {
             foreach (var lVarInvoice in pLstObjInvoices)
@@ -1255,7 +1245,7 @@ namespace UGRS.Object.Auctions.Services
         {
             switch (pObjInvoice.PaymentCondition)
             {
-                case 0:
+                case 1:
                     return mObjQueryManager.GetPaymentCondition(pObjInvoice.CardCode);
                 default:
                     return -1;
@@ -1650,14 +1640,14 @@ namespace UGRS.Object.Auctions.Services
                     Quantity = cl.Sum(c => c.Quantity),
                     Gender = cl.Select(t => t.ItemType.Gender).FirstOrDefault(),
                     Weight = cl.Sum(w => w.Weight),
-                    BatchesList = cl.Select(x => x).ToList()
+                    BatchesList = new List<Batch>(cl.Select(x => x).ToList())
                 }).ToList();
 
             foreach (var lVarBatches in lLstObjSAPBatches)
             {
-                int lIntHeads = lVarBatches.Quantity;
-                List<Batch> lLstBatches = lVarBatches.BatchesList;
-
+                int lIntReturned = lVarBatches.BatchesList.SelectMany(x => x.GoodsReturns.Where(y => !y.Removed)).Sum(y => y.Quantity);
+                int lIntHeads = lVarBatches.Quantity - lIntReturned;
+                List<Batch> lLstBatches = lVarBatches.BatchesList.Select(x => new Batch() { Id = x.Id, Quantity = x.Quantity, CreationDate = x.CreationDate, Weight = x.Weight }).ToList(); 
                 foreach (var lVarStock in pLstLocalAuctStock)
                 {
                     lBoolCreateBatch = false;
@@ -1665,6 +1655,7 @@ namespace UGRS.Object.Auctions.Services
                     lObjSAPBatch.Gender = lVarBatches.Gender;
                     if (lIntHeads > 0)
                     {
+
                         if (lVarStock.CustomerId == lVarBatches.SellerId)
                         {
                             if (lVarStock.ItemId == lVarBatches.ArticleId)
@@ -1686,7 +1677,7 @@ namespace UGRS.Object.Auctions.Services
                                     lObjSAPBatch.Seller = lVarBatches.Seller;
                                     lVarStock.Quantity -= lVarStock.Quantity;
                                     lVarBatches.Weight -= lObjSAPBatch.Weight;
-                                    lLstTempBatch = lLstBatches;
+                                    lLstTempBatch = lLstBatches.ToList();
                                     lLstTempBatch = CalculateBatches(lLstTempBatch, lObjSAPBatch.Quantity, lIntHeads).ToList();
 
                                     lBoolCreateBatch = true;
@@ -1751,7 +1742,6 @@ namespace UGRS.Object.Auctions.Services
 
         private IList<Batch> CalculateBatches(IList<Batch> pLstBatches, int pIntTotQtty, int pIntHeads)
         {
-
             IList<Batch> lLstBatches = new List<Batch>();
             int lIntQtty = pIntTotQtty;
             int lIntQttyLeft = pIntHeads;
@@ -1760,17 +1750,17 @@ namespace UGRS.Object.Auctions.Services
             foreach (var item in pLstBatches)
             {
                 Batch lObjBatch = new Batch();
-
                 lObjBatch.Id = item.Id;
-                int lIntTQtty = item.Quantity;
+                int lintReturns =  item.GoodsReturns!= null && item.GoodsReturns.Where(x => !x.Removed).Count() > 0 ? item.GoodsReturns.Where(x => !x.Removed).Sum(x => x.Quantity) : 0;
+                int lIntTQtty = item.Quantity - lintReturns;
 
                 if (lIntTQtty > 0 && lIntTQtty >= lIntQtty && lIntQtty != 0)
                 {
                     lIntTQtty -= lIntQtty;
                     lIntQtty -= lIntQtty;
 
-                    lObjBatch.Quantity = lIntTQtty == 0 ? item.Quantity : item.Quantity - lIntTQtty;
-                    lObjBatch.Weight = lIntTQtty == 0 ? item.Weight : (item.Quantity * item.Weight) / (item.Quantity + lIntTQtty);
+                    lObjBatch.Quantity = lIntTQtty == 0 ? (item.Quantity - lintReturns): (item.Quantity - lintReturns) - lIntTQtty;
+                    lObjBatch.Weight = lIntTQtty == 0 ? item.Weight : ((item.Quantity - lintReturns) * item.Weight) / ((item.Quantity - lintReturns) + lIntTQtty);
                     lObjBatch.CreationDate = item.CreationDate;
 
                     lLstBatches.Add(lObjBatch);
@@ -1780,8 +1770,8 @@ namespace UGRS.Object.Auctions.Services
                     lIntQtty -= lIntTQtty;
                     lIntTQtty -= lIntTQtty;
 
-                    lObjBatch.Quantity = lIntTQtty == 0 ? item.Quantity : item.Quantity - lIntTQtty;
-                    lObjBatch.Weight = lIntTQtty == 0 ? item.Weight : (lIntTQtty * item.Weight) / item.Quantity;
+                    lObjBatch.Quantity = lIntTQtty == 0 ? (item.Quantity - lintReturns) : (item.Quantity - lintReturns) - lIntTQtty;
+                    lObjBatch.Weight = lIntTQtty == 0 ? item.Weight : ((item.Quantity - lintReturns) * item.Weight) / (item.Quantity - lintReturns);
                     lObjBatch.CreationDate = item.CreationDate;
 
                     lLstBatches.Add(lObjBatch);

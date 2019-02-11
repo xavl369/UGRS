@@ -45,10 +45,10 @@ namespace UGRS.Service.Auctions
                 //RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
 
                 //Console.WriteLine("El servicio se esta ejecutando...");
-                ////mObjAuctions = (AuctionsServerObject)Activator.GetObject(typeof(AuctionsServerObject), "http://localhost:8830/Auctions");
+                //mObjAuctions = (AuctionsServerObject)Activator.GetObject(typeof(AuctionsServerObject), "http://localhost:8830/Auctions");               
                 //InitTablesAndFields();
                 //InitConfigurationsProcess();
-                //InitBusinnessPartnerProcess();
+                ////InitBusinnessPartnerProcess();
                 //InitItemProcess();
                 //InitBuissnesPartnerConciliation();
                 //InitStockProcess(GetWhsCode());

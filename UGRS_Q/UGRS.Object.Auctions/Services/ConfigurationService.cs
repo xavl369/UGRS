@@ -94,6 +94,11 @@ namespace UGRS.Object.Auctions.Services
                 UpdateConfiguration(ConfigurationKeyEnum.CREDITORS_ACCOUNT, GetCreditorsAccount());
                 UpdateConfiguration(ConfigurationKeyEnum.GUIDES_ACCOUNT, GetGuidesAccount());
                 UpdateConfiguration(ConfigurationKeyEnum.NO_PAYMENT_GUIDES, GetNoPaymmentGuidesAccount());
+
+                //CONFIGURATION
+                UpdateConfiguration(ConfigurationKeyEnum.APP_VERSION, GetAppVersion());
+                UpdateConfiguration(ConfigurationKeyEnum.SERV_VERSION, GetServiceVersion());
+
                 
             }
             catch (Exception lObjException)
@@ -101,6 +106,8 @@ namespace UGRS.Object.Auctions.Services
                 LogUtility.WriteException(lObjException);
             }
         }
+
+ 
 
         private void GetSapConfigurations()
         {
@@ -184,12 +191,12 @@ namespace UGRS.Object.Auctions.Services
 
         private string GetDebtorsAccount()
         {
-            return ConfigurationUtility.GetValue<string>("DebitAccount");
+            return ConfigurationUtility.GetValue<string>("DebtorsAccount");
         }
 
         private string GetCreditorsAccount()
         {
-            return ConfigurationUtility.GetValue<string>("CreditAccount");
+            return ConfigurationUtility.GetValue<string>("CreditorsAccount");
         }
 
         private string GetGuidesAccount()
@@ -215,6 +222,16 @@ namespace UGRS.Object.Auctions.Services
         private string GetPrice(string pStrWhsCode, string pStrItemCode)
         {
             return SapFinancialsService.GetPrice(pStrWhsCode, pStrItemCode);
+        }
+
+        private string GetAppVersion()
+        {
+            return mObjQueryManager.GetValue("U_Value","Name",ConfigurationUtility.GetValue<string>("AppVersion"),"[@UG_CONFIG]");
+        }
+
+        private string GetServiceVersion()
+        {
+            return mObjQueryManager.GetValue("U_Value", "Name", ConfigurationUtility.GetValue<string>("ServVersion"), "[@UG_CONFIG]");
         }
 
         private void UpdateConfiguration(ConfigurationKeyEnum pEnmKey, string pStrValue)
