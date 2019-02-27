@@ -45,39 +45,6 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
             return mObjBatchDAO.Remove(pStrDocEntry);
         }
 
-        //public DataTable GetBatchesByFilters(string pStrBuyer, string pStrSeller, string pStrSellerTaxCode, string pStrDate)
-        //{
-
-        //    DataTable lDtbResult = new DataTable();
-        //    Recordset lObjRecordset = null;
-
-        //    try
-        //    {
-        //        lObjRecordset = (Recordset)DIApplication.Company.GetBusinessObject(BoObjectTypes.BoRecordset);
-        //        pStrDate = ValidStringDate(pStrDate);
-
-        //        Dictionary<string, string> lLstStrParameters = new Dictionary<string, string>();
-        //        lLstStrParameters.Add("Buyer", pStrBuyer);
-        //        lLstStrParameters.Add("Seller", pStrSeller);
-        //        lLstStrParameters.Add("SellerTaxCode", pStrSellerTaxCode);
-        //        lLstStrParameters.Add("Date", pStrDate);
-
-        //        string lStrQuery = this.GetSQL("GetBatchesByFilters").Inject(lLstStrParameters);
-        //        lObjRecordset.DoQuery(lStrQuery);
-        //        lDtbResult = lObjRecordset.ToDataTable();
-        //    }
-        //    catch (Exception lObjException)
-        //    {
-        //        throw new DAOException(lObjException.Message, lObjException);
-        //    }
-        //    finally
-        //    {
-        //        MemoryUtility.ReleaseComObject(lObjRecordset);
-        //    }
-
-        //    return lDtbResult;
-        //}
-
         public DataTable GetBatchesByFilters(string pStrBuyer, string pStrSeller, string pStrSellerTaxCode, string pStrDate)
         {
             return (DataTable)mObjQueryManager.GetBatchesByFilters(pStrBuyer, pStrSeller, pStrSellerTaxCode, pStrDate);
@@ -100,7 +67,6 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
 
         public bool HasBeenImported(string pStrFolio, int pIntBatchNumber)
         {
-            //return mObjQueryManager.Exists("U_Id", pLonBatchId.ToString(), "[@UG_SU_BAHS]");
             return mObjQueryManager.BatchExists(pStrFolio, pIntBatchNumber);
         }
 
@@ -109,10 +75,8 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
             string lStrLastModificationDate = GetModificationDate(pIntBatchNumber, pStrAuctFolio).ToString("yyyy-MM-dd HH:mm");
             bool lBoolUpdtd = false;
 
-            string D = pObjBatch.ModificationDate.ToString("yyyy-MM-dd HH:mm");
-
-            if (!pObjBatch.ModificationDate.ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate) &&
-                (pObjBatch.GoodsReturns != null && pObjBatch.GoodsReturns.Count > 0 && !pObjBatch.GoodsReturns
+            if (!pObjBatch.ModificationDate.ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate) ||
+                (pObjBatch.GoodsReturns != null && pObjBatch.GoodsReturns.Where(x=>!x.Removed).ToList().Count > 0 && !pObjBatch.GoodsReturns
                       .Select(x => x.ModificationDate).FirstOrDefault().ToString("yyyy-MM-dd HH:mm").Equals(lStrLastModificationDate))
                 || CheckBatchTimes(pObjBatch))
             {
@@ -124,8 +88,8 @@ namespace UGRS.Core.SDK.DI.Auctions.Services
 
         private bool CheckBatchTimes(Core.Auctions.Entities.Auctions.Batch pObjBatch)
         {
-            TimeSpan d = pObjBatch.ModificationDate.Subtract(pObjBatch.CreationDate);
-            return d.TotalSeconds > 5 ? true : false;
+            TimeSpan lObjTimeDiff = pObjBatch.ModificationDate.Subtract(pObjBatch.CreationDate);
+            return lObjTimeDiff.TotalSeconds > 5 ? true : false;
         }
 
         private string GetCode(int pIntBatchNumber, string pStrAuctionFolio)

@@ -778,26 +778,37 @@ namespace UGRS.Object.Auctions.Services
                 {
 
                     InvoiceLine lObjInvoiceLine = pLstInvoice.Where(x => x.CardCode == lVarSeller.Key).SelectMany(x => x.Lines).Where(x => x.ItemCode == lStrThreePercentCode).FirstOrDefault();
-                    error = string.Format("{0} {1}", lVarSeller.Key, lObjInvoiceLine.Id);
 
-                    lDbTotalCharge = 0;
-                    foreach (var lVarSellerBatch in lVarSeller)
+                    if (lObjInvoiceLine != null)
                     {
-                        foreach (var lVarBatch in lVarSellerBatch.BatchesList)
+                        error = string.Format("{0} {1}", lVarSeller.Key, lObjInvoiceLine.Id);
+
+                        lDbTotalCharge = 0;
+                        foreach (var lVarSellerBatch in lVarSeller)
                         {
-                            lDbTotalCharge += GetFoodCharge(lVarBatch.Weight, lVarBatch.CreationDate, lVarSellerBatch.BatchNumber);
+                            foreach (var lVarBatch in lVarSellerBatch.BatchesList)
+                            {
+                                lDbTotalCharge += GetFoodCharge(lVarBatch.Weight, lVarBatch.CreationDate, lVarSellerBatch.BatchNumber);
+                            }
                         }
+
+
+                        if (lDbTotalCharge > 0)
+                        {
+                            lObjInvoiceLine.ItemCode = lStrThreePercentCode;
+                            lObjInvoiceLine.Quantity = lDbTotalCharge;
+                            lObjInvoiceLine.Price = mObjQueryManager.GetThreePercentPrice(lStrThreePercentCode, GetLocation());
+                            lObjInvoiceLine.CostingCode = GetCostCenter();
+                            lObjInvoiceLine.WarehouseCode = GetWareHouse();
+                            lObjInvoiceLine.TaxCode = mObjQueryManager.GetTaxCodeByArticle(lStrThreePercentCode);
+                        }
+                        else
+                        {
+                            lObjInvoiceLine.Removed = true;
+                        }
+
+                        mObjFinancialSerfviceFactory.GetInvoiceLineService().SaveOrUpdate(lObjInvoiceLine);
                     }
-
-                    lObjInvoiceLine.ItemCode = lStrThreePercentCode;
-                    lObjInvoiceLine.Quantity = lDbTotalCharge;
-                    lObjInvoiceLine.Price = mObjQueryManager.GetThreePercentPrice(lStrThreePercentCode, GetLocation());
-                    lObjInvoiceLine.CostingCode = GetCostCenter();
-                    lObjInvoiceLine.WarehouseCode = GetWareHouse();
-                    lObjInvoiceLine.TaxCode = mObjQueryManager.GetTaxCodeByArticle(lStrThreePercentCode);
-
-                    mObjFinancialSerfviceFactory.GetInvoiceLineService().SaveOrUpdate(lObjInvoiceLine);
-
                 }
             }
             catch (Exception lObjException)
@@ -937,7 +948,7 @@ namespace UGRS.Object.Auctions.Services
                 LogUtility.Write("Creating payment for: " + lVarInvoice.CardCode);
                 CreatePayment(lVarInvoice);
                 LogUtility.Write("Invoice payed");
-                Thread.Sleep(10000);
+                //Thread.Sleep(10000);
             }
         }
 
@@ -967,7 +978,7 @@ namespace UGRS.Object.Auctions.Services
                     lObjPayment.UserFields.Fields.Item("U_HoraPago").Value = lObjInvoice.CreationDate.ToString("HH:mm");
                     lObjPayment.UserFields.Fields.Item("U_B1SYS_PmntMethod").Value = "17";
 
-                    lObjPayment.Series = GetPaymentSeries();//GetInvoiceSeries();
+                    lObjPayment.Series = GetPaymentSeries();
 
                     lObjPayment.CashSum = lDoubTotal;
 
@@ -1538,6 +1549,11 @@ namespace UGRS.Object.Auctions.Services
 
                             foreach (var item in lVarBatch)
                             {
+                                //if (item.BatchNumber == "190220100810")
+                                //{
+
+                                //}
+
                                 lObjDocument.Lines.BatchNumbers.Quantity = item.Quantity;
 
                                 lStrActualBatch = item.BatchNumber;
@@ -1647,19 +1663,20 @@ namespace UGRS.Object.Auctions.Services
             {
                 int lIntReturned = lVarBatches.BatchesList.SelectMany(x => x.GoodsReturns.Where(y => !y.Removed)).Sum(y => y.Quantity);
                 int lIntHeads = lVarBatches.Quantity - lIntReturned;
-                List<Batch> lLstBatches = lVarBatches.BatchesList.Select(x => new Batch() { Id = x.Id, Quantity = x.Quantity, CreationDate = x.CreationDate, Weight = x.Weight }).ToList(); 
-                foreach (var lVarStock in pLstLocalAuctStock)
+                List<Batch> lLstBatches = lVarBatches.BatchesList.Select(x => new Batch() { Id = x.Id, Quantity = x.Quantity, CreationDate = x.CreationDate, Weight = x.Weight }).ToList();
+                foreach (var lVarStock in pLstLocalAuctStock.OrderByDescending(x=>x.Payment))
                 {
                     lBoolCreateBatch = false;
                     SAPBatchDTO lObjSAPBatch = new SAPBatchDTO();
                     lObjSAPBatch.Gender = lVarBatches.Gender;
                     if (lIntHeads > 0)
                     {
-
                         if (lVarStock.CustomerId == lVarBatches.SellerId)
                         {
+
                             if (lVarStock.ItemId == lVarBatches.ArticleId)
                             {
+
                                 if ((lVarStock.Quantity >= lIntHeads) && lVarStock.Quantity != 0)
                                 {
                                     lObjSAPBatch.Quantity = lIntHeads;
@@ -1751,7 +1768,7 @@ namespace UGRS.Object.Auctions.Services
             {
                 Batch lObjBatch = new Batch();
                 lObjBatch.Id = item.Id;
-                int lintReturns =  item.GoodsReturns!= null && item.GoodsReturns.Where(x => !x.Removed).Count() > 0 ? item.GoodsReturns.Where(x => !x.Removed).Sum(x => x.Quantity) : 0;
+                int lintReturns = item.GoodsReturns != null && item.GoodsReturns.Where(x => !x.Removed).Count() > 0 ? item.GoodsReturns.Where(x => !x.Removed).Sum(x => x.Quantity) : 0;
                 int lIntTQtty = item.Quantity - lintReturns;
 
                 if (lIntTQtty > 0 && lIntTQtty >= lIntQtty && lIntQtty != 0)
@@ -1759,7 +1776,7 @@ namespace UGRS.Object.Auctions.Services
                     lIntTQtty -= lIntQtty;
                     lIntQtty -= lIntQtty;
 
-                    lObjBatch.Quantity = lIntTQtty == 0 ? (item.Quantity - lintReturns): (item.Quantity - lintReturns) - lIntTQtty;
+                    lObjBatch.Quantity = lIntTQtty == 0 ? (item.Quantity - lintReturns) : (item.Quantity - lintReturns) - lIntTQtty;
                     lObjBatch.Weight = lIntTQtty == 0 ? item.Weight : ((item.Quantity - lintReturns) * item.Weight) / ((item.Quantity - lintReturns) + lIntTQtty);
                     lObjBatch.CreationDate = item.CreationDate;
 

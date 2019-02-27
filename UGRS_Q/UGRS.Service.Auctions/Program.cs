@@ -41,7 +41,7 @@ namespace UGRS.Service.Auctions
                     Id = 0,
                     UserName = "AuctionsService"
                 };
-                
+
                 //RemotingConfiguration.Configure(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, false);
 
                 //Console.WriteLine("El servicio se esta ejecutando...");
@@ -51,10 +51,10 @@ namespace UGRS.Service.Auctions
                 ////InitBusinnessPartnerProcess();
                 //InitItemProcess();
                 //InitBuissnesPartnerConciliation();
-                //InitStockProcess(GetWhsCode());
+                InitStockProcess(GetWhsCode());
                 //InitAuctionProcess();
                 //InitStockConciliations();
-                InitBatchesProcess(mObjAuctionDate);
+                //InitBatchesProcess(mObjAuctionDate);
                 //InitFoodDeliveriesProcess(FoodWarehouse());
                 //InitOperationsProcess(GetWhsCode());
 
@@ -195,7 +195,7 @@ namespace UGRS.Service.Auctions
             try
             {
                 Factory.Reconnection();
-                Factory.GetBatchService().ExportBatches(pDtAuctionDate);
+                //Factory.GetBatchService().ExportBatches(pDtAuctionDate);
                 Factory.GetBatchService().UpdateBatches(pDtAuctionDate);
             }
             catch (Exception lObjException)
@@ -283,7 +283,7 @@ namespace UGRS.Service.Auctions
                 GC.Collect();
             }
         }
-    
+
         private static void InitStockConciliations()
         {
             try

@@ -80,7 +80,7 @@ namespace UGRS.Object.Auctions.Services
         public void UpdateStocks(string pStrWhsCode)
         {
             foreach (ItemBatchDTO lObjStock in SapStockService.GetUpdatedItemBatchesListByWarehouse(pStrWhsCode))
-            {
+            {     
                 if (StockHasChanges(lObjStock))
                 {
                     UpdateStock(pStrWhsCode, lObjStock);
@@ -113,9 +113,11 @@ namespace UGRS.Object.Auctions.Services
 
         private bool StockHasChanges(ItemBatchDTO pObjStock)
         {
-            return LocalStockService.GetListByWhs().Where(x => x.Item.Code == pObjStock.ItemCode && x.BatchNumber == pObjStock.BatchNumber
-             && x.ModificationDate != (pObjStock.UpdateDate == new DateTime(1900, 01, 01) ? pObjStock.CreateDate
-             : pObjStock.UpdateDate)).Count() > 0 ? true : false;
+            string lStrLocalStockDate = LocalStockService.GetListByWhs().Where(x => x.Item.Code == pObjStock.ItemCode && x.BatchNumber == pObjStock.BatchNumber).Select(x => x.ModificationDate).FirstOrDefault().ToString("yyyy-MM-dd HH:mm:ss");
+
+            string lStrSAPStockDate = pObjStock.UpdateDate.ToString("yyyy-MM-dd HH:mm:ss");
+
+            return lStrLocalStockDate != lStrSAPStockDate ? true : false;
         }
 
         private void ImportStock(string pStrWarehouse, string pStrItemCode, string pStrBatchNumber)
@@ -137,22 +139,22 @@ namespace UGRS.Object.Auctions.Services
 
             try
             {
-                var ddd = LocalStockService.GetListByWhs().FirstOrDefault(x => x.Item.Code == pObjItemBatch.ItemCode
-                    && x.BatchNumber == pObjItemBatch.BatchNumber);
 
-                //lObjCurrentStock = LocalStockService.GetListByWhs().FirstOrDefault(x => x.Item.Code == pObjItemBatch.ItemCode 
-                //    && x.BatchNumber == pObjItemBatch.BatchNumber && DbFunctions.TruncateTime(x.CreationDate) == DbFunctions.TruncateTime(pObjItemBatch.CreateDate));
                 lObjCurrentStock = LocalStockService.GetListByWhs().FirstOrDefault(x => x.Item.Code == pObjItemBatch.ItemCode
                     && x.BatchNumber == pObjItemBatch.BatchNumber);
+                if (lObjCurrentStock != null)
+                {
+
                 lObjNewStock = GetStockByFilters(pStrWarehouse, pObjItemBatch.ItemCode, pObjItemBatch.BatchNumber);
 
-                lObjCurrentStock.Quantity = lObjNewStock.Quantity;
-                lObjCurrentStock.CreationDate = lObjNewStock.CreationDate;
-                lObjCurrentStock.ModificationDate = lObjNewStock.ModificationDate;
-                lObjCurrentStock.ExpirationDate = lObjNewStock.ExpirationDate;
-                lObjCurrentStock.CustomerId = lObjNewStock.CustomerId;
+                    lObjCurrentStock.Quantity = lObjNewStock.Quantity;
+                    lObjCurrentStock.CreationDate = lObjNewStock.CreationDate;
+                    lObjCurrentStock.ModificationDate = lObjNewStock.ModificationDate;
+                    lObjCurrentStock.ExpirationDate = lObjNewStock.ExpirationDate;
+                    lObjCurrentStock.CustomerId = lObjNewStock.CustomerId;
 
-                LocalStockService.SaveOrUpdate(lObjCurrentStock);
+                    LocalStockService.SaveOrUpdate(lObjCurrentStock);
+                }
             }
             catch (Exception lObjException)
             {

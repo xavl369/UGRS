@@ -32,7 +32,7 @@ namespace UGRS.Core.SDK.DI.Auctions.DAO
 
                 Dictionary<string, string> lLstStrParameters = new Dictionary<string, string>();
                 lLstStrParameters.Add("WhsCode", pStrWhsCode);
-                lLstStrParameters.Add("ActAuctionDate", pAuctionDate == DateTime.MinValue ? "" : pAuctionDate.ToString("yyyy-MM-dd"));
+                lLstStrParameters.Add("ActAuctionDate",  pAuctionDate == DateTime.MinValue ? "" : pAuctionDate.ToString("yyyy-MM-dd"));
 
                 string lStrQuery = this.GetSQL("GetItemBatchesListByWarehouse").Inject(lLstStrParameters);
                 lObjRecordset.DoQuery(lStrQuery);
@@ -84,15 +84,13 @@ namespace UGRS.Core.SDK.DI.Auctions.DAO
                 {
                     for (int i = 0; i < lObjRecordset.RecordCount; i++)
                     {
-
                         lLstObjResult.Add(new ItemBatchDTO()
                         {
                             ItemCode = lObjRecordset.Fields.Item("ItemCode").Value.ToString(),
                             CardCode = lObjRecordset.Fields.Item("CardCode").Value.ToString(),
                             BatchNumber = lObjRecordset.Fields.Item("BatchNumber").Value.ToString(),
 
-                            UpdateDate = Convert.ToDateTime(lObjRecordset.Fields.Item("UpdateDate").Value) != DateTime.MinValue ?
-                            Convert.ToDateTime(lObjRecordset.Fields.Item("UpdateDate").Value.ToString()) : DateTime.MinValue,
+                            UpdateDate = Convert.ToDateTime(lObjRecordset.Fields.Item("UpdatedDate").Value),
 
                             CreateDate = Convert.ToDateTime(lObjRecordset.Fields.Item("InDate").Value) != DateTime.MinValue ?
                             Convert.ToDateTime(lObjRecordset.Fields.Item("InDate").Value.ToString()) : DateTime.MinValue,
@@ -209,35 +207,14 @@ namespace UGRS.Core.SDK.DI.Auctions.DAO
 
             lObjResult.Quantity = Convert.ToInt32(pObjRecordset.Fields.Item("Quantity").Value.ToString());
 
-            DateTime lObjCreationTime = pObjRecordset.Fields.Item("U_GLO_Time") != null ?
-            DateUtility.GetTime(Convert.ToInt32(pObjRecordset.Fields.Item("U_GLO_Time").Value.ToString())) : DateTime.MinValue;
-
-            //DateTime lObjModificationTime = pObjRecordset.Fields.Item("UpdateHour") != null ?
-            //DateUtility.GetTime(Convert.ToInt32(pObjRecordset.Fields.Item("UpdateHour").Value.ToString())) : DateTime.MinValue;
+            lObjResult.ExpirationDate = pObjRecordset.Fields.Item("ExpDate") != null ?
+            Convert.ToDateTime(pObjRecordset.Fields.Item("ExpDate").Value.ToString()) : DateTime.MinValue;
 
             lObjResult.CreateDate = pObjRecordset.Fields.Item("InDate") != null ?
             Convert.ToDateTime(pObjRecordset.Fields.Item("InDate").Value.ToString()) : DateTime.MinValue;
 
-            DateTime lObjCreationHour = DateTime.Now;
-
-            DateTime lObjModificationHour = DateTime.Now;
-
-            lObjCreationHour = DateTime.ParseExact(pObjRecordset.Fields.Item("U_GLO_Time").Value.ToString().PadLeft(6, '0'), "HHmmss", null);
-
-            lObjModificationHour = DateTime.ParseExact(pObjRecordset.Fields.Item("UpdateHour").Value.ToString().PadLeft(6, '0'), "HHmmss", null);
-
-            lObjResult.UpdateDate = pObjRecordset.Fields.Item("UpdateDate") != null ?
-            Convert.ToDateTime(pObjRecordset.Fields.Item("UpdateDate").Value.ToString()) : DateTime.MinValue;
-
-            lObjResult.ExpirationDate = pObjRecordset.Fields.Item("ExpDate") != null ?
-            Convert.ToDateTime(pObjRecordset.Fields.Item("ExpDate").Value.ToString()) : DateTime.MinValue;
-
-            lObjCreationTime.AddHours(lObjCreationHour.Hour);
-
-            lObjModificationHour.AddHours(lObjModificationHour.Hour);
-
-            lObjResult.CreateDate = lObjResult.CreateDate.Date.Add(lObjCreationTime.TimeOfDay);
-            lObjResult.UpdateDate = lObjResult.UpdateDate.Date.Add(lObjModificationHour.TimeOfDay);
+            lObjResult.UpdateDate = pObjRecordset.Fields.Item("UpdatedDate") != null ?
+            Convert.ToDateTime(pObjRecordset.Fields.Item("UpdatedDate").Value.ToString()) : DateTime.MinValue;
 
             return lObjResult;
         }
