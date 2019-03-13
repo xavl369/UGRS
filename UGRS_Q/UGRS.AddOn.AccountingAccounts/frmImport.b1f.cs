@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SAPbobsCOM;
 using SAPbouiCOM.Framework;
-using UGRS.AddOn.AccountingAccounts.Tables;
-using UGRS.AddOn.AccountingAccounts.Services;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UGRS.AddOn.AccountingAccounts.DAO;
 using UGRS.AddOn.AccountingAccounts.DTO;
-using System.Data.SqlClient;
-using SAPbobsCOM;
+using UGRS.AddOn.AccountingAccounts.Entities;
+using UGRS.AddOn.AccountingAccounts.Utils;
 using UGRS.Core.SDK.DI;
 using UGRS.Core.SDK.UI.ProgressBar;
 using UGRS.Core.Utility;
-using System.Data;
-using UGRS.AddOn.AccountingAccounts.Entities;
-using System.Text.RegularExpressions;
-using UGRS.AddOn.AccountingAccounts.Utils;
-using System.Reflection;
 
 namespace UGRS.AddOn.AccountingAccounts
 {
@@ -33,6 +31,7 @@ namespace UGRS.AddOn.AccountingAccounts
         private SAPbobsCOM.JournalEntries mObjJournalEntries = null;
         private double mDoubleImpoDedu = 0.0, mDoubleImpoPerc = 0.0;
         private string mStrCostingCode = "";
+        string mStrAccount = string.Empty;
         string lStrValueCmb = string.Empty;
         List<Nomina> gLstNomina = null;
 
@@ -48,7 +47,7 @@ namespace UGRS.AddOn.AccountingAccounts
         #region Constructor
         public frmImport()
         {
-            lIntSerie = mObjLoginDAO.GetUserSerie(lIntUserSign);
+            lIntSerie = mObjLoginDAO.GetUserSerie(lIntUserSign);       
             try
             {
                 this.UIAPIRawForm.Freeze(true);
@@ -91,7 +90,9 @@ namespace UGRS.AddOn.AccountingAccounts
             this.cmbTipo.ComboSelectAfter += new SAPbouiCOM._IComboBoxEvents_ComboSelectAfterEventHandler(this.cmbTipo_ComboSelectAfter);
             this.btnSalir = ((SAPbouiCOM.Button)(this.GetItem("btnSalir").Specific));
             this.btnSalir.ClickBefore += new SAPbouiCOM._IButtonEvents_ClickBeforeEventHandler(this.btnSalir_ClickBefore);
-            this.Grid0 = ((SAPbouiCOM.Grid)(this.GetItem("Item_0").Specific));
+            this.mObjMtx = ((SAPbouiCOM.Matrix)(this.GetItem("Mtx").Specific));
+            this.mTxtDate = ((SAPbouiCOM.EditText)(this.GetItem("Item_0").Specific));
+            this.StaticText0 = ((SAPbouiCOM.StaticText)(this.GetItem("Item_1").Specific));
             this.OnCustomInitialize();
 
         }
@@ -108,10 +109,12 @@ namespace UGRS.AddOn.AccountingAccounts
 
         private void OnCustomInitialize()
         {
+            mTxtDate.Value = DateTime.Now.ToString("yyyyMMdd");
             txtYear.Value = DateTime.Today.Year.ToString();
             cmbPeriod.Select("SELECCIONE");
             FillCmbTipo();
             cmbTipo.Select("SELECCIONE");
+            mObjMtx.AutoResizeColumns();
 
             gLstNomina = new List<Nomina>();
         }
@@ -127,7 +130,8 @@ namespace UGRS.AddOn.AccountingAccounts
         private SAPbouiCOM.Button btnExtrae;
         private SAPbouiCOM.StaticText lblTipo;
         private SAPbouiCOM.ComboBox cmbTipo;
-        private SAPbouiCOM.Grid Grid0;
+        private SAPbouiCOM.DataTable mObjDT;
+        //private SAPbouiCOM.Grid Grid0;
         #endregion
 
         #region Eventos
@@ -200,8 +204,16 @@ namespace UGRS.AddOn.AccountingAccounts
             AccountsDAO lObjAccounts = null;
             string lStrCtaPuente = "";
 
+            mListObjLogin = GetSetupLogin();
+            LoginDTO lObjLoginDTO = mListObjLogin.FirstOrDefault(x => x.Code == int.Parse(lStrValueCmb));
+
+            lStrCtaPuente = lObjLoginDTO.AccountingAccount;
+            mStrAccount = lObjLoginDTO.AccountingAccount;
+
+            //LoadList();
+
             bool lBolResult = Check_txts();
-            if (lBolResult && gLstNomina.Count > 0)
+            if (lBolResult && mObjMtx.RowCount > 0)
             {
                 //Tipo de Cambio USD
                 if (!CheckCurrencyRate())
@@ -214,10 +226,7 @@ namespace UGRS.AddOn.AccountingAccounts
                     this.UIAPIRawForm.Freeze(true);
                     mObjJournalEntries = (SAPbobsCOM.JournalEntries)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oJournalEntries);
 
-                    mListObjLogin = GetSetupLogin();
-                    LoginDTO lObjLoginDTO = mListObjLogin.FirstOrDefault(x => x.Code == int.Parse(lStrValueCmb));
-
-                    lStrCtaPuente = lObjLoginDTO.AccountingAccount;
+ 
 
                     if (lObjLoginDTO != null)
                     {
@@ -231,70 +240,71 @@ namespace UGRS.AddOn.AccountingAccounts
 
                         lObjAccounts = new AccountsDAO();
 
-                        var lVarGroupAcc = from p in gLstNomina group p by p.CUENTA into grouped select grouped;
+                        //var lVarGroupAcc = from p in gLstNomina group p by p.CUENTA into grouped select grouped;
 
-                        lStrResult = lObjAccounts.CheckAccounts(lVarGroupAcc);
+                        //lStrResult = lObjAccounts.CheckAccounts(lVarGroupAcc);
 
-                        if (lStrResult != string.Empty)
-                        {
-                            Application.SBO_Application.StatusBar.SetText("Proceso Cancelado. Actualice las cuentas." + lStrResult, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
-                            return;
-                        }
+                        //if (lStrResult != string.Empty)
+                        //{
+                        //    Application.SBO_Application.StatusBar.SetText("Proceso Cancelado. Actualice las cuentas." + lStrResult, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
+                        //    return;
+                        //}
 
-                        Application.SBO_Application.StatusBar.SetText("Procesando centros de costos... Porfavor espere", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
+                        //Application.SBO_Application.StatusBar.SetText("Procesando centros de costos... Porfavor espere", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
 
-                        //Existe Centro de Costos  
-                        lStrResult = string.Empty;
-                        lObjAccounts = new AccountsDAO();
+                        ////Existe Centro de Costos  
+                        //lStrResult = string.Empty;
+                        //lObjAccounts = new AccountsDAO();
 
-                        var lVarGpCC = from p in gLstNomina group p by p.CUENTA2 into grouped select grouped;
+                        //var lVarGpCC = from p in gLstNomina group p by p.CUENTA2 into grouped select grouped;
 
-                        lStrResult = lObjAccounts.CheckCostingCode(lVarGpCC);
+                        ////lStrResult = lObjAccounts.CheckCostingCode(lVarGpCC);
 
-                        if (lStrResult != string.Empty)
-                        {
-                            Application.SBO_Application.StatusBar.SetText("Proceso Cancelado. Actualice los Centros de Costo." + lStrResult, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
-                            return;
-                        }
+                        //if (lStrResult != string.Empty)
+                        //{
+                        //    Application.SBO_Application.StatusBar.SetText("Proceso Cancelado. Actualice los Centros de Costo." + lStrResult, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
+                        //    return;
+                        //}
 
-                        mDoubleImpoDedu = 0.0;
-                        mDoubleImpoPerc = 0.0;
+                        //mDoubleImpoDedu = 0.0;
+                        //mDoubleImpoPerc = 0.0;
 
-                        //Obtener Clave de SAP en empleados
-                        List<EmployeesDTO> lLstEmployeesDTO = mObjEmployeesDAO.GetEmployeeID();
+                        ////Obtener Clave de SAP en empleados
+                        //List<EmployeesDTO> lLstEmployeesDTO = mObjEmployeesDAO.GetEmployeeID();
 
-                        var lObjQuery = from nom in gLstNomina
-                                        join emp in lLstEmployeesDTO
-                                            on nom.ATRAB equals emp.IdEmpSAP
-                                        select new { nom, emp };
+                        //var lObjQuery = from nom in gLstNomina
+                        //                join emp in lLstEmployeesDTO
+                        //                    on nom.ATRAB equals emp.IdEmpSAP
+                        //                select new { nom, emp };
 
-                        List<string> lLstMissingEmp = new List<string>();
-                        foreach (var lObjQItem in lObjQuery)
-                        {
-                            if (lObjQItem.emp.IdEmpNomina == null)
-                            {
-                                lLstMissingEmp.Add(lObjQItem.emp.FullName);
-                            }
+                        //List<string> lLstMissingEmp = new List<string>();
+                        //foreach (var lObjQItem in lObjQuery)
+                        //{
+                        //    if (lObjQItem.emp.IdEmpNomina == null)
+                        //    {
+                        //        lLstMissingEmp.Add(lObjQItem.emp.FullName);
+                        //    }
 
-                            lObjQItem.nom.ATRAB = (int?)lObjQItem.emp.IdEmpNomina;
-                        }
 
-                        if (lLstMissingEmp.Count > 0)
-                        {
-                            string lStrMissingEmp = string.Empty;
-                            foreach (var lObjEmpItem in lLstMissingEmp.Distinct().ToList())
-                            {
-                                lStrMissingEmp += lObjEmpItem + ", ";
-                            }
+                        //    lObjQItem.nom.ATRAB = (int?)lObjQItem.emp.IdEmpNomina;
+                        //}
 
-                            Application.SBO_Application.MessageBox("Para continuar, registre en SAP los siguientes empleados: " + lStrMissingEmp);
-                            NewSearch();
+                        //if (lLstMissingEmp.Count > 0)
+                        //{
+                        //    string lStrMissingEmp = string.Empty;
+                        //    foreach (var lObjEmpItem in lLstMissingEmp.Distinct().ToList())
+                        //    {
+                        //        lStrMissingEmp += lObjEmpItem + ", ";
+                        //    }
 
-                            return;
-                        }
+                        //    Application.SBO_Application.MessageBox("Para continuar, registre en SAP los siguientes empleados: " + lStrMissingEmp);
+                        //    NewSearch();
+
+                        //    return;
+                        //}
 
                         mObjJournalEntries = PopulateJournalEntries(); //encabezado
-                        mObjJournalEntries = PopulateDetails(mObjJournalEntries, gLstNomina, lStrCtaPuente); //lineas
+                        mObjJournalEntries = PopulateDetails(mObjJournalEntries, lStrCtaPuente); //lineas
 
                         int lIntRespJournal = mObjJournalEntries.Add();
                         if (lIntRespJournal == 0)
@@ -336,77 +346,91 @@ namespace UGRS.AddOn.AccountingAccounts
             }
         }
 
+        private string GetAccount(string pStrAccount)
+        {
+            string lStrAccount = pStrAccount;
+
+            if(string.IsNullOrEmpty(lStrAccount))
+            {
+                lStrAccount = mStrAccount;
+            }
+            else
+            {
+                if(lStrAccount.Length < 13)
+                {
+                   lStrAccount = lStrAccount.PadRight(13, '0');
+                }
+            }
+
+            return lStrAccount;
+        }
+
         private SAPbobsCOM.JournalEntries PopulateJournalEntries()
         {
+
+            DateTime lObjDtDate = DateTime.ParseExact(mTxtDate.Value, "yyyyMMdd",
+                CultureInfo.InvariantCulture);
+
             ////encabezado
-            mObjJournalEntries.Series = 413;
-            mObjJournalEntries.ReferenceDate = DateTime.Now;
-            mObjJournalEntries.DueDate = DateTime.Now;
-            mObjJournalEntries.TaxDate = DateTime.Now;
+            mObjJournalEntries.Series = 19;
+            mObjJournalEntries.ReferenceDate = lObjDtDate;
+            mObjJournalEntries.DueDate = lObjDtDate;
+            mObjJournalEntries.TaxDate = lObjDtDate;
             mObjJournalEntries.Memo = cmbPeriod.Selected.Description.ToString() + "  " + txtNo.Value + "/" + DateTime.Today.Year.ToString(); //"CAT 1/17";
             mObjJournalEntries.TransactionCode = "NOM";
+            mObjJournalEntries.Reference = string.Format("{0}-{1}-{2}", cmbPeriod.Value, txtNo.Value, txtYear.Value);
             mObjJournalEntries.AutoVAT = SAPbobsCOM.BoYesNoEnum.tNO;
             return mObjJournalEntries;
         }
 
-        private SAPbobsCOM.JournalEntries PopulateDetails(JournalEntries pObjJournalEntries, List<Nomina> pObjLstNomina, string pStrBridgeAcc)
+        private SAPbobsCOM.JournalEntries PopulateDetails(JournalEntries pObjJournalEntries,string pStrBridgeAcc)
         {
             double lDbTotDebit = 0;
             double lDbTotCredit = 0;
-            int lIntCount = 0;
-            var lVarPD = from p in pObjLstNomina group p by p.ATRAB into grupo select grupo;
             try
             {
-                mObjProgressBar = new ProgressBarManager(Application.SBO_Application, "Cargando", pObjLstNomina.Count);
-                foreach (var lvarGp in lVarPD)
+                mObjProgressBar = new ProgressBarManager(Application.SBO_Application, "Cargando", mObjDT.Rows.Count);
+
+              for (int i = 0; i < mObjDT.Rows.Count; i++)
                 {
-                    lDbTotCredit = 0;
-                    lDbTotDebit = 0;
-                    foreach (var item in lvarGp)
+                    int lIntACONC = Convert.ToInt32(mObjDT.Columns.Item("ACONC").Cells.Item(i).Value.ToString());
+                    double lDbAIMPO = double.Parse(mObjDT.Columns.Item("AIMPO").Cells.Item(i).Value.ToString());
+                    string lStrAcct = GetAccount(mObjDT.Columns.Item("CUE").Cells.Item(i).Value.ToString());
+
+
+                    pObjJournalEntries.Lines.SetCurrentLine(i);
+                    pObjJournalEntries.Lines.AccountCode = Regex.Replace(lStrAcct, @"[$' ']", "");
+
+                    if (lIntACONC >= 1 && lIntACONC <= 100)
                     {
-                        /*if (Regex.Replace(item.CUENTA, @"[$' ']", "") != "2040000000000" && Regex.Replace(item.CUENTA, @"[$' ']", "") != "2040010000000" && Regex.Replace(item.CUENTA, @"[$' ']", "") != "2040010006000")
-                        {*/
-                        pObjJournalEntries.Lines.SetCurrentLine(lIntCount);
-                        pObjJournalEntries.Lines.AccountCode = Regex.Replace(item.CUENTA, @"[$' ']", "");
+                        pObjJournalEntries.Lines.Debit = lDbAIMPO;
 
-                        if (item.ACONC > 0)
-                        {
-                            double lDblAIMPO = double.Parse(item.AIMPO);
+                        lDbTotDebit += lDbAIMPO;
 
-                            if (item.ACONC >= 1 && item.ACONC <= 100)
-                            {
-                                pObjJournalEntries.Lines.Debit = lDblAIMPO;
-
-                                lDbTotDebit += lDblAIMPO;
-
-                                mStrCostingCode = item.CUENTA2.Trim();
-                            }
-                            if (item.ACONC >= 101 && item.ACONC <= 200)
-                            {
-                                pObjJournalEntries.Lines.Credit = lDblAIMPO;
-                                lDbTotCredit += lDblAIMPO;
-                            }
-                            //}
-
-                            pObjJournalEntries.Lines.CostingCode = mStrCostingCode; // centro de costo
-                            pObjJournalEntries.Lines.UserFields.Fields.Item("U_FolioFiscal").Value = item.UUID.Trim();
-                            pObjJournalEntries.Lines.UserFields.Fields.Item("U_GLO_AuxType").Value = "2"; //Nómina
-                            pObjJournalEntries.Lines.UserFields.Fields.Item("U_GLO_Auxiliary").Value = item.ATRAB.ToString();
-                            pObjJournalEntries.Lines.Add();
-
-                            mObjProgressBar.NextPosition();
-                            lIntCount++;
-                        }
+                        mStrCostingCode = mObjDT.Columns.Item("CC").Cells.Item(i).Value.ToString();
                     }
-                    pObjJournalEntries.Lines.SetCurrentLine(lIntCount);
-                    pObjJournalEntries.Lines.AccountCode = pStrBridgeAcc; //cuenta
-                    pObjJournalEntries.Lines.Credit = (lDbTotDebit - lDbTotCredit); //abono//Deduccion
-                    pObjJournalEntries.Lines.LineMemo = "Deposito a Banco Nómina"; //comentario
+                    if (lIntACONC >= 101 && lIntACONC <= 200)
+                    {
+                        pObjJournalEntries.Lines.Credit = lDbAIMPO;
+                        lDbTotCredit += lDbAIMPO;
+                    }
+
+                    pObjJournalEntries.Lines.CostingCode = mStrCostingCode; // centro de costo
+                    pObjJournalEntries.Lines.UserFields.Fields.Item("U_FolioFiscal").Value = mObjDT.Columns.Item("UUID").Cells.Item(i).Value.ToString().Trim();
+
+                    pObjJournalEntries.Lines.UserFields.Fields.Item("U_GLO_AuxName").Value = mObjDT.Columns.Item("NNOM").Cells.Item(i).Value.ToString();
                     pObjJournalEntries.Lines.Add();
 
                     mObjProgressBar.NextPosition();
-                    lIntCount++;
                 }
+
+              pObjJournalEntries.Lines.SetCurrentLine(mObjDT.Rows.Count);
+              pObjJournalEntries.Lines.AccountCode = pStrBridgeAcc; //cuenta
+              pObjJournalEntries.Lines.Credit = (lDbTotDebit - lDbTotCredit); //abono//Deduccion
+              pObjJournalEntries.Lines.LineMemo = "Deposito a Banco Nómina"; //comentario
+              pObjJournalEntries.Lines.Add();
+
+              mObjProgressBar.NextPosition();
             }
             catch (Exception er)
             {
@@ -447,7 +471,7 @@ namespace UGRS.AddOn.AccountingAccounts
                     {
                         this.UIAPIRawForm.Freeze(true);
 
-                        LoginDTO lObjLogin = GetSetupLogin().FirstOrDefault(x => x.Code == int.Parse(cmbPeriod.Value));
+                        LoginDTO lObjLogin = GetSetupLogin().FirstOrDefault();
 
                         if (lObjLogin != null)
                         {
@@ -457,25 +481,28 @@ namespace UGRS.AddOn.AccountingAccounts
                             EmployeesDAO lObjEmp = new EmployeesDAO();
                             btnExtrae.Caption = "Nueva Captura";
 
-                            List<Nomina> lLstNomina = new List<Nomina>();
+                            //List<Nomina> lLstNomina = new List<Nomina>();
                             AccountsDAO lObjAccount = new AccountsDAO();
                             gLstNomina = new List<Nomina>();
 
-                            gLstNomina = lObjAccount.GetAccounts(lStrYear, lStrPeriod, lStrNo, lObjLogin.NameServer, lObjLogin.NameDB, lObjLogin.Login, lObjLogin.Password); //lObjEmpItem
+                            LoadMatrix(lStrYear, lStrPeriod, lStrNo, lObjLogin.NameServer, lObjLogin.NameDB, lObjLogin.Login, lObjLogin.Password);
 
-                            if (gLstNomina.Count > 0)
-                            {
-                                lLstNomina.AddRange(gLstNomina);
-                            }
-                            else
-                            {
-                                Application.SBO_Application.StatusBar.SetText("Sin registros para mostrar", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
-                            }
 
-                            ConvertListIntoDataTable(lLstNomina);
+                            //gLstNomina = lObjAccount.GetAccounts(lStrYear, lStrPeriod, lStrNo, lObjLogin.NameServer, lObjLogin.NameDB, lObjLogin.Login, lObjLogin.Password); //lObjEmpItem
 
-                            Grid0.DataTable = this.UIAPIRawForm.DataSources.DataTables.Item("DT_0");
-                            Grid0.AutoResizeColumns();
+
+                            //if(gLstNomina.Count > 0) {
+                            //    lLstNomina.AddRange(gLstNomina);
+                            //}
+                            //else {
+                            //    Application.SBO_Application.StatusBar.SetText("Sin registros para mostrar", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
+                            //}
+
+                            //ConvertListIntoDataTable(lLstNomina);
+
+                            //Grid0.DataTable = this.UIAPIRawForm.DataSources.DataTables.Item("DT_0");
+                            //Grid0.AutoResizeColumns();
+
                         }
                         else
                         {
@@ -497,6 +524,35 @@ namespace UGRS.AddOn.AccountingAccounts
                 }
             }
         }
+
+        private void LoadMatrix(string lStrYear, string lStrPeriod, string lStrNo, string NameServer, string NameDB, string Login, string Password)
+        {
+            AccountsDAO lObjAccount = new AccountsDAO();
+
+            this.UIAPIRawForm.DataSources.DataTables.Item("DTMatrix")
+             .ExecuteQuery(lObjAccount.GetAccts(lStrYear, lStrPeriod, lStrNo, NameServer, NameDB, Login, Password));
+
+
+            mObjMtx.Columns.Item("clICD").DataBind.Bind("DTMatrix", "ICDNOM");
+            mObjMtx.Columns.Item("cAIMPO").DataBind.Bind("DTMatrix", "AIMPO");
+            mObjMtx.Columns.Item("cNIVEL").DataBind.Bind("DTMatrix", "NIVEL");
+            mObjMtx.Columns.Item("cCUE").DataBind.Bind("DTMatrix", "CUE");
+            //mObjMtx.Columns.Item("cCUE").DataBind.Bind("DTMatrix", "ACONC");
+            //mObjMtx.Columns.Item("cCUE").DataBind.Bind("DTMatrix", "ATRAB");
+            mObjMtx.Columns.Item("cCC").DataBind.Bind("DTMatrix", "CC");
+            mObjMtx.Columns.Item("cPROY").DataBind.Bind("DTMatrix", "PROY");
+            mObjMtx.Columns.Item("cAcc1").DataBind.Bind("DTMatrix", "CUENTA1");
+            mObjMtx.Columns.Item("cNNOM").DataBind.Bind("DTMatrix", "NNOM");
+            mObjMtx.Columns.Item("cNRFC").DataBind.Bind("DTMatrix", "NRFC");
+
+
+            mObjDT = this.UIAPIRawForm.DataSources.DataTables.Item("DTMatrix");
+
+            mObjMtx.LoadFromDataSource();
+            mObjMtx.AutoResizeColumns();
+        }
+
+
 
         private void cmbTipo_ComboSelectAfter(object sboObject, SAPbouiCOM.SBOItemEventArg pVal)
         {
@@ -620,8 +676,9 @@ namespace UGRS.AddOn.AccountingAccounts
 
         private void Clear_Grid()
         {
-            if (!this.UIAPIRawForm.DataSources.DataTables.Item("DT_0").IsEmpty)
-                this.UIAPIRawForm.DataSources.DataTables.Item("DT_0").Rows.Clear();
+            mObjMtx.Clear();
+            //if(!this.UIAPIRawForm.DataSources.DataTables.Item("DT_0").IsEmpty)
+            //    this.UIAPIRawForm.DataSources.DataTables.Item("DT_0").Rows.Clear();
         }
 
         private void Clear_txts()
@@ -669,44 +726,49 @@ namespace UGRS.AddOn.AccountingAccounts
 
         private void ConvertListIntoDataTable(List<Nomina> pLstNomina)
         {
+
+
+            // var timer = Stopwatch.StartNew();
+            ProgressBarManager lObjProgressBar = null;
             SAPbouiCOM.DataTable lObjDataTable = this.UIAPIRawForm.DataSources.DataTables.Item("DT_0");
             try
             {
-                ProgressBarManager lObjProgressBar = new ProgressBarManager(Application.SBO_Application, "Cargando", pLstNomina.Count);
-                for (int i = 0; i < pLstNomina.Count; i++)
+
+                Parallel.For(0, pLstNomina.Count, _ =>
                 {
                     lObjDataTable.Rows.Add();
-                    lObjDataTable.Columns.Item("ACONS").Cells.Item(i).Value = pLstNomina[i].ACONS;
-                    lObjDataTable.Columns.Item("IPYEAR").Cells.Item(i).Value = pLstNomina[i].IPYEAR;
-                    lObjDataTable.Columns.Item("IPMES").Cells.Item(i).Value = pLstNomina[i].IPMES;
-                    lObjDataTable.Columns.Item("IPTIPO").Cells.Item(i).Value = pLstNomina[i].IPTIPO;
-                    lObjDataTable.Columns.Item("IPNO").Cells.Item(i).Value = pLstNomina[i].IPNO;
-                    lObjDataTable.Columns.Item("ATRAB").Cells.Item(i).Value = pLstNomina[i].ATRAB;
-                    lObjDataTable.Columns.Item("ACONC").Cells.Item(i).Value = pLstNomina[i].ACONC;
-                    lObjDataTable.Columns.Item("ICNOM").Cells.Item(i).Value = pLstNomina[i].ICNOM;
-                    lObjDataTable.Columns.Item("AIMPO").Cells.Item(i).Value = pLstNomina[i].AIMPO;
-                    lObjDataTable.Columns.Item("ACCTO_HN").Cells.Item(i).Value = pLstNomina[i].ACCTO_HN;
-                    lObjDataTable.Columns.Item("ICDNOM").Cells.Item(i).Value = pLstNomina[i].ICDNOM;
-                    lObjDataTable.Columns.Item("ADEP_HN").Cells.Item(i).Value = pLstNomina[i].ADEP_HN;
-                    lObjDataTable.Columns.Item("ICCTAC").Cells.Item(i).Value = pLstNomina[i].ICCTAC;
-                    lObjDataTable.Columns.Item("ICCTAA").Cells.Item(i).Value = pLstNomina[i].ICCTAA;
-                    lObjDataTable.Columns.Item("NIVEL").Cells.Item(i).Value = pLstNomina[i].NIVEL;
-                    lObjDataTable.Columns.Item("CUENTA").Cells.Item(i).Value = pLstNomina[i].CUENTA;
-                    lObjDataTable.Columns.Item("ACCTO").Cells.Item(i).Value = pLstNomina[i].ACCTO;
-                    lObjDataTable.Columns.Item("ADEP").Cells.Item(i).Value = pLstNomina[i].ADEP;
-                    lObjDataTable.Columns.Item("CUENTA1").Cells.Item(i).Value = pLstNomina[i].CUENTA1;
-                    lObjDataTable.Columns.Item("CCTO_ID").Cells.Item(i).Value = pLstNomina[i].CCTO_ID;
-                    lObjDataTable.Columns.Item("UUID").Cells.Item(i).Value = pLstNomina[i].UUID;
-                    lObjDataTable.Columns.Item("CUENTA2").Cells.Item(i).Value = pLstNomina[i].CUENTA2;
+                });
+
+                lObjProgressBar = new ProgressBarManager(Application.SBO_Application, "Cargando", pLstNomina.Count);
+
+
+                Parallel.ForEach(Partitioner.Create(0, pLstNomina.Count), (range, state) =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                    {
+                        Parallel.ForEach(pLstNomina[0].GetType().GetProperties(), property =>
+                        {
+                            if (property.Name != "NNOM" && property.Name != "NRFC")
+                                lObjDataTable.SetValue(property.Name, i, pLstNomina[i].GetType().GetProperty(property.Name).GetValue(pLstNomina[i], null));
+                        });
+                    }
                     lObjProgressBar.NextPosition();
-                }
-                lObjProgressBar.Dispose();
+                });
 
             }
             catch (Exception lObjException)
             {
                 throw lObjException;
             }
+            finally
+            {
+                if (lObjProgressBar != null)
+                {
+                    lObjProgressBar.Stop();
+                    lObjProgressBar.Dispose();
+                }
+            }
+
         }
 
         private void FillCmbTipo()
@@ -754,7 +816,11 @@ namespace UGRS.AddOn.AccountingAccounts
 
         private void Form_ResizeAfter(SAPbouiCOM.SBOItemEventArg pVal)
         {
-            Grid0.AutoResizeColumns();
+            mObjMtx.AutoResizeColumns();
         }
+
+        private SAPbouiCOM.Matrix mObjMtx;
+        private SAPbouiCOM.EditText mTxtDate;
+        private SAPbouiCOM.StaticText StaticText0;
     }
 }

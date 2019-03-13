@@ -1,20 +1,17 @@
-﻿using System;
+﻿using SAPbouiCOM.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SAPbouiCOM.Framework;
-using UGRS.AddOn.AccountingAccounts.DTO;
-using UGRS.Core.SDK.UI.ProgressBar;
 using UGRS.AddOn.AccountingAccounts.DAO;
+using UGRS.AddOn.AccountingAccounts.DTO;
 using UGRS.AddOn.AccountingAccounts.Services;
 using UGRS.AddOn.AccountingAccounts.Tables;
-using System.Net;
+using UGRS.Core.SDK.UI.ProgressBar;
 
-namespace UGRS.AddOn.AccountingAccounts
-{
+namespace UGRS.AddOn.AccountingAccounts {
     [FormAttribute("UGRS.AddOn.AccountingAccounts.frmConfiguracion", "frmConfiguracion.b1f")]
-    class frmConfiguracion : UserFormBase
-    {
+    class frmConfiguracion : UserFormBase {
+
         #region Attributes
         private LoginDAO mObjLoginDAO = null;
         private IList<LoginDTO> mListObjLogin = null;
@@ -34,8 +31,7 @@ namespace UGRS.AddOn.AccountingAccounts
         #endregion
 
         #region Constructor
-        public frmConfiguracion()
-        {
+        public frmConfiguracion() {
             oForm = Application.SBO_Application.Forms.Item(this.UIAPIRawForm.UniqueID);
             LoadFormEvents();
             oForm.Resize(658, 394);
@@ -49,8 +45,7 @@ namespace UGRS.AddOn.AccountingAccounts
         /// <summary>
         /// Initialize components. Called by framework after form created.
         /// </summary>
-        public override void OnInitializeComponent()
-        {
+        public override void OnInitializeComponent() {
             this.txtBDName = ((SAPbouiCOM.EditText)(this.GetItem("txtBDName").Specific));
             this.txtDesc = ((SAPbouiCOM.EditText)(this.GetItem("txtDesc").Specific));
             this.StaticText35 = ((SAPbouiCOM.StaticText)(this.GetItem("Item_65").Specific));
@@ -88,33 +83,27 @@ namespace UGRS.AddOn.AccountingAccounts
         /// <summary>
         /// Initialize form event. Called by framework before form creation.
         /// </summary>
-        public override void OnInitializeFormEvents()
-        {
+        public override void OnInitializeFormEvents() {
 
         }
 
-        private void InitChkBox()
-        {
-            
+        private void InitChkBox() {
+
         }
 
-        public void LoadApplicationEvents()
-        {
+        public void LoadApplicationEvents() {
             SAPbouiCOM.Framework.Application.SBO_Application.ItemEvent += new SAPbouiCOM._IApplicationEvents_ItemEventEventHandler(SBO_Application_ItemEvent);
         }
 
-        private void LoadFormEvents()
-        {
+        private void LoadFormEvents() {
             SAPbouiCOM.Framework.Application.SBO_Application.ItemEvent += new SAPbouiCOM._IApplicationEvents_ItemEventEventHandler(chooseFromListAfterEvent);
         }
 
-        public void UnloadFormEvents()
-        {
+        public void UnloadFormEvents() {
             SAPbouiCOM.Framework.Application.SBO_Application.ItemEvent -= new SAPbouiCOM._IApplicationEvents_ItemEventEventHandler(chooseFromListAfterEvent);
         }
 
-        private void AddChooseFromListNomina()
-        {
+        private void AddChooseFromListNomina() {
             oForm.DataSources.UserDataSources.Add("CFL_0", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 254);
             SAPbouiCOM.ChooseFromListCollection oCFLs = oForm.ChooseFromLists;
             SAPbouiCOM.ChooseFromListCreationParams lObjCFLCreationParams = null;
@@ -141,8 +130,7 @@ namespace UGRS.AddOn.AccountingAccounts
             txtCuentaCNom.ChooseFromListAlias = "AcctCode";
         }
 
-        private void AddChooseFromListAsal()
-        {
+        private void AddChooseFromListAsal() {
             oForm.DataSources.UserDataSources.Add("CFL_1", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 254);
             SAPbouiCOM.ChooseFromListCollection oCFLs = oForm.ChooseFromLists;
             SAPbouiCOM.ChooseFromListCreationParams lObjCFLCreationParams = null;
@@ -175,51 +163,37 @@ namespace UGRS.AddOn.AccountingAccounts
         /// <param name="pVal"></param>
         /// <param name="BubbleEvent"></param>
         /// 
-        private void SBO_Application_ItemEvent(string FormUID, ref SAPbouiCOM.ItemEvent pVal, out bool BubbleEvent)
-        {
+        private void SBO_Application_ItemEvent(string FormUID, ref SAPbouiCOM.ItemEvent pVal, out bool BubbleEvent) {
             BubbleEvent = true;
-            try
-            {
-                if (FormUID.Equals(this.UIAPIRawForm.UniqueID))
-                {
-                    if (!pVal.BeforeAction)
-                    {
-                        switch (pVal.EventType)
-                        {
+            try {
+                if(FormUID.Equals(this.UIAPIRawForm.UniqueID)) {
+                    if(!pVal.BeforeAction) {
+                        switch(pVal.EventType) {
                             case SAPbouiCOM.BoEventTypes.et_CLICK:
-                                if (pVal.ItemUID.Equals("btn"))
-                                {
-                                    SaveConfigNomina();
-                                }
-                                if (pVal.ItemUID.Equals("Item_87"))
-                                {
-                                    SaveConfigAsalariados();
-                                }
-                                break;
+                            if(pVal.ItemUID.Equals("btn")) {
+                                SaveConfigNomina();
+                            }
+                            if(pVal.ItemUID.Equals("Item_87")) {
+                                SaveConfigAsalariados();
+                            }
+                            break;
                             default:
-                                break;
+                            break;
                         }
                     }
                 }
-
             }
-            catch (Exception ex)
-            {
+            catch(Exception ex) {
                 SAPbouiCOM.Framework.Application.SBO_Application.MessageBox(string.Format("ItemEventException: {0}", ex.Message));
             }
-
         }
 
-        private void chooseFromListAfterEvent(string FormUID, ref SAPbouiCOM.ItemEvent pValEvent, out bool BubbleEvent)
-        {
+        private void chooseFromListAfterEvent(string FormUID, ref SAPbouiCOM.ItemEvent pValEvent, out bool BubbleEvent) {
             BubbleEvent = true;
-            if (pValEvent.EventType != SAPbouiCOM.BoEventTypes.et_FORM_CLOSE)
-            {
+            if(pValEvent.EventType != SAPbouiCOM.BoEventTypes.et_FORM_CLOSE) {
 
-                if (pValEvent.ItemUID == "Item_90" && pValEvent.FormType == 0 && pValEvent.Action_Success == true && pValEvent.Before_Action == false && pValEvent.EventType == SAPbouiCOM.BoEventTypes.et_CHOOSE_FROM_LIST)
-                {
-                    try
-                    {
+                if(pValEvent.ItemUID == "Item_90" && pValEvent.FormType == 0 && pValEvent.Action_Success == true && pValEvent.Before_Action == false && pValEvent.EventType == SAPbouiCOM.BoEventTypes.et_CHOOSE_FROM_LIST) {
+                    try {
                         SAPbouiCOM.IChooseFromListEvent oCFLEvento = null;
                         oCFLEvento = (SAPbouiCOM.IChooseFromListEvent)pValEvent;
 
@@ -236,25 +210,19 @@ namespace UGRS.AddOn.AccountingAccounts
                         txtCuentaCNom.Value = lStrVal;
 
                     }
-                    catch (Exception ex)
-                    {
-                        if (!ex.Message.Contains("Form - Bad Value") && !ex.Message.Contains("Can't set value on item because the item can't get focus."))
-                        {
+                    catch(Exception ex) {
+                        if(!ex.Message.Contains("Form - Bad Value") && !ex.Message.Contains("Can't set value on item because the item can't get focus.")) {
                             Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
-
                         }
 
-                        if (ex.Message.Contains("Can't set value on item because the item can't get focus."))
-                        {
+                        if(ex.Message.Contains("Can't set value on item because the item can't get focus.")) {
                             //LoadMatrixPeticiones(val);
                         }
                     }
                 }
 
-                if (pValEvent.ItemUID == "Item_94" && pValEvent.FormType == 0 && pValEvent.Action_Success == true && pValEvent.Before_Action == false && pValEvent.EventType == SAPbouiCOM.BoEventTypes.et_CHOOSE_FROM_LIST)
-                {
-                    try
-                    {
+                if(pValEvent.ItemUID == "Item_94" && pValEvent.FormType == 0 && pValEvent.Action_Success == true && pValEvent.Before_Action == false && pValEvent.EventType == SAPbouiCOM.BoEventTypes.et_CHOOSE_FROM_LIST) {
+                    try {
                         SAPbouiCOM.IChooseFromListEvent oCFLEvento = null;
                         oCFLEvento = (SAPbouiCOM.IChooseFromListEvent)pValEvent;
 
@@ -272,16 +240,12 @@ namespace UGRS.AddOn.AccountingAccounts
                         txtCuentaCAsal.Value = lStrVal;
 
                     }
-                    catch (Exception ex)
-                    {
-                        if (!ex.Message.Contains("Form - Bad Value") && !ex.Message.Contains("Can't set value on item because the item can't get focus."))
-                        {
+                    catch(Exception ex) {
+                        if(!ex.Message.Contains("Form - Bad Value") && !ex.Message.Contains("Can't set value on item because the item can't get focus.")) {
                             Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
-
                         }
 
-                        if (ex.Message.Contains("Can't set value on item because the item can't get focus."))
-                        {
+                        if(ex.Message.Contains("Can't set value on item because the item can't get focus.")) {
                             //LoadMatrixPeticiones();
                         }
                     }
@@ -291,21 +255,17 @@ namespace UGRS.AddOn.AccountingAccounts
         #endregion
 
         #region Metodos
-        private void FillFieldsBD()
-        {
+        private void FillFieldsBD() {
 
-            try
-            {
+            try {
                 IList<LoginDTO> lListObjDB = new List<LoginDTO>();
                 lListObjDB = GetLoginInfo();
 
-                if (lListObjDB.Count > 0)
-                {
+                if(lListObjDB.Count > 0) {
                     gObjNomina = lListObjDB.Where(x => x.Descripcion == "Nomina").FirstOrDefault();
                     gObjAsal = lListObjDB.Where(x => x.Descripcion == "Asalariados").FirstOrDefault();
 
-                    if (gObjNomina != null)
-                    {
+                    if(gObjNomina != null) {
                         gIntCodeNom = gObjNomina.Code;
                         this.txtServer.Value = gObjNomina.NameServer;
                         this.txtLogin.Value = gObjNomina.Login;
@@ -316,13 +276,11 @@ namespace UGRS.AddOn.AccountingAccounts
 
                         gBolUpdateNomina = true;
                     }
-                    else
-                    {
+                    else {
                         gBolUpdateNomina = false;
                     }
 
-                    if (gObjAsal != null)
-                    {
+                    if(gObjAsal != null) {
                         gCodeAsal = gObjAsal.Code;
                         this.txtServAsal.Value = gObjAsal.NameServer;
                         this.txtLoginAsal.Value = gObjAsal.Login;
@@ -333,52 +291,41 @@ namespace UGRS.AddOn.AccountingAccounts
 
                         lBolUpdateAsal = true;
                     }
-                    else
-                    {
+                    else {
                         lBolUpdateAsal = false;
                     }
-
                 }
-                else
-                {
+                else {
 
                 }
             }
-            catch (Exception ex)
-            {
+            catch(Exception ex) {
                 Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
-            }    
-    
+            }
         }
 
         /// <summary>
         /// Crea o modifica los datos de conexión de nómina
         /// </summary>
-        private void SaveConfigNomina()
-        {
+        private void SaveConfigNomina() {
             AccountingAccountsSetupLogin setupLogin = null;
             AccountingAccountsSetupLoginService setupLoginService = new AccountingAccountsSetupLoginService();
 
-            try
-            {
-                if (!CheckEmptyFieldsNomina())
-                {
+            try {
+                if(!CheckEmptyFieldsNomina()) {
                     Application.SBO_Application.StatusBar.SetText("Complete campos vacíos para continuar", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
 
                     return;
                 }
 
-                if (!ValidateIPString(txtServer.Value))
-                {
+                if(!ValidateIPString(txtServer.Value)) {
                     Application.SBO_Application.StatusBar.SetText("Verifique el formato de la dirección ip de su servidor", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
 
                     return;
                 }
 
-                if (gBolUpdateNomina)
-                {
-                    setupLogin = new AccountingAccountsSetupLogin()
-                    {
+                if(gBolUpdateNomina) {
+                    setupLogin = new AccountingAccountsSetupLogin() {
                         Code = gIntCodeNom,
                         NameServer = txtServer.Value,
                         Login = txtLogin.Value,
@@ -391,10 +338,8 @@ namespace UGRS.AddOn.AccountingAccounts
 
                     setupLoginService.Update(setupLogin);
                 }
-                else
-                {
-                    setupLogin = new AccountingAccountsSetupLogin()
-                    {
+                else {
+                    setupLogin = new AccountingAccountsSetupLogin() {
                         NameServer = txtServer.Value,
                         Login = txtLogin.Value,
                         Password = txtPwd.Value,
@@ -415,8 +360,7 @@ namespace UGRS.AddOn.AccountingAccounts
                 Application.SBO_Application.StatusBar.SetText("Configuración guardada con éxito", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success);
 
             }
-            catch (Exception ex)
-            {
+            catch(Exception ex) {
                 Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
             }
 
@@ -425,31 +369,25 @@ namespace UGRS.AddOn.AccountingAccounts
         /// <summary>
         /// Crea o modifica los datos de conexión de asalariados
         /// </summary>
-        private void SaveConfigAsalariados()
-        {
+        private void SaveConfigAsalariados() {
             AccountingAccountsSetupLogin setupLogin = null;
             AccountingAccountsSetupLoginService setupLoginService = new AccountingAccountsSetupLoginService();
 
-            try
-            {
-                if (!CheckEmptyFieldsAsal())
-                {
+            try {
+                if(!CheckEmptyFieldsAsal()) {
                     Application.SBO_Application.StatusBar.SetText("Complete campos vacíos para continuar", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
 
                     return;
                 }
 
-                if (!ValidateIPString(txtServAsal.Value))
-                {
+                if(!ValidateIPString(txtServAsal.Value)) {
                     Application.SBO_Application.StatusBar.SetText("Verifique el formato de la dirección ip de su servidor", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
 
                     return;
                 }
 
-                if (lBolUpdateAsal)
-                {
-                    setupLogin = new AccountingAccountsSetupLogin()
-                    {
+                if(lBolUpdateAsal) {
+                    setupLogin = new AccountingAccountsSetupLogin() {
                         Code = gCodeAsal,
                         NameServer = txtServAsal.Value,
                         Login = txtLoginAsal.Value,
@@ -462,10 +400,8 @@ namespace UGRS.AddOn.AccountingAccounts
 
                     setupLoginService.Update(setupLogin);
                 }
-                else
-                {
-                    setupLogin = new AccountingAccountsSetupLogin()
-                    {
+                else {
+                    setupLogin = new AccountingAccountsSetupLogin() {
                         NameServer = txtServAsal.Value,
                         Login = txtLoginAsal.Value,
                         Password = txtPwdAsal.Value,
@@ -486,83 +422,75 @@ namespace UGRS.AddOn.AccountingAccounts
                 Application.SBO_Application.StatusBar.SetText("Configuración guardada con éxito", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success);
 
             }
-            catch (Exception ex)
-            {
+            catch(Exception ex) {
                 Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
             }
 
         }
 
-        private IList<LoginDTO> GetLoginInfo()
-        {
+        private IList<LoginDTO> GetLoginInfo() {
             //FillcmbTipo
             mObjLoginDAO = new LoginDAO();
             mListObjLogin = new List<LoginDTO>();
 
-            try
-            {
+            try {
                 mListObjLogin = mObjLoginDAO.GetLoginServer();
                 return mListObjLogin;
             }
-            catch (Exception ex)
-            {
+            catch(Exception ex) {
                 Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
                 return mListObjLogin;
             }
         }
 
-        private bool CheckEmptyFieldsNomina()
-        {
+        private bool CheckEmptyFieldsNomina() {
             bool isEmpty = true;
 
-            if (string.IsNullOrEmpty(txtServer.Value))
+            if(string.IsNullOrEmpty(txtServer.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtLogin.Value))
+            if(string.IsNullOrEmpty(txtLogin.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtPwd.Value))
+            if(string.IsNullOrEmpty(txtPwd.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtBDName.Value))
+            if(string.IsNullOrEmpty(txtBDName.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtCuentaCNom.Value))
+            if(string.IsNullOrEmpty(txtCuentaCNom.Value))
                 isEmpty = false;
 
             return isEmpty;
         }
 
-        private bool CheckEmptyFieldsAsal()
-        {
+        private bool CheckEmptyFieldsAsal() {
             bool isEmpty = true;
 
-            if (string.IsNullOrEmpty(txtServer.Value))
+            if(string.IsNullOrEmpty(txtServer.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtLogin.Value))
+            if(string.IsNullOrEmpty(txtLogin.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtPwd.Value))
+            if(string.IsNullOrEmpty(txtPwd.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtBDName.Value))
+            if(string.IsNullOrEmpty(txtBDName.Value))
                 isEmpty = false;
 
-            if (string.IsNullOrEmpty(txtCuentaCAsal.Value))
+            if(string.IsNullOrEmpty(txtCuentaCAsal.Value))
                 isEmpty = false;
 
             return isEmpty;
         }
 
-        private bool ValidateIPString(string ip)
-        {
+        private bool ValidateIPString(string ip) {
             var parts = ip.Split('.');
 
             bool isValid = parts.Length == 4
                            && !parts.Any(
-                               x =>
-                               {
+                               x => {
                                    int y;
                                    return Int32.TryParse(x, out y) && y > 255 || y < 1;
                                });

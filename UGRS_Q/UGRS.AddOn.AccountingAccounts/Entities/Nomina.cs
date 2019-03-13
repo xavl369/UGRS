@@ -17,6 +17,7 @@ namespace UGRS.AddOn.AccountingAccounts.Entities
         }
         public Nomina(System.Data.DataRow dr)
         {
+
                 ACCTO = dr["ACCTO"].ToString();
                 ACCTO_HN = dr["ACCTO_HN"].ToString();
                 ACONC = int.Parse(dr["ACONC"].ToString());
@@ -60,15 +61,13 @@ namespace UGRS.AddOn.AccountingAccounts.Entities
         public string ACCTO { get; set; }
         public string ADEP { get; set; }
         public string CUENTA1 { get; set; }
+        public string PROY { get; set; }
         public string CCTO_ID { get; set; }
         public string UUID { get; set; }
         public string CUENTA2 { get; set; }
         public string NNOM { get; set; }
         public string NRFC { get; set; }
-
-
         public string ICCTAC { get; set; }
-
         public string CUENTA { get; set; }
     }
 }
