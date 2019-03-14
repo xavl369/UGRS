@@ -105,6 +105,7 @@ namespace UGRS.AddOn.ExtractsBanking
                         mIntCountCarga++;
                     if (result != 0)
                     {
+                        string r = mObjCompany.GetLastErrorDescription();
                         //Application.SBO_Application.MessageBox("No se cargo el movimiento número: " + mIntTotalCarga);
                         Application.SBO_Application.StatusBar.SetText("No se cargo el movimiento número: " + mIntTotalCarga, SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
                     }
@@ -117,7 +118,7 @@ namespace UGRS.AddOn.ExtractsBanking
             {
                 Application.SBO_Application.StatusBar.SetText(ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
                 BankStatementsLogService.WriteError(ex.Message);
-                
+
             }
             finally
             {
@@ -129,51 +130,34 @@ namespace UGRS.AddOn.ExtractsBanking
 
         private IList<ExtractBanking> GetBanamexExtractBanking(string[] pArrStrLines)
         {
-            DateTime dateValue;
-            int lIntConsecutiveVal;
             IList<ExtractBanking> lLstObjResult = new List<ExtractBanking>();
-            for (int i = 0; i < pArrStrLines.Length; i++)
+            for (int i = 13; i < pArrStrLines.Length; i++)
             {
-                string[] lArrStrColumns = pArrStrLines[i].Split('|');
-                if ((DateTime.TryParse(lArrStrColumns[0], out dateValue)) && (lArrStrColumns.Count() < 5))  //valide
+                string[] lArrStrColumns = pArrStrLines[i].Split('"');
+
+                if(lArrStrColumns.Count() == 11)
                 {
                     ExtractBanking lObjExtractBanking = new ExtractBanking();
-
-                    lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
-                    lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[0]);
-                    lObjExtractBanking.Reference = lArrStrColumns[1].Substring(0, 16).Trim();
-                    lObjExtractBanking.Detail = lArrStrColumns[1].Substring(17, 53).Trim();
-
-                    if (lArrStrColumns[2] != "")
-                    {
-                        lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[2]);
-                    }
-                    if (lArrStrColumns[3] != "")
-                    {
-                        lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[3]);
-                    }
-
-                    lLstObjResult.Add(lObjExtractBanking);
-                }
-                else if (int.TryParse(lArrStrColumns[0], out lIntConsecutiveVal) && (lArrStrColumns.Count() <= 10))
-                {
-                    ExtractBanking lObjExtractBanking = new ExtractBanking();
-
                     lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
                     lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[1]);
-                    lObjExtractBanking.Reference = lArrStrColumns[9].ToString();
-                    lObjExtractBanking.Detail = string.IsNullOrEmpty(lArrStrColumns[7].ToString()) ? string.Empty : lArrStrColumns[7].ToString();
+                    //lObjExtractBanking.Reference = lArrStrColumns[1].Substring(0, 16).Trim();
 
-                    if (lArrStrColumns[2] == "C")
+                    lObjExtractBanking.Detail = lArrStrColumns[3].Trim();
+
+                    if (lArrStrColumns[7] != "" && lArrStrColumns[7] != "-")
                     {
-                        lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[8]);
-                    }
-                    if (lArrStrColumns[2] == "A")
-                    {
-                        lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[8]);
+                        lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[7]);
                     }
 
-                    lLstObjResult.Add(lObjExtractBanking);
+                    if (lArrStrColumns[5] != "" && lArrStrColumns[5] != "-")
+                    {
+                        lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[5]);
+                    }
+
+                    if (!(lObjExtractBanking.DebitAmount == 0 && lObjExtractBanking.CreditAmount == 0))
+                    {
+                        lLstObjResult.Add(lObjExtractBanking);
+                    }
                 }
             }
             return lLstObjResult;
@@ -235,8 +219,8 @@ namespace UGRS.AddOn.ExtractsBanking
                     lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[1]);
                     lObjExtractBanking.Reference = lArrStrColumns[3];
                     lObjExtractBanking.Detail = lArrStrColumns[4];
-                    lObjExtractBanking.DebitAmount = Convert.ToDouble(Regex.Replace(lArrStrColumns[7], @"[$\,]", ""));
-                    lObjExtractBanking.CreditAmount = Convert.ToDouble(Regex.Replace(lArrStrColumns[8], @"[$\,]", ""));
+                    lObjExtractBanking.DebitAmount = Convert.ToDouble(Regex.Replace(lArrStrColumns[8], @"[$\,]", ""));
+                    lObjExtractBanking.CreditAmount = Convert.ToDouble(Regex.Replace(lArrStrColumns[7], @"[$\,]", ""));
 
                     lLstObjResult.Add(lObjExtractBanking);
                 }
@@ -247,15 +231,17 @@ namespace UGRS.AddOn.ExtractsBanking
         private void ReadFileXlsx_Bancomer(string pStrPath)
         {
             mObjForm.Freeze(true);
+            string[] ArrStrWords;
             mIntCountCarga = 0;
             mIntTotalCarga = 0;
 
-            DataTable lDtbFileBancomer = new DataTable();
+            //DataTable lDtbFileBancomer = new DataTable();
             try
             {
-                lDtbFileBancomer = GetDtbFileBancomer(pStrPath);
-                mObjProgressBar = new ProgressBarManager(Application.SBO_Application, "Cargando extractos bancarios", lDtbFileBancomer.Rows.Count);
-                foreach (ExtractBanking lObjExtractBanking in GetBancomerExtractBanking(lDtbFileBancomer))
+                ArrStrWords = System.IO.File.ReadAllLines(pStrPath);
+                //lDtbFileBancomer = GetDtbFileBancomer(pStrPath);
+                mObjProgressBar = new ProgressBarManager(Application.SBO_Application, "Cargando extractos bancarios", ArrStrWords.Length);
+                foreach (ExtractBanking lObjExtractBanking in GetBancomerExtractBanking(ArrStrWords))
                 {
                     mObjBankPage = PopulateBankPages(lObjExtractBanking);
                     int result = mObjBankPage.Add();
@@ -287,38 +273,65 @@ namespace UGRS.AddOn.ExtractsBanking
             BankStatementsLogService.WriteSuccess("Proceso Terminado. Se cargaron " + mIntCountCarga + " de " + mIntTotalCarga + " movimientos bancarios.");
         }
 
-        private IList<ExtractBanking> GetBancomerExtractBanking(System.Data.DataTable pDtbStrLines)
+        private IList<ExtractBanking> GetBancomerExtractBanking(string[] pArrStrWords)
         {
             DateTime dateValue;
             IList<ExtractBanking> lLstObjResult = new List<ExtractBanking>();
-            for (int i = 0; i < pDtbStrLines.Rows.Count; i++)
+
+            for (int i = 1; i < pArrStrWords.Length; i++)
             {
-                if (DateTime.TryParse(pDtbStrLines.Rows[i].ItemArray[0].ToString(), out dateValue))   //valide
-                {
-                    ExtractBanking lObjExtractBanking = new ExtractBanking();
+                string[] lArrStrColumns = pArrStrWords[i].Split('\t');
 
-                    string lStrFecha = pDtbStrLines.Rows[i].ItemArray[0].ToString();
-                    string lStrConcepto = pDtbStrLines.Rows[i].ItemArray[1].ToString();
-                    string lStrReferencia = pDtbStrLines.Rows[i].ItemArray[2].ToString();
-                    string lStrCargo = pDtbStrLines.Rows[i].ItemArray[4].ToString();
-                    string lStrAbono = pDtbStrLines.Rows[i].ItemArray[5].ToString();
+                ExtractBanking lObjExtractBanking = new ExtractBanking();
 
-                    lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
-                    lObjExtractBanking.Date = Convert.ToDateTime(lStrFecha);
-                    lObjExtractBanking.Reference = lStrReferencia;
-                    lObjExtractBanking.Detail = lStrConcepto;
-                    if (lStrCargo != "")
-                        lObjExtractBanking.DebitAmount = Convert.ToDouble(Regex.Replace(lStrCargo, @"[$\,]", ""));
-                    if (lStrCargo == "")
-                        lObjExtractBanking.DebitAmount = 0;
-                    if (lStrAbono != "")
-                        lObjExtractBanking.CreditAmount = Convert.ToDouble(Regex.Replace(lStrAbono, @"[$\,]", ""));
-                    if (lStrAbono == "")
-                        lObjExtractBanking.CreditAmount = 0;
+                string lStrFecha = lArrStrColumns[0].ToString();
+                string lStrConcepto = lArrStrColumns[1].ToString();
+                
+                string lStrCargo = lArrStrColumns[2].ToString();
+                string lStrAbono = lArrStrColumns[3].ToString();
 
-                    lLstObjResult.Add(lObjExtractBanking);
-                }
+                lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
+                lObjExtractBanking.Date = Convert.ToDateTime(lStrFecha);
+                lObjExtractBanking.Detail = lStrConcepto;
+                if (lStrCargo != "")
+                    lObjExtractBanking.DebitAmount = Convert.ToDouble(Regex.Replace(lStrCargo, @"[$\,]", ""));
+                if (lStrCargo == "")
+                    lObjExtractBanking.DebitAmount = 0;
+                if (lStrAbono != "")
+                    lObjExtractBanking.CreditAmount = Convert.ToDouble(Regex.Replace(lStrAbono, @"[$\,]", ""));
+                if (lStrAbono == "")
+                    lObjExtractBanking.CreditAmount = 0;
+
+                lLstObjResult.Add(lObjExtractBanking);
             }
+            //for (int i = 0; i < pArrStrWords.Count(); i++)
+            //{
+            //    if (DateTime.TryParse(pArrStrWords.Rows[i].ItemArray[0].ToString(), out dateValue))   //valide
+            //    {
+            //ExtractBanking lObjExtractBanking = new ExtractBanking();
+
+            //        string lStrFecha = pArrStrWords.Rows[i].ItemArray[0].ToString();
+            ////        string lStrConcepto = pArrStrWords.Rows[i].ItemArray[1].ToString();
+            ////        string lStrReferencia = pArrStrWords.Rows[i].ItemArray[2].ToString();
+            ////        string lStrCargo = pArrStrWords.Rows[i].ItemArray[4].ToString();
+            ////        string lStrAbono = pArrStrWords.Rows[i].ItemArray[5].ToString();
+
+            //lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
+            //lObjExtractBanking.Date = Convert.ToDateTime(lStrFecha);
+            //lObjExtractBanking.Reference = lStrReferencia;
+            //lObjExtractBanking.Detail = lStrConcepto;
+            //if (lStrCargo != "")
+            //    lObjExtractBanking.DebitAmount = Convert.ToDouble(Regex.Replace(lStrCargo, @"[$\,]", ""));
+            //if (lStrCargo == "")
+            //    lObjExtractBanking.DebitAmount = 0;
+            //if (lStrAbono != "")
+            //    lObjExtractBanking.CreditAmount = Convert.ToDouble(Regex.Replace(lStrAbono, @"[$\,]", ""));
+            //if (lStrAbono == "")
+            //    lObjExtractBanking.CreditAmount = 0;
+
+            //        lLstObjResult.Add(lObjExtractBanking);
+            //    }
+            //}
             return lLstObjResult;
         }
 
@@ -519,6 +532,11 @@ namespace UGRS.AddOn.ExtractsBanking
             mObjBankPage.Reference = pObjExtractBanking.Reference;
             mObjBankPage.Memo = pObjExtractBanking.Detail;
 
+            if (pObjExtractBanking.DebitAmount == 0 && pObjExtractBanking.CreditAmount == 0)
+            {
+
+            }
+
             if (pObjExtractBanking.DebitAmount > 0)
             {
                 mObjBankPage.DebitAmount = pObjExtractBanking.DebitAmount;
@@ -670,12 +688,12 @@ namespace UGRS.AddOn.ExtractsBanking
                         switch (((SAPbouiCOM.ComboBox)mObjForm.Items.Item("cmbBanco").Specific).Value)
                         {
                             case "BANAMEX":
-                                if (lStrExtencion == ".txt") { ReadFileTxt_Banamex(fileName); }
+                                if (lStrExtencion == ".csv") { ReadFileTxt_Banamex(fileName); }
                                 else { SAPbouiCOM.Framework.Application.SBO_Application.MessageBox("Formato incorrecto, cargue el archivo adecuado(txt)"); }
                                 break;
 
                             case "BANCOMER":
-                                if (lStrExtencion == ".xlsx") { ReadFileXlsx_Bancomer(fileName); }
+                                if (lStrExtencion == ".txt") { ReadFileXlsx_Bancomer(fileName); }
                                 else { SAPbouiCOM.Framework.Application.SBO_Application.MessageBox("Formato incorrecto, cargue el archivo adecuado(xlsx)"); }
                                 break;
 
@@ -722,11 +740,11 @@ namespace UGRS.AddOn.ExtractsBanking
             switch (pStrBank)
             {
                 case "BANAMEX":
-                    pOFile.Filter = "Text Files|*.txt";
+                    pOFile.Filter = "Text Files|*.csv";
                     pOFile.Title = "Selecciona el archivo de Banamex";
                     break;
                 case "BANCOMER":
-                    pOFile.Filter = "Text Files|*.xlsx";
+                    pOFile.Filter = "Text Files|*.txt";
                     pOFile.Title = "Selecciona el archivo de Bancomer";
                     break;
                 case "BANORTE":
