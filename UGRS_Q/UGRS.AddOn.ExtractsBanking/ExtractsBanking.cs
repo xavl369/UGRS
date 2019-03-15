@@ -133,25 +133,28 @@ namespace UGRS.AddOn.ExtractsBanking
             IList<ExtractBanking> lLstObjResult = new List<ExtractBanking>();
             for (int i = 13; i < pArrStrLines.Length; i++)
             {
-                string[] lArrStrColumns = pArrStrLines[i].Split('"');
+               
+                    //@"\,([^\, \" ])"
+                string[] lArrStrColumns = Regex.Split(pArrStrLines[i], "\\,([^\\,0-9])",RegexOptions.IgnorePatternWhitespace);
 
-                if(lArrStrColumns.Count() == 11)
+                if(lArrStrColumns.Length == 9)
                 {
                     ExtractBanking lObjExtractBanking = new ExtractBanking();
                     lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
-                    lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[1]);
+                    lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[0]);
                     //lObjExtractBanking.Reference = lArrStrColumns[1].Substring(0, 16).Trim();
 
-                    lObjExtractBanking.Detail = lArrStrColumns[3].Trim();
+                    lObjExtractBanking.Detail = string.Format("{0}{1}", lArrStrColumns[1].Trim(), lArrStrColumns[2].Trim());
 
-                    if (lArrStrColumns[7] != "" && lArrStrColumns[7] != "-")
+                    if (lArrStrColumns[3] != "" && lArrStrColumns[3] != "-")
                     {
-                        lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[7]);
+
+                        lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[4].Replace("\"", ""));
                     }
 
                     if (lArrStrColumns[5] != "" && lArrStrColumns[5] != "-")
                     {
-                        lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[5]);
+                        lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[6].Replace("\"", ""));
                     }
 
                     if (!(lObjExtractBanking.DebitAmount == 0 && lObjExtractBanking.CreditAmount == 0))
@@ -424,7 +427,7 @@ namespace UGRS.AddOn.ExtractsBanking
                 string lStrImporte = pArrStrLines[i].Substring(46, 17);
                 string lStrCargoAbono = pArrStrLines[i].Substring(63, 5);
                 string lStrSaldo = pArrStrLines[i].Substring(68, 17);
-                string lStrTransaccion = pArrStrLines[i].Substring(85, 50);
+                string lStrTransaccion = pArrStrLines[i].Substring(134, 56);
 
                 lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
                 lObjExtractBanking.Date = Convert.ToDateTime(lStrFecha);
@@ -499,7 +502,7 @@ namespace UGRS.AddOn.ExtractsBanking
 
                     string lStrConvertFecha = Regex.Replace(lArrStrColumns[1].ToString(), @"[^\w]", "");
                     string lStrCargoAbono = lArrStrColumns[5].ToString();
-                    string lStrImporte = Regex.Replace(lArrStrColumns[6].ToString(), @"[^\w]", "");
+                    string lStrImporte = lArrStrColumns[6].Replace(",", "");
 
                     lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
                     lObjExtractBanking.Date = DateTime.ParseExact(lStrConvertFecha, "ddMMyyyy", CultureInfo.InvariantCulture);
