@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Services\BankStatementsLogService.cs" />
     <None Include="Form1.b1f">
+      <FormCategory>UserForm</FormCategory>
     </None>
     <Compile Include="Entities\ExtractBanking.cs" />
     <Compile Include="ExtractsBanking.cs" />

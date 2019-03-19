@@ -133,35 +133,47 @@ namespace UGRS.AddOn.ExtractsBanking
             IList<ExtractBanking> lLstObjResult = new List<ExtractBanking>();
             for (int i = 13; i < pArrStrLines.Length; i++)
             {
-               
-                    //@"\,([^\, \" ])"
-                string[] lArrStrColumns = Regex.Split(pArrStrLines[i], "\\,([^\\,0-9])",RegexOptions.IgnorePatternWhitespace);
+                //@"\,([^\, \" ])"
+                //string[] lArrStrColumns = Regex.Split(pArrStrLines[i], "\\,([^\\,\"0-9]+)", RegexOptions.IgnorePatternWhitespace);
+                /*string[] lArrColumns = pArrStrLines[i].Split(',');*/
+                string[] lArrStrColumns = Regex.Split(pArrStrLines[i], ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
-                if(lArrStrColumns.Length == 9)
+                ExtractBanking lObjExtractBanking = new ExtractBanking();
+                lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
+                lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[0]);
+                //lObjExtractBanking.Reference = lArrStrColumns[1].Substring(0, 16).Trim();
+
+                lObjExtractBanking.Detail = lArrStrColumns[1]; //string.Format("{0}{1}", lArrStrColumns[1].Trim(), lArrStrColumns[2].Trim());
+
+                if (lArrStrColumns[2] != "-")
                 {
-                    ExtractBanking lObjExtractBanking = new ExtractBanking();
-                    lObjExtractBanking.AccountCode = ((SAPbouiCOM.EditText)mObjForm.Items.Item("18").Specific).Value;
-                    lObjExtractBanking.Date = Convert.ToDateTime(lArrStrColumns[0]);
-                    //lObjExtractBanking.Reference = lArrStrColumns[1].Substring(0, 16).Trim();
-
-                    lObjExtractBanking.Detail = string.Format("{0}{1}", lArrStrColumns[1].Trim(), lArrStrColumns[2].Trim());
-
-                    if (lArrStrColumns[3] != "" && lArrStrColumns[3] != "-")
-                    {
-
-                        lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[4].Replace("\"", ""));
-                    }
-
-                    if (lArrStrColumns[5] != "" && lArrStrColumns[5] != "-")
-                    {
-                        lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[6].Replace("\"", ""));
-                    }
-
-                    if (!(lObjExtractBanking.DebitAmount == 0 && lObjExtractBanking.CreditAmount == 0))
-                    {
-                        lLstObjResult.Add(lObjExtractBanking);
-                    }
+                    lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[2].Trim('"'));
                 }
+                else
+                {
+                    lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[3].Trim('"'));
+                }
+
+                if (!(lObjExtractBanking.DebitAmount == 0 && lObjExtractBanking.CreditAmount == 0))
+                {
+                    lLstObjResult.Add(lObjExtractBanking);
+                }
+
+                //if (lArrStrColumns[3] != "" && lArrStrColumns[3] != "-")
+                //{
+
+                //    lObjExtractBanking.DebitAmount = Convert.ToDouble(lArrStrColumns[4].Replace("\"", ""));
+                //}
+
+                //if (lArrStrColumns[5] != "" && lArrStrColumns[5] != "-")
+                //{
+                //    lObjExtractBanking.CreditAmount = Convert.ToDouble(lArrStrColumns[6].Replace("\"", ""));
+                //}
+
+                //if (!(lObjExtractBanking.DebitAmount == 0 && lObjExtractBanking.CreditAmount == 0))
+                //{
+                //    lLstObjResult.Add(lObjExtractBanking);
+                //}
             }
             return lLstObjResult;
         }
@@ -289,7 +301,7 @@ namespace UGRS.AddOn.ExtractsBanking
 
                 string lStrFecha = lArrStrColumns[0].ToString();
                 string lStrConcepto = lArrStrColumns[1].ToString();
-                
+
                 string lStrCargo = lArrStrColumns[2].ToString();
                 string lStrAbono = lArrStrColumns[3].ToString();
 
