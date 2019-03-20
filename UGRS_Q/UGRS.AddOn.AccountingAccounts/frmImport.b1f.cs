@@ -91,8 +91,15 @@ namespace UGRS.AddOn.AccountingAccounts
             this.btnSalir = ((SAPbouiCOM.Button)(this.GetItem("btnSalir").Specific));
             this.btnSalir.ClickBefore += new SAPbouiCOM._IButtonEvents_ClickBeforeEventHandler(this.btnSalir_ClickBefore);
             this.mObjMtx = ((SAPbouiCOM.Matrix)(this.GetItem("Mtx").Specific));
+            this.mObjMtx.ClickAfter += new SAPbouiCOM._IMatrixEvents_ClickAfterEventHandler(this.mObjMtx_ClickAfter);
             this.mTxtDate = ((SAPbouiCOM.EditText)(this.GetItem("Item_0").Specific));
             this.StaticText0 = ((SAPbouiCOM.StaticText)(this.GetItem("Item_1").Specific));
+            this.mLblIngresos = ((SAPbouiCOM.StaticText)(this.GetItem("lblIng").Specific));
+            this.mTxtIngresos = ((SAPbouiCOM.EditText)(this.GetItem("txtIng").Specific));
+            this.mLblEgresos = ((SAPbouiCOM.StaticText)(this.GetItem("lblEgr").Specific));
+            this.mTxtEgresos = ((SAPbouiCOM.EditText)(this.GetItem("txtEgr").Specific));
+            this.mLblTotal = ((SAPbouiCOM.StaticText)(this.GetItem("lblTotal").Specific));
+            this.mTxtTotal = ((SAPbouiCOM.EditText)(this.GetItem("txtTotal").Specific));
             this.OnCustomInitialize();
 
         }
@@ -309,18 +316,18 @@ namespace UGRS.AddOn.AccountingAccounts
                         int lIntRespJournal = mObjJournalEntries.Add();
                         if (lIntRespJournal == 0)
                         {
+                            string lStrDocEntry = DIApplication.Company.GetNewObjectKey();
                             NewSearch();
-                            Application.SBO_Application.MessageBox("Proceso terminado. Se cargo con exito el asiento contable");
-                            Application.SBO_Application.StatusBar.SetText("Proceso terminado. Se cargo con exito el asiento contable", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success);
+                            Application.SBO_Application.MessageBox(string.Format("Proceso terminado. Se cargo con exito el asiento contable con Num. Transacción: {0}", lStrDocEntry));
+                            Application.SBO_Application.StatusBar.SetText(string.Format("Proceso terminado. Se cargo con exito el asiento contable con Num. Transacción: {0}", lStrDocEntry), SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success);
                         }
                         else
                         {
                             int lIntError = 0;
-                            string lStrError = string.Empty;
-                            string xdxd = DIApplication.Company.GetLastErrorDescription();
+                            string lStrError = DIApplication.Company.GetLastErrorDescription();
                             DIApplication.Company.GetLastError(out lIntError, out lStrError);
 
-                            Application.SBO_Application.StatusBar.SetText("Proceso Cancelado. Error al cargar el asiento contable " + lStrError, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
+                            Application.SBO_Application.StatusBar.SetText(string.Format("Proceso Cancelado. Error al cargar el asiento contable: {0} ", lStrError), SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
                         }
                     }
                     else
@@ -550,6 +557,8 @@ namespace UGRS.AddOn.AccountingAccounts
 
             mObjMtx.LoadFromDataSource();
             mObjMtx.AutoResizeColumns();
+
+            CalculateTotal();
         }
 
 
@@ -565,9 +574,46 @@ namespace UGRS.AddOn.AccountingAccounts
             }
         }
 
+        private void mObjMtx_ClickAfter(object sboObject, SAPbouiCOM.SBOItemEventArg pVal)
+        {
+            if (pVal.Row > 0)
+                mObjMtx.SelectRow(pVal.Row, true, false);
+        }
+
         #endregion
 
         #region Metodos
+        private void CalculateTotal()
+        {
+            try
+            {
+                double lDblIngresos = 0;
+                double lDblEgresos = 0;
+                for (int i = 0; i < mObjMtx.RowCount; i++)
+                {
+                    string lStrNivel = mObjDT.GetValue("NIVEL", i).ToString();
+                    double lDblImport = double.Parse(mObjDT.GetValue("AIMPO", i).ToString());
+
+                    if (lStrNivel == "2")
+                    {
+                        lDblIngresos += lDblImport;
+                    }
+                    else if (lStrNivel == "0")
+                    {
+                        lDblEgresos += lDblImport;
+                    }
+                }
+
+                mTxtIngresos.Value = String.Format("{0:n}", lDblIngresos);
+                mTxtEgresos.Value = String.Format("{0:n}", lDblEgresos);
+                mTxtTotal.Value = String.Format("{0:n}", lDblIngresos - lDblEgresos);
+            }
+            catch (Exception lObjException)
+            {
+                throw new Exception(string.Format("Error al calcular el total: {0}", lObjException.Message));
+            }
+        }
+
         private bool CheckCurrencyRate()
         {
             Tools lObjTools = new Tools();
@@ -641,6 +687,9 @@ namespace UGRS.AddOn.AccountingAccounts
             Clear_txts();
             Clear_Grid();
             btnExtrae.Caption = "Buscar Nómina";
+            mTxtIngresos.Value = "0";
+            mTxtEgresos.Value = "0";
+            mTxtTotal.Value = "0";
         }
 
         private void Check_txtNo(int pInt_txtNo)
@@ -822,5 +871,11 @@ namespace UGRS.AddOn.AccountingAccounts
         private SAPbouiCOM.Matrix mObjMtx;
         private SAPbouiCOM.EditText mTxtDate;
         private SAPbouiCOM.StaticText StaticText0;
+        private SAPbouiCOM.StaticText mLblIngresos;
+        private SAPbouiCOM.EditText mTxtIngresos;
+        private SAPbouiCOM.StaticText mLblEgresos;
+        private SAPbouiCOM.EditText mTxtEgresos;
+        private SAPbouiCOM.StaticText mLblTotal;
+        private SAPbouiCOM.EditText mTxtTotal;
     }
 }
