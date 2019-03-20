@@ -130,6 +130,7 @@ namespace UGRS.AddOn.ExtractsBanking
 
         private IList<ExtractBanking> GetBanamexExtractBanking(string[] pArrStrLines)
         {
+            //Comentario de prueba
             IList<ExtractBanking> lLstObjResult = new List<ExtractBanking>();
             for (int i = 13; i < pArrStrLines.Length; i++)
             {
