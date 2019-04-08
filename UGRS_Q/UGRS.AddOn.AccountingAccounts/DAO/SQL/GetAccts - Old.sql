@@ -1,20 +1,5 @@
 EXEC sp_addlinkedsrvlogin '{ServerName}', 'false', null, '{User}', '{Password}'; 
-SELECT 
 
-	  r0.ICDNOM
-	 , r0.AIMPO	
-	 , r0.ACONC
-	 , r0.ATRAB
-	 , r0.NIVEL
-	 , case when r1.U_CtaNomina is null then r0.CUE else r1.U_CtaSAP end CUE
-	 , r0.CC
-	 , r0.PROY
-	 , r0.CUENTA1
-	 , r0.NNOM
-	 , r0.NRFC	   
-	 ,r0.UUID
-
- from (
 SELECT  
 	--  [CC].ICNOM
 	--, CONVERT(VARCHAR(250), TMP_HN.AIMPO) AIMPO	
@@ -123,5 +108,4 @@ SELECT
 	           FROM  [{ServerName}].[{DBName}].[dbo].[Historico de Recibos Electronicos]  where  IPYEAR = '{Year}' and IPTIPO = '{Tipo}' and IPNO = '{Ipno}') TMP_HRE 
 		on TMP_HN.Cod 	= TMP_HRE.Cod 
 	LEFT JOIN ( SELECT NTRAB, NNOM , NRFC FROM [{ServerName}].[{DBName}].[dbo].[Catalogo Empleados] ) TMP_EMPL
-		on TMP_HN.ATRAB = TMP_EMPL.NTRAB) R0
-    left join (select b0.U_CtaNomina COLLATE SQL_Latin1_General_CP850_CI_AS U_CtaNomina,b0.U_CtaSAP COLLATE SQL_Latin1_General_CP850_CI_AS U_CtaSAP  from [@UG_NominaRel] B0 ) R1  on r0.CUE  = r1.U_CtaNomina 
+		on TMP_HN.ATRAB = TMP_EMPL.NTRAB
