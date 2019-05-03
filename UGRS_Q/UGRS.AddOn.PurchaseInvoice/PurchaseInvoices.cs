@@ -25,14 +25,14 @@ namespace UGRS.AddOn.PurchaseInvoice
         //    public SAPbobsCOM.Company lObjCompany { get; set; }
         //    public SAPbouiCOM.Company lObjCompanyUI { get; set; }
 
-        private SAPbouiCOM.Form lObjForm = null;
-        private SAPbouiCOM.EditText ltxtProveedor = null;
-        private SAPbouiCOM.EditText lObjTxtDocDate = null;
-        private SAPbouiCOM.ComboBox lObjComboBoxCurrency = null;
-        private SAPbouiCOM.ComboBox lObjComboBoxCurrSource = null;
-        private SAPbouiCOM.ComboBox lObjComboBoxDocType = null;
+        private SAPbouiCOM.Form mObjForm = null;
+        private SAPbouiCOM.EditText mtxtProveedor = null;
+        private SAPbouiCOM.EditText mObjTxtDocDate = null;
+        private SAPbouiCOM.ComboBox mObjComboBoxCurrency = null;
+        private SAPbouiCOM.ComboBox mObjComboBoxCurrSource = null;
+        private SAPbouiCOM.ComboBox mObjComboBoxDocType = null;
         private ProgressBarManager mObjProgressBar = null;
-        private SAPbouiCOM.Form form;
+        private SAPbouiCOM.Form mFrm;
 
         private string lStrSelectedPath;
         private string lStrFolio;
@@ -44,6 +44,7 @@ namespace UGRS.AddOn.PurchaseInvoice
         private string mStrFecha = string.Empty;
         string mStrFechaDoc = string.Empty;
         string lStrErrorMessage = string.Empty;
+        int mIntDocEntry = 0;
 
         List<Concepts> xmlConceptLines = new List<Concepts>();
 
@@ -126,15 +127,18 @@ namespace UGRS.AddOn.PurchaseInvoice
                 if ((pVal.FormType == 141 || pVal.FormType == 65301 || pVal.FormType == 60092 || pVal.FormType == 181) && pVal.EventType != SAPbouiCOM.BoEventTypes.et_FORM_UNLOAD && pVal.Before_Action)
                 {
 
-                    lObjForm = Application.SBO_Application.Forms.GetFormByTypeAndCount(pVal.FormType, pVal.FormTypeCount);
+                    mObjForm = Application.SBO_Application.Forms.GetFormByTypeAndCount(pVal.FormType, pVal.FormTypeCount);
 
-
+                
 
                     if (pVal.ItemUID.Equals("1") && pVal.EventType == SAPbouiCOM.BoEventTypes.et_ITEM_PRESSED)
                     {
+                      
                         if (oPurchaseInvoice != null)
                         {
-                            string lStrImpustosRetencion = (lObjForm.Items.Item("166").Specific as SAPbouiCOM.EditText).Value;
+                           
+
+                            string lStrImpustosRetencion = (mObjForm.Items.Item("166").Specific as SAPbouiCOM.EditText).Value;
 
 
                             bool lBolIsSuccess = ValidarUUID(oPurchaseInvoice.ImpuestosTraslados, oPurchaseInvoice.Total, oPurchaseInvoice.Retenciones, mStrRfc, lStrFolioFiscal);
@@ -165,10 +169,10 @@ namespace UGRS.AddOn.PurchaseInvoice
                         //lItmBtnReadXML.Left = lObjForm.Items.Item("70").Left;
                         //(lItmBtnReadXML.Specific as SAPbouiCOM.Button).Caption = "Importar XML";
 
-                        if (!ItemExist("btnImpo", lObjForm))
+                        if (!ItemExist("btnImpo", mObjForm))
                         {
-                            SAPbouiCOM.Item txtUUID = lObjForm.Items.Item("480002119");
-                            lItmBtnImportar = lObjForm.Items.Add("btnImpo", SAPbouiCOM.BoFormItemTypes.it_BUTTON);
+                            SAPbouiCOM.Item txtUUID = mObjForm.Items.Item("480002119");
+                            lItmBtnImportar = mObjForm.Items.Add("btnImpo", SAPbouiCOM.BoFormItemTypes.it_BUTTON);
                             lItmBtnImportar.FromPane = 10;
                             lItmBtnImportar.ToPane = 10;
                             lItmBtnImportar.Top = txtUUID.Top + 15;
@@ -208,7 +212,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                                 mObjProgressBar.Dispose();
                             }
                         }
-                        if (lObjComboBoxDocType.Selected.Value == "S" && lObjMatrix.RowCount == 1 && OpenFileDialog())
+                        if (mObjComboBoxDocType.Selected.Value == "S" && lObjMatrix.RowCount == 1 && OpenFileDialog())
                         {
                             if (validUUID(lStrFolioFiscal))
                             {
@@ -217,7 +221,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                                     if (getPurchaseByRFC())
                                     {
                                         mStrRfc = oPurchaseInvoice.RFCProveedor;
-                                        lObjModalForm = new ModalFormXml(lObjForm, oPurchaseInvoice, "Servicios", pVal.FormType.ToString()); //aqui estaba breakpoint
+                                        lObjModalForm = new ModalFormXml(mObjForm, oPurchaseInvoice, "Servicios", pVal.FormType.ToString()); //aqui estaba breakpoint
                                     }
                                     else
                                         Application.SBO_Application.StatusBar.SetText("RFC emisor no registrado.", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
@@ -228,14 +232,14 @@ namespace UGRS.AddOn.PurchaseInvoice
                             else
                                 Application.SBO_Application.StatusBar.SetText("Folio Fiscal ya registrado", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
                         }
-                        else if (lObjComboBoxDocType.Selected.Value == "I" && lObjMatrix.RowCount == 1 && OpenFileDialog())
+                        else if (mObjComboBoxDocType.Selected.Value == "I" && lObjMatrix.RowCount == 1 && OpenFileDialog())
                         {
                             if (validUUID(lStrFolioFiscal))
                             {
                                 if (validatePurchase())
                                 {
                                     if (getPurchaseByRFC())
-                                        lObjModalForm = new ModalFormXml(lObjForm, oPurchaseInvoice, "Articulos", pVal.FormType.ToString());
+                                        lObjModalForm = new ModalFormXml(mObjForm, oPurchaseInvoice, "Articulos", pVal.FormType.ToString());
                                     else
                                         Application.SBO_Application.StatusBar.SetText("RFC emisor no registrado", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Error);
                                 }
@@ -380,20 +384,20 @@ namespace UGRS.AddOn.PurchaseInvoice
 
         private void initItems()
         {
-            lObjFolder = (SAPbouiCOM.Folder)lObjForm.Items.Item("350002087").Specific;
-            lObjEDocNum = (SAPbouiCOM.EditText)lObjForm.Items.Item("480002119").Specific;
-            lObjComboBoxDocType = (SAPbouiCOM.ComboBox)lObjForm.Items.Item("3").Specific;
-            ltxtProveedor = (SAPbouiCOM.EditText)lObjForm.Items.Item("4").Specific;
-            lObjTxtDocDate = (SAPbouiCOM.EditText)lObjForm.Items.Item("10").Specific;
-            lObjComboBoxCurrency = (SAPbouiCOM.ComboBox)lObjForm.Items.Item("63").Specific;
-            lObjComboBoxCurrSource = (SAPbouiCOM.ComboBox)lObjForm.Items.Item("70").Specific;
-            if (lObjComboBoxDocType.Value == "S")
+            lObjFolder = (SAPbouiCOM.Folder)mObjForm.Items.Item("350002087").Specific;
+            lObjEDocNum = (SAPbouiCOM.EditText)mObjForm.Items.Item("480002119").Specific;
+            mObjComboBoxDocType = (SAPbouiCOM.ComboBox)mObjForm.Items.Item("3").Specific;
+            mtxtProveedor = (SAPbouiCOM.EditText)mObjForm.Items.Item("4").Specific;
+            mObjTxtDocDate = (SAPbouiCOM.EditText)mObjForm.Items.Item("10").Specific;
+            mObjComboBoxCurrency = (SAPbouiCOM.ComboBox)mObjForm.Items.Item("63").Specific;
+            mObjComboBoxCurrSource = (SAPbouiCOM.ComboBox)mObjForm.Items.Item("70").Specific;
+            if (mObjComboBoxDocType.Value == "S")
             {
-                lObjMatrix = (SAPbouiCOM.Matrix)lObjForm.Items.Item("39").Specific;
+                lObjMatrix = (SAPbouiCOM.Matrix)mObjForm.Items.Item("39").Specific;
             }
             else
             {
-                lObjMatrix = (SAPbouiCOM.Matrix)lObjForm.Items.Item("38").Specific;
+                lObjMatrix = (SAPbouiCOM.Matrix)mObjForm.Items.Item("38").Specific;
             }
         }
 
@@ -404,7 +408,7 @@ namespace UGRS.AddOn.PurchaseInvoice
 
         private void FillMatrix()
         {
-            lObjForm.Freeze(true);
+            mObjForm.Freeze(true);
             int lIntCount = 1;
             try
             {
@@ -421,7 +425,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                     ltxtAccountNumber.Value = item.NumeroCuenta.ToString();
 
                     //Validar si es peso mexicano(columna 12), si no se utiliza la columna 14
-                    if (lObjComboBoxCurrency.Value == "MXP")
+                    if (mObjComboBoxCurrency.Value == "MXP")
                     {
                         ltxtPrice = (SAPbouiCOM.EditText)lObjMatrix.Columns.Item("12").Cells.Item(lIntCount).Specific;
                         ltxtPrice.Value = item.ValorUnitario;
@@ -448,7 +452,7 @@ namespace UGRS.AddOn.PurchaseInvoice
             }
             finally
             {
-                lObjForm.Freeze(false);
+                mObjForm.Freeze(false);
                 mObjProgressBar.Dispose();
 
             }
@@ -456,7 +460,7 @@ namespace UGRS.AddOn.PurchaseInvoice
 
         private void FillMatrixArticles()
         {
-            lObjForm.Freeze(true);
+            mObjForm.Freeze(true);
             int lIntCount = 1;
 
             try
@@ -486,7 +490,7 @@ namespace UGRS.AddOn.PurchaseInvoice
             }
             finally
             {
-                lObjForm.Freeze(false);
+                mObjForm.Freeze(false);
                 mObjProgressBar.Dispose();
             }
         }
@@ -498,17 +502,17 @@ namespace UGRS.AddOn.PurchaseInvoice
             switch (lObjModalForm.getCurrencyByBP())
             {
                 case "##":
-                    lObjComboBoxCurrency.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
-                    lObjComboBoxCurrency.Select(oPurchaseInvoice.MonedaDocumento.Trim(), SAPbouiCOM.BoSearchKey.psk_ByValue);
+                    mObjComboBoxCurrency.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
+                    mObjComboBoxCurrency.Select(oPurchaseInvoice.MonedaDocumento.Trim(), SAPbouiCOM.BoSearchKey.psk_ByValue);
                     break;
                 case "MXP":
-                    lObjComboBoxCurrSource.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
+                    mObjComboBoxCurrSource.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
                     break;
                 case "USD":
-                    lObjComboBoxCurrSource.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
+                    mObjComboBoxCurrSource.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
                     break;
                 case "EUR":
-                    lObjComboBoxCurrSource.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
+                    mObjComboBoxCurrSource.Select(2, SAPbouiCOM.BoSearchKey.psk_Index);
                     break;
 
             }
@@ -885,7 +889,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                 {
                     oPurchaseInvoice.CardCode = lObjRecordSet.Fields.Item(0).Value.ToString();
                     oPurchaseInvoice.NombreSocioNegocio = lObjRecordSet.Fields.Item(1).Value.ToString();
-                    ltxtProveedor.Value = oPurchaseInvoice.CardCode;
+                    mtxtProveedor.Value = oPurchaseInvoice.CardCode;
 
                     value = true;
                 }
@@ -932,15 +936,15 @@ namespace UGRS.AddOn.PurchaseInvoice
 
             DateTime lObjDt = DateTime.Now;
             DateTime.TryParse(mStrFecha, out lObjDt);
-            SAPbouiCOM.EditText txtDate = (SAPbouiCOM.EditText)lObjForm.Items.Item("46");
+            SAPbouiCOM.EditText txtDate = (SAPbouiCOM.EditText)mObjForm.Items.Item("46");
             if (txtDate.Item.Enabled)
             {
-                ((SAPbouiCOM.EditText)lObjForm.Items.Item("46").Specific).Active = true;
-                ((SAPbouiCOM.EditText)lObjForm.Items.Item("46").Specific).Value = lObjDt.ToString("yyyyMMdd");
-                ((SAPbouiCOM.EditText)lObjForm.Items.Item("46").Specific).Active = false;
+                ((SAPbouiCOM.EditText)mObjForm.Items.Item("46").Specific).Active = true;
+                ((SAPbouiCOM.EditText)mObjForm.Items.Item("46").Specific).Value = lObjDt.ToString("yyyyMMdd");
+                ((SAPbouiCOM.EditText)mObjForm.Items.Item("46").Specific).Active = false;
             }
              
-            lObjFolder = (SAPbouiCOM.Folder)lObjForm.Items.Item("112").Specific;
+            lObjFolder = (SAPbouiCOM.Folder)mObjForm.Items.Item("112").Specific;
             
             lObjFolder.Select();
         }
@@ -1054,16 +1058,21 @@ namespace UGRS.AddOn.PurchaseInvoice
             return lFltImpuestosRetenciones;
         }
 
-        private void ValidarXMLFacturaUUID(string pStrImpuestos, string pStrTotal, string pStrImpuestosRetenciones, string pStrRFC, string pStrFolioFiscal)
+        private void ValidarXMLFacturaUUID(string pStrImpuestos, string pStrTotal, string pStrImpuestosRetenciones, string pStrRFC, string pStrFolioFiscal, string pStrPath)
         {
+            AttachmentDI lObjAttDI2 = new AttachmentDI();
+
+            lObjAttDI2.AttatchFile(pStrPath, mIntDocEntry);
+
+
             double lDblDirefenciaImpuesto = 0;
             double lDblDirefenciaTotal = 0;
             double lDblDiferenciaReal = 0;
             pStrImpuestosRetenciones = pStrImpuestosRetenciones == "" ? "0" : pStrImpuestosRetenciones;
-            string lStrTotalFactura = (lObjForm.Items.Item("29").Specific as SAPbouiCOM.EditText).Value;
-            string lStrImpuestosFactura = (lObjForm.Items.Item("27").Specific as SAPbouiCOM.EditText).Value;
-            string lStrImpustosRetencion = (lObjForm.Items.Item("166").Specific as SAPbouiCOM.EditText).Value;
-            string lStrCardCode = (lObjForm.Items.Item("4").Specific as SAPbouiCOM.EditText).Value;
+            string lStrTotalFactura = (mObjForm.Items.Item("29").Specific as SAPbouiCOM.EditText).Value;
+            string lStrImpuestosFactura = (mObjForm.Items.Item("27").Specific as SAPbouiCOM.EditText).Value;
+            string lStrImpustosRetencion = (mObjForm.Items.Item("166").Specific as SAPbouiCOM.EditText).Value;
+            string lStrCardCode = (mObjForm.Items.Item("4").Specific as SAPbouiCOM.EditText).Value;
             double lDblTotalFactura = double.Parse(lStrTotalFactura.Substring(0, lStrTotalFactura.Length - 4));
             if (lStrImpuestosFactura == "") lStrImpuestosFactura = "0 MXP";
             double lDblImpuestosFactura = double.Parse(lStrImpuestosFactura.Substring(0, lStrImpuestosFactura.Length - 4));
@@ -1093,6 +1102,10 @@ namespace UGRS.AddOn.PurchaseInvoice
                         Application.SBO_Application.MessageBox("La diferencia de totales del XML y la factura no corresponden a la configuración. Favor de comprobar la información");
                     else
                     {
+                        AttachmentDI lObjAttDI = new AttachmentDI();
+
+                        lObjAttDI.AttatchFile(pStrPath, mIntDocEntry);
+
                         SAPbobsCOM.SBObob lObjSBObob = (SAPbobsCOM.SBObob)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge);
                         SAPbobsCOM.Recordset lObjRecordSet = (SAPbobsCOM.Recordset)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
                         lObjRecordSet = lObjSBObob.GetObjectKeyBySingleValue(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices, "EDocNum", pStrFolioFiscal, SAPbobsCOM.BoQueryConditions.bqc_Equal);
@@ -1109,18 +1122,18 @@ namespace UGRS.AddOn.PurchaseInvoice
                                     lObjRecordSet = (SAPbobsCOM.Recordset)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
                                     lObjRecordSet = lObjSBObob.GetObjectKeyBySingleValue(SAPbobsCOM.BoObjectTypes.oCreditNotes, "EDocNum", pStrFolioFiscal, SAPbobsCOM.BoQueryConditions.bqc_Equal);
                                     if (lObjRecordSet.RecordCount == 0)
-                                        CargarUUIDFactura(pStrFolioFiscal);
+                                        CargarUUIDFactura(pStrFolioFiscal, pStrPath);
                                     else
-                                        CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "NotaCreditoCliente");
+                                        CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "NotaCreditoCliente", pStrPath);
                                 }
                                 else
-                                    CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "NotaCreditoProveedor");
+                                    CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "NotaCreditoProveedor", pStrPath);
                             }
                             else
-                                CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "FacturaCliente");
+                                CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "FacturaCliente", pStrPath);
                         }
                         else
-                            CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "FacturaProveedor");
+                            CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "FacturaProveedor", pStrPath);
 
                         MemoryUtility.ReleaseComObject(lObjRecordSet);
                         MemoryUtility.ReleaseComObject(lObjSBObob);
@@ -1147,10 +1160,10 @@ namespace UGRS.AddOn.PurchaseInvoice
                 double lDblDirefenciaTotal = 0;
                 double lDblDiferenciaReal = 0;
                 pStrImpuestosRetenciones = (pStrImpuestosRetenciones == "" || pStrImpuestosRetenciones == null) ? "0" : pStrImpuestosRetenciones;
-                string lStrTotalFactura = (lObjForm.Items.Item("29").Specific as SAPbouiCOM.EditText).Value;
-                string lStrImpuestosFactura = (lObjForm.Items.Item("27").Specific as SAPbouiCOM.EditText).Value;
-                string lStrImpustosRetencion = (lObjForm.Items.Item("166").Specific as SAPbouiCOM.EditText).Value;
-                string lStrCardCode = (lObjForm.Items.Item("4").Specific as SAPbouiCOM.EditText).Value;
+                string lStrTotalFactura = (mObjForm.Items.Item("29").Specific as SAPbouiCOM.EditText).Value;
+                string lStrImpuestosFactura = (mObjForm.Items.Item("27").Specific as SAPbouiCOM.EditText).Value;
+                string lStrImpustosRetencion = (mObjForm.Items.Item("166").Specific as SAPbouiCOM.EditText).Value;
+                string lStrCardCode = (mObjForm.Items.Item("4").Specific as SAPbouiCOM.EditText).Value;
                 double lDblTotalFactura = double.Parse(lStrTotalFactura.Substring(0, lStrTotalFactura.Length - 4));
                 if (lStrImpuestosFactura == "") lStrImpuestosFactura = "0 MXP";
                 double lDblImpuestosFactura = double.Parse(lStrImpuestosFactura.Substring(0, lStrImpuestosFactura.Length - 4));
@@ -1211,10 +1224,11 @@ namespace UGRS.AddOn.PurchaseInvoice
         /// Carga los campos con el UUID recibido como parametro
         /// </summary>
         /// <param name="pStrFolioFiscal"></param>
-        private void CargarUUIDFactura(string pStrFolioFiscal)
+        private void CargarUUIDFactura(string pStrFolioFiscal, string pStrPath)
         {
-            SAPbouiCOM.EditText txtUUID = (lObjForm.Items.Item("480002119").Specific as SAPbouiCOM.EditText);
-            SAPbouiCOM.EditText txtFecha = (lObjForm.Items.Item("46").Specific as SAPbouiCOM.EditText);
+            SAPbouiCOM.EditText txtUUID = (mObjForm.Items.Item("480002119").Specific as SAPbouiCOM.EditText);
+            SAPbouiCOM.EditText txtFecha = (mObjForm.Items.Item("46").Specific as SAPbouiCOM.EditText);
+            
             if (!txtUUID.Active)
             {
                 txtUUID.Active = true;
@@ -1223,7 +1237,8 @@ namespace UGRS.AddOn.PurchaseInvoice
             {
                 txtFecha.Active = true;
             }
-
+           
+           
             txtUUID.Value = pStrFolioFiscal;
             //DateTime lDtmFecha = DateTime.Parse(mStrFechaDoc);
             //txtFecha.Value = lDtmFecha.ToString("yyyyMMdd");
@@ -1271,7 +1286,7 @@ namespace UGRS.AddOn.PurchaseInvoice
             }
             if (IsCancelled)
             {
-                SAPbouiCOM.EditText txtUUID = (lObjForm.Items.Item("480002119").Specific as SAPbouiCOM.EditText);
+                SAPbouiCOM.EditText txtUUID = (mObjForm.Items.Item("480002119").Specific as SAPbouiCOM.EditText);
                 txtUUID.Value = pStrFolioFiscal;
             }
         }
@@ -1281,7 +1296,7 @@ namespace UGRS.AddOn.PurchaseInvoice
         /// </summary>
         /// <param name="pObjRecordSet"></param>
         /// <param name="pStrFolioFiscal"></param>
-        private void CargarUUIDFacturaDontExist(SAPbobsCOM.Recordset pObjRecordSet, string pStrFolioFiscal, string pStrTipoFactura)
+        private void CargarUUIDFacturaDontExist(SAPbobsCOM.Recordset pObjRecordSet, string pStrFolioFiscal, string pStrTipoFactura, string pStrPath)
         {
             if (pObjRecordSet.RecordCount > 1)
             {
@@ -1323,7 +1338,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                     MemoryUtility.ReleaseComObject(oInvoice2);
                 }
                 if (lBolNotCancelled)
-                    CargarUUIDFactura(pStrFolioFiscal);
+                    CargarUUIDFactura(pStrFolioFiscal, pStrPath);
                 else
                     Application.SBO_Application.MessageBox("Ya existe ese UUID en otra factura de venta con ID: " + lStrDocNum);
             }
@@ -1353,7 +1368,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                     if (oInvoice2.Cancelled == SAPbobsCOM.BoYesNoEnum.tNO)
                         Application.SBO_Application.MessageBox("Ya existe ese UUID en otra factura de venta con ID: " + oInvoice2.DocNum);
                     else
-                        CargarUUIDFactura(pStrFolioFiscal);
+                        CargarUUIDFactura(pStrFolioFiscal, pStrPath);
                 }
                 MemoryUtility.ReleaseComObject(oInvoice2);
             }
@@ -1496,7 +1511,7 @@ namespace UGRS.AddOn.PurchaseInvoice
 
 
 
-                            ValidarXMLFacturaUUID(lStrImpuestos, lStrTotal, lStrImpuestosRetenciones, lStrRFC, lStrFolioFiscal);
+                            ValidarXMLFacturaUUID(lStrImpuestos, lStrTotal, lStrImpuestosRetenciones, lStrRFC, lStrFolioFiscal, fileName);
                         }
                         catch (Exception ex)
                         {
@@ -1619,8 +1634,8 @@ namespace UGRS.AddOn.PurchaseInvoice
 
         private void importXML()
         {
-            string lStrDocNum = (lObjForm.Items.Item("8").Specific as SAPbouiCOM.EditText).Value;
-            string lStrTotal = (lObjForm.Items.Item("29").Specific as SAPbouiCOM.EditText).Value;
+            string lStrDocNum = (mObjForm.Items.Item("8").Specific as SAPbouiCOM.EditText).Value;
+            string lStrTotal = (mObjForm.Items.Item("29").Specific as SAPbouiCOM.EditText).Value;
 
             SAPbobsCOM.SBObob lObjSBObob = (SAPbobsCOM.SBObob)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge);
             SAPbobsCOM.Recordset lObjRecordSet = (SAPbobsCOM.Recordset)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
@@ -1634,6 +1649,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                     for (int i = 0; i < lObjRecordSet.RecordCount; i++)
                     {
                         int lIntDocEntry = int.Parse(lObjRecordSet.Fields.Item(0).Value.ToString());
+                        mIntDocEntry = lIntDocEntry;
                         oInvoice = (SAPbobsCOM.Documents)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices);
                         if (oInvoice.GetByKey(lIntDocEntry))
                         {

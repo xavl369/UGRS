@@ -91,6 +91,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AttachmentDI.cs" />
     <Compile Include="Utils\ConfigurationManager.cs" />
     <Compile Include="Utils\ReceiptService.cs" />
     <Compile Include="Utils\XmlSchemaSetValidador.cs" />
