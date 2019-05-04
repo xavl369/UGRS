@@ -1060,11 +1060,6 @@ namespace UGRS.AddOn.PurchaseInvoice
 
         private void ValidarXMLFacturaUUID(string pStrImpuestos, string pStrTotal, string pStrImpuestosRetenciones, string pStrRFC, string pStrFolioFiscal, string pStrPath)
         {
-            AttachmentDI lObjAttDI2 = new AttachmentDI();
-
-            lObjAttDI2.AttatchFile(pStrPath, mIntDocEntry);
-
-
             double lDblDirefenciaImpuesto = 0;
             double lDblDirefenciaTotal = 0;
             double lDblDiferenciaReal = 0;
@@ -1102,9 +1097,7 @@ namespace UGRS.AddOn.PurchaseInvoice
                         Application.SBO_Application.MessageBox("La diferencia de totales del XML y la factura no corresponden a la configuración. Favor de comprobar la información");
                     else
                     {
-                        AttachmentDI lObjAttDI = new AttachmentDI();
-
-                        lObjAttDI.AttatchFile(pStrPath, mIntDocEntry);
+                       
 
                         SAPbobsCOM.SBObob lObjSBObob = (SAPbobsCOM.SBObob)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge);
                         SAPbobsCOM.Recordset lObjRecordSet = (SAPbobsCOM.Recordset)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
@@ -1122,7 +1115,12 @@ namespace UGRS.AddOn.PurchaseInvoice
                                     lObjRecordSet = (SAPbobsCOM.Recordset)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
                                     lObjRecordSet = lObjSBObob.GetObjectKeyBySingleValue(SAPbobsCOM.BoObjectTypes.oCreditNotes, "EDocNum", pStrFolioFiscal, SAPbobsCOM.BoQueryConditions.bqc_Equal);
                                     if (lObjRecordSet.RecordCount == 0)
+                                    {
+                                        AttachmentDI lObjAttDI = new AttachmentDI();
+
+                                        lObjAttDI.AttatchFile(pStrPath, mIntDocEntry);
                                         CargarUUIDFactura(pStrFolioFiscal, pStrPath);
+                                    }
                                     else
                                         CargarUUIDFacturaDontExist(lObjRecordSet, pStrFolioFiscal, "NotaCreditoCliente", pStrPath);
                                 }

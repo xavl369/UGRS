@@ -117,7 +117,7 @@ namespace UGRS.AddOn.PurchaseInvoice.Utils
             SAPbobsCOM.Recordset lObjRecordset = null;
             try
             {
-                string lStrQuery = string.Format("Update OPCH set U_ArchivoPDF = '{0}' where DocEntry = '{1}'", pStrPath, pIntDocEntry.ToString()); //this.GetSQL("GetAttachPath");
+                string lStrQuery = string.Format("Update OPCH set U_ArchivoXML = '{0}' where DocEntry = '{1}'", pStrPath, pIntDocEntry.ToString()); //this.GetSQL("GetAttachPath");
                 //this.UIAPIRawForm.DataSources.DataTables.Item("RESULT").ExecuteQuery(lStrQuery);
 
                 lObjRecordset = (SAPbobsCOM.Recordset)DIApplication.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
